@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is the view the game is in when the user creates an island -->
+
+<nifty>
+	<useStyles filename="nifty-default-styles.xml" />
+	<useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
+	<useControls filename="nifty-default-controls.xml" />
+
+	<screen id="islandCreationGUI" controller="de.ethasia.yaumr.gamestates.implementations.IslandEditorStateImpl">
+		<layer id="#crosshairLayer" backgroundColor="#00000000" childLayout="center">
+			<image filename="Interface/ImagesGUI/Crosshair/Crosshair.png" align="center" valign="center" />
+		</layer>
+	</screen>
+</nifty>
