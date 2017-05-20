@@ -3,7 +3,7 @@ package de.ethasia.yaumr.gamestates.interfaces;
 /**
  * Represents a state of the game which can be displayed.
  * 
- * @author Drawig
+ * @author R
  */
 public interface DisplayableGameState {
     

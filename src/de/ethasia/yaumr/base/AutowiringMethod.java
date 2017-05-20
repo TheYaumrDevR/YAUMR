@@ -11,7 +11,7 @@ import java.lang.annotation.Target;
  * the @AutowiringClass annotation these methods are called by 
  * the ClassInstanceContainer during startup.
  * 
- * @author Drawig
+ * @author R
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})

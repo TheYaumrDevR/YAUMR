@@ -11,7 +11,7 @@ import de.ethasia.yaumr.gamestates.interfaces.GameEntryState;
  * This class is the entry point of the application. All important things
  * are initialized here.
  * 
- * @author Drawig
+ * @author R
  */
 public class YaumrGame extends SimpleApplication {
     

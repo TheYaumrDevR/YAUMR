@@ -15,7 +15,7 @@ import org.reflections.Reflections;
  * and resolve the implementations at a later time in different places where
  * they are needed.
  * 
- * @author Drawig
+ * @author R
  */
 public class ClassInstanceContainer {
     

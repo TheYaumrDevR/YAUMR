@@ -3,7 +3,7 @@ package de.ethasia.yaumr.gamestates.interfaces;
 /**
  * Represents the state the game is in when launched.
  * 
- * @author Drawig
+ * @author R
  */
 public interface GameEntryState extends DisplayableGameState {
     

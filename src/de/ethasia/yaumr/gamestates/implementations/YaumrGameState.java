@@ -11,7 +11,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 /**
  * Represents a state of the game, e.g. island editor or ingame.
  * 
- * @author Drawig
+ * @author R
  */
 public abstract class YaumrGameState extends AbstractAppState implements ScreenController {
     

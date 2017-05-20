@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
  * Classes annoted by this annotation can use the AutowiringMethod on their methods.
  * These are then called by the ClassInstanceContainer during startup.
  * 
- * @author Drawig
+ * @author R
  */
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})

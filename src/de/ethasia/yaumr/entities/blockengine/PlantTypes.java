@@ -1,9 +1,9 @@
-package de.ethasia.yaumr.entities;
+package de.ethasia.yaumr.entities.blockengine;
 
 /**
  * Lists all types of plants which can grow on grass or other block types.
  * 
- * @author Drawig
+ * @author R
  */
 public enum PlantTypes {
     GRASS,

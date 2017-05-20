@@ -1,9 +1,9 @@
-package de.ethasia.yaumr.entities;
+package de.ethasia.yaumr.entities.blockengine;
 
 /**
  * List all blocktypes available in the game with their basic properties.
  * 
- * @author Drawig
+ * @author R
  */
 public enum BlockTypes {
     GRASS,

@@ -5,11 +5,12 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.gamestates.interfaces.GameEntryState;
+import de.ethasia.yaumr.gamestates.interfaces.WorldEditorBaseMenuState;
 
 /**
  * Represents the controller for the state the game is in when launched.
  * 
- * @author Drawig
+ * @author R
  */
 public class GameEntryStateImpl extends YaumrGameState implements GameEntryState {
 
@@ -51,6 +52,7 @@ public class GameEntryStateImpl extends YaumrGameState implements GameEntryState
 
     @Override
     public void gotoWorldEditorBaseState() {
+        YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(WorldEditorBaseMenuState.class).startDisplaying();
     }
 
     @Override
