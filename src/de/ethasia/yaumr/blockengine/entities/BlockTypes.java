@@ -1,4 +1,4 @@
-package de.ethasia.yaumr.entities.blockengine;
+package de.ethasia.yaumr.blockengine.entities;
 
 /**
  * List all blocktypes available in the game with their basic properties.

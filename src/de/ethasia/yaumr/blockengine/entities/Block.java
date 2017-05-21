@@ -1,4 +1,4 @@
-package de.ethasia.yaumr.entities.blockengine;
+package de.ethasia.yaumr.blockengine.entities;
 
 /**
  * Represents a block in the game world. Players can place them, remove them
