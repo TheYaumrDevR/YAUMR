@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty-controls>
+
+	<controlDefinition name="quickSelectionBarButton" controller="de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarButtonControl">
+		<panel width="74px" height="97px" childLayout="center">
+			<image id="#buttonFrame" width="100%" height="100%" childLayout="absolute" valign="bottom" filename="Interface/ImagesGUI/HUD/QuickSelectionBar/SelectionBar.png">
+				<image width="64px" height="64px" id="#itemImage" x="5" y="28"/>
+			</image>
+		</panel>
+	</controlDefinition>
+
+	<controlDefinition name="quickSelectionBar" controller="de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl">
+		<panel childLayout="horizontal" width="370px" height="97px" backgroundColor="#00000000">
+			<control name="quickSelectionBarButton" id="#firstSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#secondSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#thirdSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#fourthSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#fifthSelectionButton"/> 
+		</panel>
+	</controlDefinition>
+
+</nifty-controls>

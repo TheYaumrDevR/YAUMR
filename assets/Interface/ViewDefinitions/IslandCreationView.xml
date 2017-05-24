@@ -6,10 +6,15 @@
 	<useStyles filename="nifty-default-styles.xml" />
 	<useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
 	<useControls filename="nifty-default-controls.xml" />
+	<useControls filename="Interface/ViewDefinitions/controlDefinitions.xml" />
 
 	<screen id="islandCreationGUI" controller="de.ethasia.yaumr.gamestates.implementations.IslandEditorStateImpl">
 		<layer id="#crosshairLayer" backgroundColor="#00000000" childLayout="center">
 			<image filename="Interface/ImagesGUI/Crosshair/Crosshair.png" align="center" valign="center" />
+		</layer>
+
+		<layer id="#bottomQuickSelectionBarLayer" backgroundColor="#00000000" childLayout="center">
+			<control name="quickSelectionBar" id="#bottomQuickSelectionBar" align="center" valign="bottom"/>
 		</layer>
 	</screen>
 </nifty>

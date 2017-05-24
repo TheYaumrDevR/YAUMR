@@ -4,6 +4,7 @@ import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.math.ColorRGBA;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.gamestates.interfaces.IslandEditorState;
 
 /**
@@ -12,6 +13,12 @@ import de.ethasia.yaumr.gamestates.interfaces.IslandEditorState;
  * @author R
  */
 public class IslandEditorStateImpl extends YaumrGameState implements IslandEditorState {
+    
+    //<editor-fold defaultstate="collapsed" desc="Fields">
+    
+    private BlockPlacementController blockPlacementController;
+    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Implementations">
     
@@ -29,10 +36,13 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
+        
+        blockPlacementController = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockPlacementController.class);
     }     
 
     @Override
     public void onStartScreen() {
+        blockPlacementController.initialize(niftyScreen);
     }
 
     @Override

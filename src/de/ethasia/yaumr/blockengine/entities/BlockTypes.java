@@ -7,12 +7,12 @@ package de.ethasia.yaumr.blockengine.entities;
  */
 public enum BlockTypes {
     GRASS,
-    DIRT,
-    WATERED_DIRT,
-    PLOWED_DIRT,
-    PLOWED_WATERED_DIRT,
-    PLOWED_SEEDED_DIRT,
-    PLOWED_SEEDED_WATERED_DIRT,
+    EARTH,
+    WATERED_EARTH,
+    PLOWED_EARTH,
+    PLOWED_WATERED_EARTH,
+    PLOWED_SEEDED_EARTH,
+    PLOWED_SEEDED_WATERED_EARTH,
     CLAY,
     ROCK,
     SAND,

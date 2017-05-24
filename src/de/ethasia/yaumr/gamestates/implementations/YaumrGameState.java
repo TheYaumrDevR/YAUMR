@@ -20,7 +20,9 @@ public abstract class YaumrGameState extends AbstractAppState implements ScreenC
     /** The NiftyJmeDisplay which displays the NiftyGUI for all states. */
     protected static NiftyJmeDisplay niftyDisplay;    
     /** The NiftyJmeDisplay's nifty. */
-    protected Nifty nifty;    
+    protected Nifty nifty;   
+    /** The Nifty screen. */
+    protected Screen niftyScreen;
     /** The game instance. */
     protected Application app;        
     /** True if the bind method has been called. */
@@ -75,6 +77,7 @@ public abstract class YaumrGameState extends AbstractAppState implements ScreenC
     public void bind(Nifty nifty, Screen screen) {
         isBound = true;
         this.nifty = nifty;
+        niftyScreen = screen;
     }     
     
     //</editor-fold>
