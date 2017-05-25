@@ -36,9 +36,16 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
+        YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);
         
         blockPlacementController = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockPlacementController.class);
-    }     
+    }   
+    
+    @Override
+    public void update(float tpf) {
+        super.update(tpf);
+        blockPlacementController.update(tpf);
+    }
 
     @Override
     public void onStartScreen() {

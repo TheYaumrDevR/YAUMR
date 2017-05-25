@@ -11,4 +11,5 @@ import de.lessvoid.nifty.screen.Screen;
 public interface BlockPlacementController {
     
     public void initialize(Screen niftyScreen);
+    public void update(float tpf);
 }

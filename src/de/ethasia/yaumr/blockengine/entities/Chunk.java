@@ -36,49 +36,23 @@ public class Chunk {
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public void placeBlock(Block block, int[] position) {
-        if (3 == position.length) {
-            throwExceptionIfPositionIsOutisdeBounds(position);
-            
-            if (blocks[position[0]][position[1]][position[2]].getBlockType() == BlockTypes.AIR) {
-                blocks[position[0]][position[1]][position[2]] = block;
+    public void placeBlock(Block block, GlobalBlockPosition blockPosition) {
+        if (blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()].getBlockType() == BlockTypes.AIR) {
+            blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()] = block;
                 
-                hasChangedSinceLastRender = true;
-            }
+            hasChangedSinceLastRender = true;
         }
     }
     
-    public void removeBlock(int[] position) {
-        if (3 == position.length) {
-            throwExceptionIfPositionIsOutisdeBounds(position);
-            
-            if (blocks[position[0]][position[1]][position[2]].getBlockType() != BlockTypes.AIR) {
-                Block airBlock = new Block();
-                airBlock.setBlockType(BlockTypes.AIR);                
+    public void removeBlock(GlobalBlockPosition blockPosition) {
+        if (blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()].getBlockType() != BlockTypes.AIR) {
+            Block airBlock = new Block();
+            airBlock.setBlockType(BlockTypes.AIR);                
                 
-                blocks[position[0]][position[1]][position[2]] = airBlock;
+            blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()] = airBlock;
                 
-                hasChangedSinceLastRender = true;
-            }
+            hasChangedSinceLastRender = true;
         }
-    }
-    
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
-    
-    private void throwExceptionIfPositionIsOutisdeBounds(int[] position) {
-        if (position[0] < 0 || position[0] >= 16) {
-            throw new IllegalArgumentException("Cannot place a block outside the chunk dimensions.");
-        }
-        
-        if (position[1] < 0 || position[1] >= 256) {
-            throw new IllegalArgumentException("Cannot place a block outside the chunk dimensions.");
-        }    
-        
-        if (position[2] < 0 || position[2] >= 16) {
-            throw new IllegalArgumentException("Cannot place a block outside the chunk dimensions.");
-        }         
     }
     
     //</editor-fold>

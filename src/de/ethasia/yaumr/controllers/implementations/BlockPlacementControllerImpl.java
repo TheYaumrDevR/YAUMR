@@ -3,12 +3,17 @@ package de.ethasia.yaumr.controllers.implementations;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.blockengine.entities.Block;
 import de.ethasia.yaumr.blockengine.entities.BlockTypes;
+import de.ethasia.yaumr.blockengine.entities.GlobalBlockPosition;
+import de.ethasia.yaumr.blockengine.entities.Island;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl;
 import de.ethasia.yaumr.customcontrols.interfaces.QuickSelectionBar;
+import de.ethasia.yaumr.presenters.interfaces.BlockOutlineRenderer;
 import de.lessvoid.nifty.screen.Screen;
 
 /**
@@ -27,6 +32,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     
     private QuickSelectionBar quickSelectionBar;
     private final ActionListener keyEventHandler;
+    private Island islandToEdit;
     
     //</editor-fold>
     
@@ -60,6 +66,20 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         quickSelectionBar.addItemToPosition(earthBlock, 0);
         
         initKeys();
+        
+        islandToEdit = new Island(16);
+    }
+    
+    @Override
+    public void update(float tpf) {
+        Camera camera = YaumrGame.getInstance().getCamera();  
+        Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));
+        
+        if (null != islandToEdit) {
+            GlobalBlockPosition blockPosition = islandToEdit.calculateBlockPositionInIsland(pointingPoint);
+            BlockOutlineRenderer placementIndicatorRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockOutlineRenderer.class);
+            placementIndicatorRenderer.renderBlockOutline(islandToEdit, blockPosition);
+        }
     }
     
     //</editor-fold>
