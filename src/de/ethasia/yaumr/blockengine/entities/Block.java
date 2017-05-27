@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.blockengine.entities;
 
+import com.jme3.math.Vector3f;
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 
 /**
@@ -49,6 +50,17 @@ public class Block implements QuickSelectableEntity {
     public String getQuickSelectionImagePath() {
         return QUICK_SELECTION_BLOCK_IMAGES_PATH + blockType.toString().toLowerCase() + ".png";
     }    
+    
+    /**
+     * Attempts to place this block at the position the mouse is pointing at.
+     * 
+     * @param interactionPoint The point at which the player interacted with the island.
+     * @param islandToInteractWith The island the player is currently on.
+     */
+    @Override
+    public void executePrimaryAction(Vector3f interactionPoint, Island islandToInteractWith) {
+        islandToInteractWith.placeBlock(interactionPoint, this);
+    }
     
     //</editor-fold>
 }

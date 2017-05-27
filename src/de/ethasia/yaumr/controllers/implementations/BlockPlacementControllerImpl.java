@@ -1,8 +1,10 @@
 package de.ethasia.yaumr.controllers.implementations;
 
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import de.ethasia.yaumr.base.YaumrGame;
@@ -10,6 +12,7 @@ import de.ethasia.yaumr.blockengine.entities.Block;
 import de.ethasia.yaumr.blockengine.entities.BlockTypes;
 import de.ethasia.yaumr.blockengine.entities.GlobalBlockPosition;
 import de.ethasia.yaumr.blockengine.entities.Island;
+import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl;
 import de.ethasia.yaumr.customcontrols.interfaces.QuickSelectionBar;
@@ -25,6 +28,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
     private static final String BOTTOM_QUICKSELECTION_BAR_NAME = "#bottomQuickSelectionBar";
+    private static final String EXECUTE_PRIMARY_ACTION_EVENT_NAME = "executePrimaryAction";
     
     //</editor-fold>
     
@@ -33,6 +37,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     private QuickSelectionBar quickSelectionBar;
     private final ActionListener keyEventHandler;
     private Island islandToEdit;
+    private QuickSelectableEntity selectedEntity;
     
     //</editor-fold>
     
@@ -43,10 +48,10 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
             
             @Override
             public void onAction(String name, boolean isPressed, float tpf) {
-                if (!isPressed) {
-                    if (null != quickSelectionBar) {
-                        quickSelectionBar.reactToKeyInput(name);
-                    }
+                if (name.equals(EXECUTE_PRIMARY_ACTION_EVENT_NAME)) {
+                    executePrimaryAction(isPressed);
+                } else {
+                    handleQuickSelectionButtonPressed(isPressed, name);
                 }
             }
         };
@@ -92,6 +97,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_3));
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_4));
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_5));
+        YaumrGame.getInstance().getInputManager().addMapping(EXECUTE_PRIMARY_ACTION_EVENT_NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
         YaumrGame.getInstance().getInputManager().addListener(keyEventHandler, 
                 new String[] {
@@ -99,7 +105,8 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
                     QuickSelectionBarControl.SELECT_SECOND_ITEM_KEYACTION, 
                     QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, 
                     QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION,
-                    QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION
+                    QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION,
+                    EXECUTE_PRIMARY_ACTION_EVENT_NAME
                 });        
     }
     
@@ -109,8 +116,30 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(EXECUTE_PRIMARY_ACTION_EVENT_NAME);
         
         YaumrGame.getInstance().getInputManager().removeListener(keyEventHandler);
+    }
+    
+    private void handleQuickSelectionButtonPressed(boolean isPressed, String eventName) {
+        if (!isPressed) {
+            if (null != quickSelectionBar) {
+                selectedEntity = quickSelectionBar.reactToKeyInput(eventName);
+            }
+        }
+    }
+    
+    private void executePrimaryAction(boolean isPressed) {
+        if (isPressed) {
+            if (null != selectedEntity) {
+                if (null != islandToEdit) {
+                    Camera camera = YaumrGame.getInstance().getCamera();  
+                    Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));                    
+                    
+                    selectedEntity.executePrimaryAction(pointingPoint, islandToEdit);
+                }                
+            }
+        }
     }
     
     //</editor-fold>

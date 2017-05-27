@@ -1,6 +1,9 @@
 package de.ethasia.yaumr.blockengine.entities;
 
 import com.jme3.math.Vector3f;
+import de.ethasia.yaumr.base.ClassInstanceContainer;
+import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.presenters.interfaces.IslandRenderer;
 
 /**
  * An island is a subdivision of a game world. Players can move from one island
@@ -37,6 +40,10 @@ public class Island {
         return dimensions;
     }
     
+    public Chunk[][] getChunks() {
+        return chunks;
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
@@ -45,11 +52,16 @@ public class Island {
         GlobalBlockPosition blockPosition = calculateBlockPositionInIsland(interactionPoint);
         
         if (null != blockPosition) {
-            if (null == chunks[blockPosition.getChunkPositionX()][blockPosition.getChunkPositionY()]) {
-                chunks[blockPosition.getChunkPositionX()][blockPosition.getChunkPositionY()] = new Chunk();
+            int[] chunkPosition = new int[]{ blockPosition.getChunkPositionX(), blockPosition.getChunkPositionY()};
+            
+            if (null == chunks[chunkPosition[0]][chunkPosition[1]]) {
+                chunks[chunkPosition[0]][chunkPosition[1]] = new Chunk();
             }
             
-            chunks[blockPosition.getChunkPositionX()][blockPosition.getChunkPositionY()].placeBlock(block, blockPosition);
+            chunks[chunkPosition[0]][chunkPosition[1]].placeBlock(block, blockPosition);
+            
+            ClassInstanceContainer classInstanceContainer = YaumrGame.getInstance().getClassInstanceContainer();
+            classInstanceContainer.getSingletonInstance(IslandRenderer.class).updateModifiedChunk(chunkPosition, this, chunks[chunkPosition[0]][chunkPosition[1]]);
         }
     }
     
@@ -128,7 +140,7 @@ public class Island {
         int localBlockPositionZ = globalBlockPosition[2] - (chunkPosition[1] * 16);
         
         return new int[]{localBlockPositionX, globalBlockPosition[1], localBlockPositionZ};
-    }    
+    }   
     
     //</editor-fold>
 }

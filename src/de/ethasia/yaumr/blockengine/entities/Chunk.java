@@ -11,7 +11,6 @@ public class Chunk {
     
     private final Block[][][] blocks;
     private boolean isVisible;
-    private boolean hasChangedSinceLastRender;
     
     //</editor-fold>
     
@@ -34,13 +33,20 @@ public class Chunk {
     
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
+    public Block[][][] getBlocks() {
+        return blocks;
+    }
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
     public void placeBlock(Block block, GlobalBlockPosition blockPosition) {
         if (blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()].getBlockType() == BlockTypes.AIR) {
             blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()] = block;
-                
-            hasChangedSinceLastRender = true;
+            block.setVisible(true);
         }
     }
     
@@ -50,8 +56,6 @@ public class Chunk {
             airBlock.setBlockType(BlockTypes.AIR);                
                 
             blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()] = airBlock;
-                
-            hasChangedSinceLastRender = true;
         }
     }
     
