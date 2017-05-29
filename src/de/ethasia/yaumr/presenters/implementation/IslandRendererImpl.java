@@ -1,8 +1,10 @@
 package de.ethasia.yaumr.presenters.implementation;
 
+import com.jme3.asset.TextureKey;
 import com.jme3.material.Material;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
+import com.jme3.texture.Texture;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.blockengine.entities.Chunk;
 import de.ethasia.yaumr.blockengine.entities.Island;
@@ -33,15 +35,15 @@ public class IslandRendererImpl implements IslandRenderer {
     //<editor-fold defaultstate="collapsed" desc="Implementations">
     
     @Override
-    public void updateModifiedChunk(int[] chunkPosition, Island island, Chunk chunk) {
-        String uniqueChunkName = chunkPosition[0] + "." + chunkPosition[1];
+    public void updateModifiedChunk(Island island, Chunk chunk) {
+        String uniqueChunkName = chunk.getChunkPositionX() + "." + chunk.getChunkPositionY();
         
         if (null != rootNode.getChild(uniqueChunkName)) {
-            Geometry chunkGeometry = createChunkGeometry(chunkPosition, island, chunk);
+            Geometry chunkGeometry = createChunkGeometry(island, chunk);
             rootNode.attachChild(chunkGeometry);
             rootNode.detachChildNamed(uniqueChunkName);
         } else {
-            Geometry chunkGeometry = createChunkGeometry(chunkPosition, island, chunk);
+            Geometry chunkGeometry = createChunkGeometry(island, chunk);
             rootNode.attachChild(chunkGeometry);
         }
     }    
@@ -50,17 +52,25 @@ public class IslandRendererImpl implements IslandRenderer {
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
     
-    private Geometry createChunkGeometry(int[] chunkPosition, Island island, Chunk chunk) {
-        String uniqueChunkName = chunkPosition[0] + "." + chunkPosition[1];
+    private Geometry createChunkGeometry(Island island, Chunk chunk) {
+        String uniqueChunkName = chunk.getChunkPositionX() + "." + chunk.getChunkPositionY();
         
         ChunkMesh chunkMesh = new ChunkMesh();
-        chunkMesh.updateRenderingData(chunk.getBlocks());
+        
+        if (chunk.hasVisibleBlocks()) {
+            chunkMesh.updateRenderingData(chunk.getBlocks());            
+        }
+        
         Geometry geometry = new Geometry(uniqueChunkName, chunkMesh);
         Material material = new Material(YaumrGame.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        Texture blockTextures = YaumrGame.getInstance().getAssetManager().loadTexture(new TextureKey("Textures/Blocks/TextureAtlas.png", false));
+        blockTextures.setMinFilter(Texture.MinFilter.BilinearNoMipMaps);
+        blockTextures.setMagFilter(Texture.MagFilter.Nearest);
+        material.setTexture("ColorMap", blockTextures);
         geometry.setMaterial(material);
         
         float[] originVertex = island.calculateOrigin();
-        geometry.setLocalTranslation(originVertex[0] + 8 * chunkPosition[0], 0, originVertex[2] + 8 * chunkPosition[1]);
+        geometry.setLocalTranslation(originVertex[0] + 8 * chunk.getChunkPositionX(), 0, originVertex[2] + 8 * chunk.getChunkPositionY());
         
         return geometry;
     }

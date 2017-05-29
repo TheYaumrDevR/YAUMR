@@ -27,16 +27,7 @@ public class ChunkMesh extends Mesh {
        -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0,  0, // left
         0,  1,  0,  0,  1,  0,  0,  1,  0,  0,  1,  0, // top
         0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
-    };   
-    
-    private static final float[] GEOMETRY_UV_DATA = {
-        1, 0, 0, 0, 0, 1, 1, 1, // back
-        1, 0, 0, 0, 0, 1, 1, 1, // right
-        1, 0, 0, 0, 0, 1, 1, 1, // front
-        1, 0, 0, 0, 0, 1, 1, 1, // left
-        1, 0, 0, 0, 0, 1, 1, 1, // top
-        1, 0, 0, 0, 0, 1, 1, 1  // bottom
-    };    
+    };      
     
     //</editor-fold>
     
@@ -70,7 +61,7 @@ public class ChunkMesh extends Mesh {
                     Block block = chunkBlocks[i][j][k];
                     
                     if (block.getBlockType() != BlockTypes.AIR && block.isVisible()) {
-                        updateBuffers(new int[]{i, j, k});
+                        updateBuffers(new int[]{i, j, k}, block.getBlockType());
                     }
                 }
             }
@@ -83,11 +74,11 @@ public class ChunkMesh extends Mesh {
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
     
-    private void updateBuffers(int[] blockPosition) {
+    private void updateBuffers(int[] blockPosition, BlockTypes blockType) {
         addBlockVertices(blockPosition);
         addBlockIndices();
         addBlockNormals();
-        addBlockUVs();        
+        addBlockUVs(blockType);        
     }
     
     private void addBlockVertices(int[] blockPosition) {
@@ -153,9 +144,9 @@ public class ChunkMesh extends Mesh {
         }          
     }
     
-    private void addBlockUVs() {
-        for (int i = 0; i < GEOMETRY_UV_DATA.length; i++) {
-            uvCoordinates.add(GEOMETRY_UV_DATA[i]);
+    private void addBlockUVs(BlockTypes blockType) {
+        for (int i = 0; i < blockType.getUVCoordinates().length; i++) {
+            uvCoordinates.add(blockType.getUVCoordinates()[i]);
         }          
     }    
     

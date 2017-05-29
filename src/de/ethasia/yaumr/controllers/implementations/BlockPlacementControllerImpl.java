@@ -68,7 +68,15 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         Block earthBlock = new Block();
         earthBlock.setBlockType(BlockTypes.EARTH);
         
+        Block grassBlock = new Block();
+        grassBlock.setBlockType(BlockTypes.GRASS); 
+        
+        Block rockBlock = new Block();
+        rockBlock.setBlockType(BlockTypes.ROCK);           
+        
         quickSelectionBar.addItemToPosition(earthBlock, 0);
+        quickSelectionBar.addItemToPosition(grassBlock, 1);
+        quickSelectionBar.addItemToPosition(rockBlock, 2);
         
         initKeys();
         

@@ -4,6 +4,8 @@ import com.jme3.math.Vector3f;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.presenters.interfaces.IslandRenderer;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * An island is a subdivision of a game world. Players can move from one island
@@ -15,7 +17,7 @@ public class Island {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private final Chunk chunks[][];
+    private final List<Chunk> chunks;
     private final int dimensions;
     
     //</editor-fold>
@@ -28,8 +30,9 @@ public class Island {
      * @param dimensions 
      */
     public Island(int dimensions) {
-        chunks = new Chunk[dimensions][dimensions];
+        chunks = new ArrayList<>();
         this.dimensions = dimensions;
+        initChunkList();
     }
     
     //</editor-fold>
@@ -40,7 +43,7 @@ public class Island {
         return dimensions;
     }
     
-    public Chunk[][] getChunks() {
+    public List<Chunk> getChunks() {
         return chunks;
     }
     
@@ -48,20 +51,15 @@ public class Island {
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public void placeBlock(Vector3f interactionPoint, Block block) {
+    public void placeBlock(Vector3f interactionPoint, BlockTypes blockType) {
         GlobalBlockPosition blockPosition = calculateBlockPositionInIsland(interactionPoint);
         
         if (null != blockPosition) {
-            int[] chunkPosition = new int[]{ blockPosition.getChunkPositionX(), blockPosition.getChunkPositionY()};
-            
-            if (null == chunks[chunkPosition[0]][chunkPosition[1]]) {
-                chunks[chunkPosition[0]][chunkPosition[1]] = new Chunk();
-            }
-            
-            chunks[chunkPosition[0]][chunkPosition[1]].placeBlock(block, blockPosition);
+            int chunkIndex = dimensions * blockPosition.getChunkPositionX() + blockPosition.getChunkPositionY();
+            chunks.get(chunkIndex).placeBlock(blockType, blockPosition);
             
             ClassInstanceContainer classInstanceContainer = YaumrGame.getInstance().getClassInstanceContainer();
-            classInstanceContainer.getSingletonInstance(IslandRenderer.class).updateModifiedChunk(chunkPosition, this, chunks[chunkPosition[0]][chunkPosition[1]]);
+            classInstanceContainer.getSingletonInstance(IslandRenderer.class).updateModifiedChunk(this, chunks.get(chunkIndex));
         }
     }
     
@@ -69,8 +67,13 @@ public class Island {
         GlobalBlockPosition blockPosition = calculateBlockPositionInIsland(interactionPoint);
         
         if (null != blockPosition) {
-            if (null != chunks[blockPosition.getChunkPositionX()][blockPosition.getChunkPositionY()]) {
-                chunks[blockPosition.getChunkPositionX()][blockPosition.getChunkPositionY()].removeBlock(blockPosition);                
+            int chunkIndex = dimensions * blockPosition.getChunkPositionX() + blockPosition.getChunkPositionY();            
+            
+            if (null != chunks.get(chunkIndex)) {
+                chunks.get(chunkIndex).removeBlock(blockPosition);   
+                
+                ClassInstanceContainer classInstanceContainer = YaumrGame.getInstance().getClassInstanceContainer();
+                classInstanceContainer.getSingletonInstance(IslandRenderer.class).updateModifiedChunk(this, chunks.get(chunkIndex));                
             }
         }
     }
@@ -108,6 +111,16 @@ public class Island {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    
+    private void initChunkList() {
+        for (int i = 0; i < dimensions; i++) {
+            for (int j = 0; j < dimensions; j++) {
+                Chunk chunk = new Chunk(i, j);
+                chunk.setParentIsland(this);
+                chunks.add(chunk);                
+            }
+        }
+    }
     
     private int[] getGlobalBlockPositionFromInteractionPoint(float[] origin, Vector3f interactionPoint) {
         if (interactionPoint.x < origin[0] || interactionPoint.x > -origin[0]) {

@@ -10,5 +10,5 @@ import de.ethasia.yaumr.blockengine.entities.Island;
  */
 public interface IslandRenderer {
     
-    public void updateModifiedChunk(int[] chunkPosition, Island island, Chunk chunk);
+    public void updateModifiedChunk(Island island, Chunk chunk);
 }

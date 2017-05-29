@@ -59,7 +59,7 @@ public class Block implements QuickSelectableEntity {
      */
     @Override
     public void executePrimaryAction(Vector3f interactionPoint, Island islandToInteractWith) {
-        islandToInteractWith.placeBlock(interactionPoint, this);
+        islandToInteractWith.placeBlock(interactionPoint, blockType);
     }
     
     //</editor-fold>
