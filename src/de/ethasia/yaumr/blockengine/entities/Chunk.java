@@ -69,7 +69,7 @@ public class Chunk {
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public void placeBlock(BlockTypes blockType, GlobalBlockPosition blockPosition) {
+    public boolean placeBlock(BlockTypes blockType, GlobalBlockPosition blockPosition) {
         Block block = blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()];
         
         if (block.getBlockType() == BlockTypes.AIR) {
@@ -78,7 +78,10 @@ public class Chunk {
             amountOfVisibleBlocks++;
             
             updateBlockVisibilityForNeighborsOfPlacedBlock(blockPosition);
+            return true;
         }
+        
+        return false;
     }
     
     public void removeBlock(GlobalBlockPosition blockPosition) {

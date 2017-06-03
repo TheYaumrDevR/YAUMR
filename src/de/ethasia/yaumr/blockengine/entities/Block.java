@@ -68,7 +68,11 @@ public class Block implements QuickSelectableEntity {
      */
     @Override
     public void executePrimaryAction(Vector3f interactionPoint, Island islandToInteractWith) {
-        islandToInteractWith.placeBlock(interactionPoint, blockType);
+        boolean blockPlacedOrOutsideGrid = islandToInteractWith.placeBlock(interactionPoint, blockType);
+        
+        if (!blockPlacedOrOutsideGrid) {
+            islandToInteractWith.removeBLock(interactionPoint);
+        }
     }
     
     //</editor-fold>

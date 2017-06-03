@@ -51,16 +51,19 @@ public class Island {
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public void placeBlock(Vector3f interactionPoint, BlockTypes blockType) {
+    public boolean placeBlock(Vector3f interactionPoint, BlockTypes blockType) {
         GlobalBlockPosition blockPosition = calculateBlockPositionInIsland(interactionPoint);
+        boolean blockPlacedOrOutsideGrid = true;
         
         if (null != blockPosition) {
             int chunkIndex = dimensions * blockPosition.getChunkPositionX() + blockPosition.getChunkPositionY();
-            chunks.get(chunkIndex).placeBlock(blockType, blockPosition);
+            blockPlacedOrOutsideGrid = chunks.get(chunkIndex).placeBlock(blockType, blockPosition);
             
             ClassInstanceContainer classInstanceContainer = YaumrGame.getInstance().getClassInstanceContainer();
             classInstanceContainer.getSingletonInstance(IslandRenderer.class).updateModifiedChunk(this, chunks.get(chunkIndex));
         }
+        
+        return blockPlacedOrOutsideGrid;
     }
     
     public void removeBLock(Vector3f interactionPoint) {
