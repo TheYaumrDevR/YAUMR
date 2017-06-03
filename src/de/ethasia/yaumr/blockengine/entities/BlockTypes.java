@@ -1,5 +1,8 @@
 package de.ethasia.yaumr.blockengine.entities;
 
+import de.ethasia.yaumr.presenters.meshcreation.BlockShape;
+import de.ethasia.yaumr.presenters.meshcreation.StandardCubeShape;
+
 /**
  * List all blocktypes available in the game with their basic properties.
  * 
@@ -24,6 +27,11 @@ public enum BlockTypes {
                 0, 0.015625f, 0, 0, 0.0625f, 0, 0.0625f, 0.015625f // Bottom
             };
         }
+
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }
     },
     EARTH {
         
@@ -43,6 +51,11 @@ public enum BlockTypes {
                 0, 0.015625f, 0, 0, 0.0625f, 0, 0.0625f, 0.015625f // Bottom
             };
         }
+       
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     WATERED_EARTH {
         
@@ -62,6 +75,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     PLOWED_EARTH {
         
@@ -81,6 +99,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     PLOWED_WATERED_EARTH {
         
@@ -100,6 +123,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     PLOWED_SEEDED_EARTH {
         
@@ -119,6 +147,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     PLOWED_SEEDED_WATERED_EARTH {
         
@@ -138,6 +171,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     CLAY {
         
@@ -157,6 +195,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     ROCK {
         
@@ -173,9 +216,14 @@ public enum BlockTypes {
                 0.25f, 0.015625f, 0.1875f, 0.015625f, 0.1875f, 0, 0.25f, 0, // Front
                 0.25f, 0.015625f, 0.1875f, 0.015625f, 0.1875f, 0, 0.25f, 0, // Left
                 0.25f, 0, 0.25f, 0.015625f, 0.1875f, 0.015625f, 0.1875f, 0, // Top
-                0, 0.015625f, 0.1875f, 0, 0.25f, 0, 0.25f, 0.015625f // Bottom
+                0.1875f, 0.015625f, 0.1875f, 0, 0.25f, 0, 0.25f, 0.015625f // Bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     SAND {
         
@@ -195,6 +243,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     BEDROCK {
         
@@ -214,6 +267,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     LEAVES {
         
@@ -233,6 +291,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     WALNUT_WOOD {
         
@@ -252,6 +315,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     OAK_WOOD {
         
@@ -271,6 +339,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     ASH_WOOD {
         
@@ -290,6 +363,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     BIRCH_WOOD {
         
@@ -309,6 +387,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     WALNUT_PLANKS {
         
@@ -328,6 +411,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     OAK_PLANKS {
         
@@ -347,6 +435,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     ASH_PLANKS {
         
@@ -366,6 +459,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     BIRCH_PLANKS {
         
@@ -385,6 +483,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     WALNUT_STAIRS {
         
@@ -404,6 +507,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }        
     },
     OAK_STAIRS {
         
@@ -423,6 +531,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     ASH_STAIRS {
         
@@ -442,6 +555,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     BIRCH_STAIRS {
         
@@ -461,6 +579,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     WALNUT_ROOF {
         
@@ -480,6 +603,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     OAK_ROOF {
         
@@ -499,6 +627,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     ASH_ROOF {
         
@@ -518,6 +651,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     BIRCH_ROOF {
         
@@ -537,6 +675,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     STRAW_ROOF {
         
@@ -556,6 +699,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     WALNUT_DOOR {
         
@@ -575,6 +723,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     OAK_DOOR {
         
@@ -594,6 +747,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }        
     },
     ASH_DOOR {
         
@@ -613,6 +771,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     BIRCH_DOOR {
         
@@ -632,6 +795,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }         
     },
     GLASS {
         
@@ -651,6 +819,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     COPPER_VEIN {
         
@@ -670,6 +843,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     CASSITERITE {
         
@@ -689,6 +867,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };        
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     IRON_ORE {
         
@@ -708,6 +891,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };        
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     SILVER_VEIN {
         
@@ -727,6 +915,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };            
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     GOLD_VEIN {
         
@@ -746,6 +939,11 @@ public enum BlockTypes {
                 0, -1,  0,  0, -1,  0,  0, -1,  0,  0, -1,  0  // bottom
             };
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return StandardCubeShape.getInstance();
+        }        
     },
     AIR {
         
@@ -759,6 +957,11 @@ public enum BlockTypes {
             // Air blocks aren't rendered anyway.
             return new float[]{};
         }
+        
+        @Override
+        public BlockShape getShape() {
+            return null;
+        }        
     };
     
     private boolean isPickable;
@@ -766,4 +969,5 @@ public enum BlockTypes {
     
     public abstract boolean hidesNeighborBlocks();
     public abstract float[] getUVCoordinates();
+    public abstract BlockShape getShape();
 }

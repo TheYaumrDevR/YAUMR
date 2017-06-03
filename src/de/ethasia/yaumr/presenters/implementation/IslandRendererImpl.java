@@ -9,7 +9,7 @@ import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.blockengine.entities.Chunk;
 import de.ethasia.yaumr.blockengine.entities.Island;
 import de.ethasia.yaumr.presenters.interfaces.IslandRenderer;
-import de.ethasia.yaumr.presenters.meshes.ChunkMesh;
+import de.ethasia.yaumr.presenters.meshcreation.ChunkMesh;
 
 /**
  *

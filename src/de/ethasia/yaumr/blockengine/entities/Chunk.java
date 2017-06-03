@@ -1,5 +1,9 @@
 package de.ethasia.yaumr.blockengine.entities;
 
+import de.ethasia.yaumr.base.ClassInstanceContainer;
+import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.presenters.interfaces.IslandRenderer;
+
 /**
  * A chunk is the smalles unit which can be rendered. It consists of blocks.
  * 
@@ -70,8 +74,9 @@ public class Chunk {
         
         if (block.getBlockType() == BlockTypes.AIR) {
             block.setBlockType(blockType);
-            block.setVisible(true);
+            updateBlockFaceVisibility(new int[]{blockPosition.getBlockPositionX(), blockPosition.getBlockPositionY(), blockPosition.getBlockPositionZ()}, block);
             amountOfVisibleBlocks++;
+            
             updateBlockVisibilityForNeighborsOfPlacedBlock(blockPosition);
         }
     }
@@ -93,8 +98,8 @@ public class Chunk {
     
     private void updateBlockVisibilityForNeighborsOfPlacedBlock(GlobalBlockPosition placedBlockPosition) {
         if (placedBlockPosition.getBlockPositionX() - 1 > -1) {
-            boolean blockIsVisible = isBlockAtPositionVisible(new int[] {placedBlockPosition.getBlockPositionX() - 1, placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ()});
-            blocks[placedBlockPosition.getBlockPositionX() - 1][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ()].setVisible(blockIsVisible);
+            Block block = blocks[placedBlockPosition.getBlockPositionX() - 1][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ()];
+            updateBlockFaceVisibility(new int[] {placedBlockPosition.getBlockPositionX() - 1, placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ()}, block);
         } else {
             if (getChunkPositionX() > 0) {
                 int neighborChunkIndex = parentIsland.getDimensions() * (getChunkPositionX() - 1) + getChunkPositionY();
@@ -105,8 +110,8 @@ public class Chunk {
         }
         
         if (placedBlockPosition.getBlockPositionX() + 1 < 16) {
-            boolean blockIsVisible = isBlockAtPositionVisible(new int[] {placedBlockPosition.getBlockPositionX() + 1, placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ()});
-            blocks[placedBlockPosition.getBlockPositionX() + 1][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ()].setVisible(blockIsVisible);            
+            Block block = blocks[placedBlockPosition.getBlockPositionX() + 1][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ()];
+            updateBlockFaceVisibility(new int[] {placedBlockPosition.getBlockPositionX() + 1, placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ()}, block);          
         } else {
             if (getChunkPositionX() < parentIsland.getDimensions() - 1) {
                 int neighborChunkIndex = parentIsland.getDimensions() * (getChunkPositionX() + 1) + getChunkPositionY();
@@ -117,8 +122,8 @@ public class Chunk {
         }
 
         if (placedBlockPosition.getBlockPositionZ() - 1 > -1) {
-            boolean blockIsVisible = isBlockAtPositionVisible(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ() - 1});
-            blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ() - 1].setVisible(blockIsVisible);
+            Block block = blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ() - 1];
+            updateBlockFaceVisibility(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ() - 1}, block);
         } else {
             if (getChunkPositionY() > 0) {
                 int neighborChunkIndex = parentIsland.getDimensions() * getChunkPositionX() + getChunkPositionY() - 1;
@@ -129,8 +134,8 @@ public class Chunk {
         }
         
         if (placedBlockPosition.getBlockPositionZ() + 1 < 16) {
-            boolean blockIsVisible = isBlockAtPositionVisible(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ() + 1});
-            blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ() + 1].setVisible(blockIsVisible);
+            Block block = blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY()][placedBlockPosition.getBlockPositionZ() + 1];
+            updateBlockFaceVisibility(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY(), placedBlockPosition.getBlockPositionZ() + 1}, block);
         } else {
             if (getChunkPositionY() < parentIsland.getDimensions() - 1) {
                 int neighborChunkIndex = parentIsland.getDimensions() * getChunkPositionX() + getChunkPositionY() + 1;
@@ -141,27 +146,35 @@ public class Chunk {
         }     
         
         if (placedBlockPosition.getBlockPositionY() - 1 > -1) {
-            boolean blockIsVisible = isBlockAtPositionVisible(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY() - 1, placedBlockPosition.getBlockPositionZ()});
-            blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY() - 1][placedBlockPosition.getBlockPositionZ()].setVisible(blockIsVisible);
+            Block block = blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY() - 1][placedBlockPosition.getBlockPositionZ()];
+            updateBlockFaceVisibility(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY() - 1, placedBlockPosition.getBlockPositionZ()}, block);
         }
         
         if (placedBlockPosition.getBlockPositionY() + 1 < 256) {
-            boolean blockIsVisible = isBlockAtPositionVisible(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY() + 1, placedBlockPosition.getBlockPositionZ()});
-            blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY() + 1][placedBlockPosition.getBlockPositionZ()].setVisible(blockIsVisible);
+            Block block = blocks[placedBlockPosition.getBlockPositionX()][placedBlockPosition.getBlockPositionY() + 1][placedBlockPosition.getBlockPositionZ()];
+            updateBlockFaceVisibility(new int[] {placedBlockPosition.getBlockPositionX(), placedBlockPosition.getBlockPositionY() + 1, placedBlockPosition.getBlockPositionZ()}, block);
         }          
     }
     
     private void updateBlockVisibilityForBorderBlock(int[] blockPosition) {
-        boolean blockIsVisible = isBlockAtPositionVisible(blockPosition);
-        blocks[blockPosition[0]][blockPosition[1]][blockPosition[2]].setVisible(blockIsVisible);
+        Block block = blocks[blockPosition[0]][blockPosition[1]][blockPosition[2]];
+        
+        if (block.getBlockType() != BlockTypes.AIR) {
+            updateBlockFaceVisibility(blockPosition, block);
+            
+            ClassInstanceContainer classInstanceContainer = YaumrGame.getInstance().getClassInstanceContainer();
+            classInstanceContainer.getSingletonInstance(IslandRenderer.class).updateModifiedChunk(parentIsland, this);            
+        }        
     }
     
-    private boolean isBlockAtPositionVisible(int[] placedBlockPosition) {
+    private void updateBlockFaceVisibility(int[] placedBlockPosition, Block block) {
         int amountOfHiddenFaces = 0;
+        block.clearNonObstructedDirections();
         
         if (placedBlockPosition[0] - 1 > -1) {
             if (blocks[placedBlockPosition[0] - 1][placedBlockPosition[1]][placedBlockPosition[2]].getBlockType().hidesNeighborBlocks()) {
                 amountOfHiddenFaces++;
+                block.setObstructedDirection(FacingDirection.LEFT);
             }
         } else {
             if (getChunkPositionX() > 0) {
@@ -170,6 +183,7 @@ public class Chunk {
                 
                 if (neighborChunk.getBlocks()[15][placedBlockPosition[1]][placedBlockPosition[2]].getBlockType().hidesNeighborBlocks()) {
                     amountOfHiddenFaces++;
+                    block.setObstructedDirection(FacingDirection.LEFT);
                 }                
             }
         }
@@ -177,6 +191,7 @@ public class Chunk {
         if (placedBlockPosition[0] + 1 < 16) {
             if (blocks[placedBlockPosition[0] + 1][placedBlockPosition[1]][placedBlockPosition[2]].getBlockType().hidesNeighborBlocks()) {
                 amountOfHiddenFaces++;
+                block.setObstructedDirection(FacingDirection.RIGHT);
             }
         } else {
             if (getChunkPositionX() < parentIsland.getDimensions() - 1) {
@@ -185,6 +200,7 @@ public class Chunk {
                 
                 if (neighborChunk.getBlocks()[0][placedBlockPosition[1]][placedBlockPosition[2]].getBlockType().hidesNeighborBlocks()) {
                     amountOfHiddenFaces++;
+                    block.setObstructedDirection(FacingDirection.RIGHT);
                 }                
             }
         }
@@ -192,6 +208,7 @@ public class Chunk {
         if (placedBlockPosition[2] - 1 > -1) {
             if (blocks[placedBlockPosition[0]][placedBlockPosition[1]][placedBlockPosition[2] - 1].getBlockType().hidesNeighborBlocks()) {
                 amountOfHiddenFaces++;
+                block.setObstructedDirection(FacingDirection.BACK);
             }
         } else {
             if (getChunkPositionY() > 0) {
@@ -200,6 +217,7 @@ public class Chunk {
                 
                 if (neighborChunk.getBlocks()[placedBlockPosition[0]][placedBlockPosition[1]][15].getBlockType().hidesNeighborBlocks()) {
                     amountOfHiddenFaces++;
+                    block.setObstructedDirection(FacingDirection.BACK);
                 }                
             }
         }
@@ -207,6 +225,7 @@ public class Chunk {
         if (placedBlockPosition[2] + 1 < 16) {
             if (blocks[placedBlockPosition[0]][placedBlockPosition[1]][placedBlockPosition[2] + 1].getBlockType().hidesNeighborBlocks()) {
                 amountOfHiddenFaces++;
+                block.setObstructedDirection(FacingDirection.FRONT);
             }
         } else {
             if (getChunkPositionY() < parentIsland.getDimensions() - 1) {
@@ -215,6 +234,7 @@ public class Chunk {
                 
                 if (neighborChunk.getBlocks()[placedBlockPosition[0]][placedBlockPosition[1]][0].getBlockType().hidesNeighborBlocks()) {
                     amountOfHiddenFaces++;
+                    block.setObstructedDirection(FacingDirection.FRONT);
                 }                
             }
         }     
@@ -222,16 +242,18 @@ public class Chunk {
         if (placedBlockPosition[1] - 1 > -1) {
             if (blocks[placedBlockPosition[0]][placedBlockPosition[1] - 1][placedBlockPosition[2]].getBlockType().hidesNeighborBlocks()) {
                 amountOfHiddenFaces++;
+                block.setObstructedDirection(FacingDirection.BOTTOM);
             }
         }
         
         if (placedBlockPosition[1] + 1 < 256) {
             if (blocks[placedBlockPosition[0]][placedBlockPosition[1] + 1][placedBlockPosition[2]].getBlockType().hidesNeighborBlocks()) {
                 amountOfHiddenFaces++;
+                block.setObstructedDirection(FacingDirection.TOP);
             }
         }    
         
-        return amountOfHiddenFaces != 6;
+        block.setVisible(amountOfHiddenFaces != 6);
     }
     
     //</editor-fold>

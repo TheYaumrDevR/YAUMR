@@ -21,6 +21,15 @@ public class Block implements QuickSelectableEntity {
     
     private BlockTypes blockType;
     private boolean isVisible;
+    private FacingDirection[] nonObstructedDirections;
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    
+    public Block() {
+        nonObstructedDirections = FacingDirection.values();
+    }
     
     //</editor-fold>
     
@@ -60,6 +69,26 @@ public class Block implements QuickSelectableEntity {
     @Override
     public void executePrimaryAction(Vector3f interactionPoint, Island islandToInteractWith) {
         islandToInteractWith.placeBlock(interactionPoint, blockType);
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Methods">
+    
+    public void clearNonObstructedDirections() {
+        nonObstructedDirections = FacingDirection.values();
+    }
+    
+    public void setObstructedDirection(FacingDirection obstructedDirection) {
+        for (int i = 0; i < nonObstructedDirections.length; i++) {
+            if (null != nonObstructedDirections[i] && obstructedDirection == nonObstructedDirections[i]) {
+                nonObstructedDirections[i] = null;
+            }            
+        }
+    }
+    
+    public FacingDirection[] getNonObstructedDirections() {
+        return nonObstructedDirections;
     }
     
     //</editor-fold>
