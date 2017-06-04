@@ -1,6 +1,6 @@
 package de.ethasia.yaumr.presenters.meshcreation;
 
-import de.ethasia.yaumr.blockengine.entities.BlockTypes;
+import de.ethasia.yaumr.blockengine.entities.Block;
 import de.ethasia.yaumr.blockengine.entities.FacingDirection;
 
 /**
@@ -10,10 +10,10 @@ import de.ethasia.yaumr.blockengine.entities.FacingDirection;
  */
 public interface BlockShape {
     
-    public Float[] getShapeVertices(int[] blockPositionInChunk, FacingDirection[] nonObstructedDirections);
-    public Integer[] getShapeIndices(int alreadyPlacedVerticesInChunk, FacingDirection[] nonObstructedDirections);
-    public Float[] getShapeNormals(FacingDirection[] nonObstructedDirections);
-    public Float[] getShapeUVs(FacingDirection[] nonObstructedDirections, BlockTypes blockType);
-    public int getAmountOfVertices(FacingDirection[] nonObstructedDirections);
+    public Float[] getShapeVertices(int[] blockPositionInChunk, Block block);
+    public Integer[] getShapeIndices(int alreadyPlacedVerticesInChunk, Block block);
+    public Float[] getShapeNormals(Block block);
+    public Float[] getShapeUVs(Block block);
+    public int getAmountOfVertices(Block block);
     public void setFacingDirection(FacingDirection facingDirection);
 }

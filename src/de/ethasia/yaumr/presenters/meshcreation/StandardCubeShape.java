@@ -1,6 +1,7 @@
 package de.ethasia.yaumr.presenters.meshcreation;
 
 import com.jme3.math.Vector3f;
+import de.ethasia.yaumr.blockengine.entities.Block;
 import de.ethasia.yaumr.blockengine.entities.BlockTypes;
 import de.ethasia.yaumr.blockengine.entities.FacingDirection;
 import java.util.ArrayList;
@@ -30,7 +31,7 @@ public class StandardCubeShape implements BlockShape {
     //<editor-fold defaultstate="collapsed" desc="Implementations">
     
     @Override
-    public Float[] getShapeVertices(int[] blockPositionInChunk, FacingDirection[] nonObstructedDirections) {
+    public Float[] getShapeVertices(int[] blockPositionInChunk, Block block) {
         Vector3f[] blockAxes = {
             Vector3f.UNIT_X.mult(0.25f),
             Vector3f.UNIT_Y.mult(0.25f),
@@ -51,9 +52,9 @@ public class StandardCubeShape implements BlockShape {
         };      
         
         List<Float> vertices = new ArrayList<>();
-        for (FacingDirection nonObstructedDirection : nonObstructedDirections) {
-            if (null != nonObstructedDirection) {
-                switch (nonObstructedDirection) {
+        for (FacingDirection direction : FacingDirection.values()) {
+            if (!block.isDirectionObstructed(direction)) {
+                switch (direction) {
                     case BACK:
                         vertices.addAll(Arrays.asList(v[0].x, v[0].y, v[0].z, v[1].x, v[1].y, v[1].z, v[2].x, v[2].y, v[2].z, v[3].x, v[3].y, v[3].z));
                         break;
@@ -81,13 +82,13 @@ public class StandardCubeShape implements BlockShape {
     }
 
     @Override
-    public Integer[] getShapeIndices(int alreadyPlacedVerticesInChunk, FacingDirection[] nonObstructedDirections) {
+    public Integer[] getShapeIndices(int alreadyPlacedVerticesInChunk, Block block) {
         int o = alreadyPlacedVerticesInChunk;
         int offIdx = 0;
         
         List<Integer> indices = new ArrayList<>();
-        for (FacingDirection nonObstructedDirection : nonObstructedDirections) {
-            if (null != nonObstructedDirection) {
+        for (FacingDirection direction : FacingDirection.values()) {
+            if (!block.isDirectionObstructed(direction)) {
                 indices.addAll(Arrays.asList(2 + offIdx + o,  1 + offIdx + o,  0 + offIdx + o,  3 + offIdx + o,  2 + offIdx + o,  0 + offIdx + o));
                 offIdx += 4;              
             }
@@ -98,11 +99,11 @@ public class StandardCubeShape implements BlockShape {
     }
 
     @Override
-    public Float[] getShapeNormals(FacingDirection[] nonObstructedDirections) {
+    public Float[] getShapeNormals(Block block) {
         List<Float> normals = new ArrayList<>();
-        for (FacingDirection nonObstructedDirection : nonObstructedDirections) {
-            if (null != nonObstructedDirection) {
-                switch (nonObstructedDirection) {
+        for (FacingDirection direction : FacingDirection.values()) {
+            if (!block.isDirectionObstructed(direction)) {
+                switch (direction) {
                     case BACK:
                         normals.addAll(Arrays.asList(0f,  0f, -1f,  0f,  0f, -1f,  0f,  0f, -1f,  0f,  0f, -1f));
                         break;
@@ -130,13 +131,13 @@ public class StandardCubeShape implements BlockShape {
     }
     
     @Override
-    public Float[] getShapeUVs(FacingDirection[] nonObstructedDirections, BlockTypes blockType) {
+    public Float[] getShapeUVs(Block block) {
         List<Float> uvCoordinates = new ArrayList<>();
-        float[] allUVCoordinates = blockType.getUVCoordinates();
+        float[] allUVCoordinates = block.getBlockType().getUVCoordinates();
         
-        for (FacingDirection nonObstructedDirection : nonObstructedDirections) {
-            if (null != nonObstructedDirection) {
-                switch (nonObstructedDirection) {
+        for (FacingDirection direction : FacingDirection.values()) {
+            if (!block.isDirectionObstructed(direction)) {
+                switch (direction) {
                     case BACK:
                         uvCoordinates.addAll(Arrays.asList(allUVCoordinates[0], allUVCoordinates[1], allUVCoordinates[2], allUVCoordinates[3], allUVCoordinates[4], allUVCoordinates[5], allUVCoordinates[6], allUVCoordinates[7]));
                         break;
@@ -164,10 +165,10 @@ public class StandardCubeShape implements BlockShape {
     }
     
     @Override
-    public int getAmountOfVertices(FacingDirection[] nonObstructedDirections) {
+    public int getAmountOfVertices(Block block) {
         int amountOfVertices = 0;
-        for (FacingDirection nonObstructedDirection : nonObstructedDirections) {
-            if (null != nonObstructedDirection) {
+        for (FacingDirection direction : FacingDirection.values()) {
+            if (!block.isDirectionObstructed(direction)) {
                 amountOfVertices += 4;
             }
         }    

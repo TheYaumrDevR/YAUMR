@@ -63,26 +63,26 @@ public class ChunkMesh extends Mesh {
     }
     
     private void addBlockVertices(int[] blockPosition, Block block) {
-        Float[] flattenedVertices = block.getBlockType().getShape().getShapeVertices(blockPosition, block.getNonObstructedDirections());
+        Float[] flattenedVertices = block.getBlockType().getShape().getShapeVertices(blockPosition, block);
         
         vertices.addAll(Arrays.asList(flattenedVertices));
     } 
     
     private void addBlockIndices(Block block) {
-        Integer[] currentBlockIndices = block.getBlockType().getShape().getShapeIndices(numberOfVerticesCreated, block.getNonObstructedDirections());
+        Integer[] currentBlockIndices = block.getBlockType().getShape().getShapeIndices(numberOfVerticesCreated, block);
 
         indices.addAll(Arrays.asList(currentBlockIndices));
-        numberOfVerticesCreated += block.getBlockType().getShape().getAmountOfVertices(block.getNonObstructedDirections());        
+        numberOfVerticesCreated += block.getBlockType().getShape().getAmountOfVertices(block);        
     }
     
     private void addBlockNormals(Block block) {
-        Float[] currentBlockNormals = block.getBlockType().getShape().getShapeNormals(block.getNonObstructedDirections());
+        Float[] currentBlockNormals = block.getBlockType().getShape().getShapeNormals(block);
         
         normals.addAll(Arrays.asList(currentBlockNormals));
     }
     
     private void addBlockUVs(Block block) {
-        Float[] currentBlockUVs = block.getBlockType().getShape().getShapeUVs(block.getNonObstructedDirections(), block.getBlockType());
+        Float[] currentBlockUVs = block.getBlockType().getShape().getShapeUVs(block);
         
         uvCoordinates.addAll(Arrays.asList(currentBlockUVs));
     }    

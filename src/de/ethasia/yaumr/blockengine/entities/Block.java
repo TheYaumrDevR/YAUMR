@@ -21,14 +21,14 @@ public class Block implements QuickSelectableEntity {
     
     private BlockTypes blockType;
     private boolean isVisible;
-    private FacingDirection[] nonObstructedDirections;
+    private int nonObstructedDirections;
     
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     
     public Block() {
-        nonObstructedDirections = FacingDirection.values();
+        clearNonObstructedDirections();
     }
     
     //</editor-fold>
@@ -79,20 +79,24 @@ public class Block implements QuickSelectableEntity {
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public void clearNonObstructedDirections() {
-        nonObstructedDirections = FacingDirection.values();
+    public final void clearNonObstructedDirections() {
+        nonObstructedDirections = FacingDirection.BACK.getValue()
+                | FacingDirection.BOTTOM.getValue()
+                | FacingDirection.FRONT.getValue()
+                | FacingDirection.LEFT.getValue()
+                | FacingDirection.RIGHT.getValue()
+                | FacingDirection.TOP.getValue();
     }
     
     public void setObstructedDirection(FacingDirection obstructedDirection) {
-        for (int i = 0; i < nonObstructedDirections.length; i++) {
-            if (null != nonObstructedDirections[i] && obstructedDirection == nonObstructedDirections[i]) {
-                nonObstructedDirections[i] = null;
-            }            
-        }
+        int bitMask = ~obstructedDirection.getValue();
+        
+        nonObstructedDirections &= bitMask;
     }
     
-    public FacingDirection[] getNonObstructedDirections() {
-        return nonObstructedDirections;
+    public boolean isDirectionObstructed(FacingDirection direction) {
+        int directionValue = direction.getValue() & nonObstructedDirections;
+        return directionValue == 0;
     }
     
     //</editor-fold>
