@@ -10,12 +10,17 @@
 	</controlDefinition>
 
 	<controlDefinition name="quickSelectionBar" controller="de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl">
-		<panel childLayout="horizontal" width="370px" height="97px" backgroundColor="#00000000">
+		<panel childLayout="horizontal" width="740px" height="97px" backgroundColor="#00000000">
 			<control name="quickSelectionBarButton" id="#firstSelectionButton"/> 
 			<control name="quickSelectionBarButton" id="#secondSelectionButton"/> 
 			<control name="quickSelectionBarButton" id="#thirdSelectionButton"/> 
 			<control name="quickSelectionBarButton" id="#fourthSelectionButton"/> 
 			<control name="quickSelectionBarButton" id="#fifthSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#sixthSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#seventhSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#eighthSelectionButton"/> 	
+			<control name="quickSelectionBarButton" id="#ninthSelectionButton"/> 
+			<control name="quickSelectionBarButton" id="#tenthSelectionButton"/> 
 		</panel>
 	</controlDefinition>
 

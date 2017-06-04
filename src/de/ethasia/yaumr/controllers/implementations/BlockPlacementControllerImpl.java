@@ -116,6 +116,11 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_3));
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_4));
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_5));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_SIXTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_6));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_7));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_8));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_9));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_0));
         YaumrGame.getInstance().getInputManager().addMapping(EXECUTE_PRIMARY_ACTION_EVENT_NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
         YaumrGame.getInstance().getInputManager().addListener(keyEventHandler, 
@@ -125,6 +130,11 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
                     QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, 
                     QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION,
                     QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_SIXTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION,
                     EXECUTE_PRIMARY_ACTION_EVENT_NAME
                 });        
     }
@@ -135,6 +145,11 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_SIXTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(EXECUTE_PRIMARY_ACTION_EVENT_NAME);
         
         YaumrGame.getInstance().getInputManager().removeListener(keyEventHandler);

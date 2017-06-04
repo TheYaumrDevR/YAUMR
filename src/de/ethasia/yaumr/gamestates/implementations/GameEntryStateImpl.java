@@ -30,6 +30,7 @@ public class GameEntryStateImpl extends YaumrGameState implements GameEntryState
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         YaumrGame.getInstance().getCamera().setFrustumPerspective(45, 1280.f / 720.f, 0.1f, 1000);
+        YaumrGame.getInstance().getFlyByCamera().setMoveSpeed(2.5f);
         YaumrGame.getInstance().getFlyByCamera().setEnabled(false);
     }    
     
