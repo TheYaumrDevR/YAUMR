@@ -7,4 +7,7 @@ package de.ethasia.yaumr.gamestates.interfaces;
  */
 public interface IslandEditorState extends DisplayableGameState {
     
+    public void showHelpPanel();
+    public void gotoGameEntryState();
+    public void quitGame();
 }

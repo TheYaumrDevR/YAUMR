@@ -17,6 +17,7 @@ import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl;
 import de.ethasia.yaumr.customcontrols.interfaces.QuickSelectionBar;
 import de.ethasia.yaumr.presenters.interfaces.BlockOutlineRenderer;
+import de.ethasia.yaumr.presenters.interfaces.IslandRenderer;
 import de.lessvoid.nifty.screen.Screen;
 
 /**
@@ -81,7 +82,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         initKeys();
         
         islandToEdit = new Island(16);
-    }
+    }    
     
     @Override
     public void update(float tpf) {
@@ -93,6 +94,16 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
             BlockOutlineRenderer placementIndicatorRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockOutlineRenderer.class);
             placementIndicatorRenderer.renderBlockOutline(islandToEdit, blockPosition);
         }
+    }
+    
+    @Override
+    public void deInitialize() {
+        detachKeys();
+        BlockOutlineRenderer placementIndicatorRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockOutlineRenderer.class);
+        placementIndicatorRenderer.unrenderCurrentlyRenderedObjects();
+        IslandRenderer islandRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandRenderer.class);
+        islandRenderer.removeRenderedData();
+        islandToEdit = null;
     }
     
     //</editor-fold>

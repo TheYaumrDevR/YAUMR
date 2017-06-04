@@ -12,4 +12,5 @@ public interface BlockPlacementController {
     
     public void initialize(Screen niftyScreen);
     public void update(float tpf);
+    public void deInitialize();
 }

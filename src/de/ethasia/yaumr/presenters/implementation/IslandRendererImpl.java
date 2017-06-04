@@ -17,6 +17,12 @@ import de.ethasia.yaumr.presenters.meshcreation.ChunkMesh;
  */
 public class IslandRendererImpl implements IslandRenderer {
     
+    //<editor-fold defaultstate="collapsed" desc="Constants">
+    
+    private static final String ROOT_NODE_NAME = "chunkMeshesRootNode";
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Private Fields">
     
     private final Node rootNode;
@@ -26,7 +32,7 @@ public class IslandRendererImpl implements IslandRenderer {
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     
     public IslandRendererImpl() {
-        rootNode = new Node();
+        rootNode = new Node(ROOT_NODE_NAME);
         YaumrGame.getInstance().getRootNode().attachChild(rootNode);
     }
     
@@ -47,6 +53,11 @@ public class IslandRendererImpl implements IslandRenderer {
             rootNode.attachChild(chunkGeometry);
         }
     }    
+    
+    @Override
+    public void removeRenderedData() {
+        rootNode.detachAllChildren();
+    }
     
     //</editor-fold>
     
