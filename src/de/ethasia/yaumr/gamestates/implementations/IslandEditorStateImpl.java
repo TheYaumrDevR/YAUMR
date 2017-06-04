@@ -24,8 +24,10 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
     private static final String MAIN_MENU_PANEL_NAME = "#mainMenu";
+    private static final String HELP_PANEL_NAME = "#helpPanel";
     
     private static final String TOGGLE_MAIN_MENU_ACTION_NAME = "toggleMainMenu";
+    private static final String TOGGLE_HELP_TEXT_ACTION_NAME = "toggleHelp";
     
     //</editor-fold>
     
@@ -35,6 +37,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     
     private BlockPlacementController blockPlacementController;
     private Element mainMenu;
+    private Element helpPanel;
     
     //</editor-fold>
     
@@ -47,6 +50,8 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
             public void onAction(String name, boolean isPressed, float tpf) {
                 if (name.equals(TOGGLE_MAIN_MENU_ACTION_NAME)) {
                     toggleMainMenu(isPressed);
+                } else if (name.equals(TOGGLE_HELP_TEXT_ACTION_NAME)) {
+                    toggleHelpText(isPressed);
                 }
             }
         };
@@ -80,6 +85,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         super.bind(nifty, screen);
         
         mainMenu = screen.findElementById(MAIN_MENU_PANEL_NAME);
+        helpPanel = screen.findElementById(HELP_PANEL_NAME);
     }
     
     @Override
@@ -95,6 +101,10 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         
         if (null != mainMenu) {
             mainMenu.hide();
+        }
+        
+        if (null != helpPanel) {
+            helpPanel.hide();
         }
     }
 
@@ -112,6 +122,13 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     
     @Override
     public void showHelpPanel() {
+        if (null != helpPanel) {
+            helpPanel.show();
+        }
+        
+        if (null != mainMenu) {
+            mainMenu.hide();
+        }
     }
 
     @Override
@@ -130,15 +147,18 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     
     private void initKeys() {
         YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_MAIN_MENU_ACTION_NAME, new KeyTrigger(KeyInput.KEY_ESCAPE));
+        YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_HELP_TEXT_ACTION_NAME, new KeyTrigger(KeyInput.KEY_H));        
         
         YaumrGame.getInstance().getInputManager().addListener(keyEventHandler, 
                 new String[] {
                     TOGGLE_MAIN_MENU_ACTION_NAME, 
+                    TOGGLE_HELP_TEXT_ACTION_NAME
                 });        
     }
     
     private void detachKeys() {
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_MAIN_MENU_ACTION_NAME);
+        YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_HELP_TEXT_ACTION_NAME);
         
         YaumrGame.getInstance().getInputManager().removeListener(keyEventHandler);
     }    
@@ -152,6 +172,22 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
             } else {
                 mainMenu.show();
                 YaumrGame.getInstance().getFlyByCamera().setEnabled(false);
+            }
+        }
+    }
+    
+    private void toggleHelpText(boolean toggleKeyIsPressed) {
+        if (null != helpPanel && toggleKeyIsPressed) {
+            if (helpPanel.isVisible()) {
+                helpPanel.hide();
+                YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
+                YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);                 
+            } else {
+                helpPanel.show();
+                
+                if (null != mainMenu && mainMenu.isVisible()) {
+                    mainMenu.hide();
+                }
             }
         }
     }

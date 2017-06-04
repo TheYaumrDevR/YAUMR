@@ -38,5 +38,16 @@
 				</panel>
 			</panel>
 		</layer>
+
+		<layer id="#helpTextLayer" backgroundColor="#00000000" childLayout="center">
+			<panel id="#helpPanel" height="159px" width="520px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
+				<panel id="#helpTextPanel" childLayout="center" x="0" y="17" width="100%" height="125px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+					<control name="label" id="#helpText" style="normal-sized-text-font" width="95%" align="center" textHAlign="left" text="You can create and modify islands which can be used to construct game worlds here.&#10;&#10;Following features are available in this editor.&#10;Press H to bring up and hide this help text.&#10;Press I to bring up the block selection menu.&#10;Press G to bring up the random generation and island reset menu."/>
+				</panel>
+				<panel id="#helpTextTitle" childLayout="center" width="200px" height="34px" x="155" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+					<text id="#helpTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Help" width="100%" textHAlign="center"/>
+				</panel>
+			</panel>
+		</layer>
 	</screen>
 </nifty>
