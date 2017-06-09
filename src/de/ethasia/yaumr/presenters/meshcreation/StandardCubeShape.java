@@ -2,7 +2,6 @@ package de.ethasia.yaumr.presenters.meshcreation;
 
 import com.jme3.math.Vector3f;
 import de.ethasia.yaumr.blockengine.entities.Block;
-import de.ethasia.yaumr.blockengine.entities.BlockTypes;
 import de.ethasia.yaumr.blockengine.entities.FacingDirection;
 import java.util.ArrayList;
 import java.util.Arrays;

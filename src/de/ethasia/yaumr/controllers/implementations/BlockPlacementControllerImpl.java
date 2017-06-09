@@ -73,11 +73,39 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         grassBlock.setBlockType(BlockTypes.GRASS); 
         
         Block rockBlock = new Block();
-        rockBlock.setBlockType(BlockTypes.ROCK);           
+        rockBlock.setBlockType(BlockTypes.ROCK);  
+        
+        Block wateredEarthBlock = new Block();
+        wateredEarthBlock.setBlockType(BlockTypes.WATERED_EARTH);
+
+        Block plowedEarthBlock = new Block();
+        plowedEarthBlock.setBlockType(BlockTypes.PLOWED_EARTH);
+
+        Block plowedWateredEarthBlock = new Block();
+        plowedWateredEarthBlock.setBlockType(BlockTypes.PLOWED_WATERED_EARTH);    
+        
+        Block clayBlock = new Block();
+        clayBlock.setBlockType(BlockTypes.CLAY); 
+
+        Block bedrockBlock = new Block();
+        bedrockBlock.setBlockType(BlockTypes.BEDROCK);    
+        
+        Block leavesBlock = new Block();
+        leavesBlock.setBlockType(BlockTypes.LEAVES);    
+
+        Block walnutTrunkBlock = new Block();
+        walnutTrunkBlock.setBlockType(BlockTypes.WALNUT_WOOD);            
         
         quickSelectionBar.addItemToPosition(earthBlock, 0);
         quickSelectionBar.addItemToPosition(grassBlock, 1);
         quickSelectionBar.addItemToPosition(rockBlock, 2);
+        quickSelectionBar.addItemToPosition(wateredEarthBlock, 3);
+        quickSelectionBar.addItemToPosition(plowedEarthBlock, 4);
+        quickSelectionBar.addItemToPosition(plowedWateredEarthBlock, 5);
+        quickSelectionBar.addItemToPosition(clayBlock, 6);
+        quickSelectionBar.addItemToPosition(walnutTrunkBlock, 7);
+        quickSelectionBar.addItemToPosition(bedrockBlock, 8);
+        quickSelectionBar.addItemToPosition(leavesBlock, 9);
         
         initKeys();
         
