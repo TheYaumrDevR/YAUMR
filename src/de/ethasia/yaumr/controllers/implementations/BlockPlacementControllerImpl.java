@@ -90,11 +90,8 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         Block bedrockBlock = new Block();
         bedrockBlock.setBlockType(BlockTypes.BEDROCK);    
         
-        Block leavesBlock = new Block();
-        leavesBlock.setBlockType(BlockTypes.LEAVES);    
-
-        Block walnutTrunkBlock = new Block();
-        walnutTrunkBlock.setBlockType(BlockTypes.WALNUT_WOOD);            
+        Block sandBlock = new Block();
+        sandBlock.setBlockType(BlockTypes.SAND);              
         
         quickSelectionBar.addItemToPosition(earthBlock, 0);
         quickSelectionBar.addItemToPosition(grassBlock, 1);
@@ -103,9 +100,8 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
         quickSelectionBar.addItemToPosition(plowedEarthBlock, 4);
         quickSelectionBar.addItemToPosition(plowedWateredEarthBlock, 5);
         quickSelectionBar.addItemToPosition(clayBlock, 6);
-        quickSelectionBar.addItemToPosition(walnutTrunkBlock, 7);
+        quickSelectionBar.addItemToPosition(sandBlock, 7);
         quickSelectionBar.addItemToPosition(bedrockBlock, 8);
-        quickSelectionBar.addItemToPosition(leavesBlock, 9);
         
         initKeys();
         

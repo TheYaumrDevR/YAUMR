@@ -65,6 +65,38 @@ public class GlobalBlockPosition {
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
+    public GlobalBlockPosition decrementY() {
+        if (blockPositionY != 0) {
+            GlobalBlockPosition decrementedPosition = new GlobalBlockPosition();
+        
+            decrementedPosition.blockPositionX = blockPositionX;
+            decrementedPosition.blockPositionY = blockPositionY - 1;
+            decrementedPosition.blockPositionZ = blockPositionZ;
+            decrementedPosition.chunkPositionX = chunkPositionX;
+            decrementedPosition.chunkPositionY = chunkPositionY;
+            
+            return decrementedPosition;
+        }
+        
+        throw new IllegalStateException("Cannot decrement position when position is 0.");
+    }
+    
+    public GlobalBlockPosition incrementY() {
+        if (blockPositionY != 255) {
+            GlobalBlockPosition incrementedPosition = new GlobalBlockPosition();
+        
+            incrementedPosition.blockPositionX = blockPositionX;
+            incrementedPosition.blockPositionY = blockPositionY + 1;
+            incrementedPosition.blockPositionZ = blockPositionZ;
+            incrementedPosition.chunkPositionX = chunkPositionX;
+            incrementedPosition.chunkPositionY = chunkPositionY;
+            
+            return incrementedPosition;
+        }
+        
+        throw new IllegalStateException("Cannot decrement position when position is 0.");
+    }    
+    
     @Override
     public boolean equals(Object otherGlobalBlockPosition) {
         if (!(otherGlobalBlockPosition instanceof GlobalBlockPosition)) {

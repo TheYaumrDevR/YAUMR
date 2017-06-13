@@ -7,6 +7,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.ColorRGBA;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.blockengine.usecases.interfaces.FallingBlockCellularAutomaton;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.gamestates.interfaces.GameEntryState;
 import de.ethasia.yaumr.gamestates.interfaces.IslandEditorState;
@@ -36,6 +37,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     private final ActionListener keyEventHandler;
     
     private BlockPlacementController blockPlacementController;
+    private FallingBlockCellularAutomaton fallingBlockHandler;
     private Element mainMenu;
     private Element helpPanel;
     
@@ -78,6 +80,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);
         
         blockPlacementController = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockPlacementController.class);
+        fallingBlockHandler = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(FallingBlockCellularAutomaton.class);
     }   
     
     @Override
@@ -92,6 +95,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     public void update(float tpf) {
         super.update(tpf);
         blockPlacementController.update(tpf);
+        fallingBlockHandler.tick(tpf);
     }
 
     @Override

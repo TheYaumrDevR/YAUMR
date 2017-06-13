@@ -2,6 +2,7 @@ package de.ethasia.yaumr.blockengine.entities;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.blockengine.usecases.interfaces.FallingBlockCellularAutomaton;
 import de.ethasia.yaumr.presenters.interfaces.IslandRenderer;
 
 /**
@@ -65,11 +66,59 @@ public class Chunk {
         this.parentIsland = parentIsland;
     }
     
+    public Island getParentIsland() {
+        return parentIsland;
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
     public boolean placeBlock(BlockTypes blockType, GlobalBlockPosition blockPosition) {
+        if (placeBlockWithoutMarkingDynamicBlocks(blockType, blockPosition)) {
+            Block block = blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()];            
+            
+            if (block.getBlockType().fallsDownWhenAirBelow()) {
+                if (blockPosition.getBlockPositionY() != 0) {
+                    if (blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY() - 1][blockPosition.getBlockPositionZ()].getBlockType() == BlockTypes.AIR) {
+                        YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(FallingBlockCellularAutomaton.class).markPositionInChunkAsUnstable(blockPosition, this);
+                    }
+                }
+            }
+            
+            return true;
+        }
+        
+        return false;
+    }
+    
+    public void removeBlock(GlobalBlockPosition blockPosition) {
+        if (removeWithoutMarkingDynamicBlocks(blockPosition)) {
+            if (blockPosition.getBlockPositionY() != 255) {
+                Block blockAbove = blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY() + 1][blockPosition.getBlockPositionZ()];         
+                
+                if (blockAbove.getBlockType().fallsDownWhenAirBelow()) {
+                    YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(FallingBlockCellularAutomaton.class).markPositionInChunkAsUnstable(blockPosition.incrementY(), this);
+                }                
+            }
+        }
+    }
+    
+    public void moveBlockDown(GlobalBlockPosition blockPosition) {
+        Block block = blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()];
+        BlockTypes blockType = block.getBlockType();
+        
+        if (blockPosition.getBlockPositionY() != 0) {
+            removeWithoutMarkingDynamicBlocks(blockPosition);
+            placeBlockWithoutMarkingDynamicBlocks(blockType, blockPosition.decrementY());
+        }
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    public boolean placeBlockWithoutMarkingDynamicBlocks(BlockTypes blockType, GlobalBlockPosition blockPosition) {
         Block block = blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()];
         
         if (block.getBlockType() == BlockTypes.AIR) {
@@ -78,13 +127,14 @@ public class Chunk {
             amountOfVisibleBlocks++;
             
             updateBlockVisibilityForNeighborsOfPlacedBlock(blockPosition);
+            
             return true;
         }
         
         return false;
     }
     
-    public void removeBlock(GlobalBlockPosition blockPosition) {
+    public boolean removeWithoutMarkingDynamicBlocks(GlobalBlockPosition blockPosition) {
         Block block = blocks[blockPosition.getBlockPositionX()][blockPosition.getBlockPositionY()][blockPosition.getBlockPositionZ()];
         
         if (block.getBlockType() != BlockTypes.AIR) {
@@ -92,12 +142,12 @@ public class Chunk {
             amountOfVisibleBlocks--;    
 
             updateBlockVisibilityForNeighborsOfPlacedBlock(blockPosition);
+            
+            return true;
         }
+        
+        return false;
     }
-    
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Private Methods">
     
     private void updateBlockVisibilityForNeighborsOfPlacedBlock(GlobalBlockPosition placedBlockPosition) {
         if (placedBlockPosition.getBlockPositionX() - 1 > -1) {
