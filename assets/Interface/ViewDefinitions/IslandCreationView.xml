@@ -17,6 +17,10 @@
 			<control name="quickSelectionBar" id="#bottomQuickSelectionBar" align="center" valign="bottom"/>
 		</layer>
 
+		<layer id="#inventoryGridLayer" backgroundColor="#00000000" childLayout="center">
+			<control name="inventoryGrid" id="#itemSelectionGrid"/>
+		</layer>
+
 		<layer id="#mainMenuLayer" backgroundColor="#00000000" childLayout="center">
 			<panel id="#mainMenu" height="149px" width="250px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
 				<panel id="#mainMenuButtons" childLayout="vertical" x="0" y="17" width="100%" height="115px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
@@ -34,7 +38,7 @@
                 			</control>
 				</panel>
 				<panel id="#mainMenuTitle" childLayout="center" width="200px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-					<text id="mainMenuTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Main Menu" width="100%" textHAlign="center"/>
+					<text id="#mainMenuTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Main Menu" width="100%" textHAlign="center"/>
 				</panel>
 			</panel>
 		</layer>

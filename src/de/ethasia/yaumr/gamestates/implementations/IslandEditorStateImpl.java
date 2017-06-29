@@ -9,6 +9,7 @@ import com.jme3.math.ColorRGBA;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.blockengine.usecases.interfaces.FallingBlockCellularAutomaton;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
+import de.ethasia.yaumr.controllers.interfaces.IslandCreationInventoryManagementController;
 import de.ethasia.yaumr.gamestates.interfaces.GameEntryState;
 import de.ethasia.yaumr.gamestates.interfaces.IslandEditorState;
 import de.lessvoid.nifty.Nifty;
@@ -29,6 +30,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     
     private static final String TOGGLE_MAIN_MENU_ACTION_NAME = "toggleMainMenu";
     private static final String TOGGLE_HELP_TEXT_ACTION_NAME = "toggleHelp";
+    private static final String TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME = "toggleTerraformingInventory";
     
     //</editor-fold>
     
@@ -37,6 +39,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     private final ActionListener keyEventHandler;
     
     private BlockPlacementController blockPlacementController;
+    private IslandCreationInventoryManagementController inventoryManagementController;
     private FallingBlockCellularAutomaton fallingBlockHandler;
     private Element mainMenu;
     private Element helpPanel;
@@ -54,6 +57,8 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
                     toggleMainMenu(isPressed);
                 } else if (name.equals(TOGGLE_HELP_TEXT_ACTION_NAME)) {
                     toggleHelpText(isPressed);
+                } else if (name.equals(TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME)) {
+                    toggleTerraformingInventory(isPressed);
                 }
             }
         };
@@ -80,6 +85,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);
         
         blockPlacementController = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockPlacementController.class);
+        inventoryManagementController = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandCreationInventoryManagementController.class);
         fallingBlockHandler = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(FallingBlockCellularAutomaton.class);
     }   
     
@@ -101,6 +107,7 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     @Override
     public void onStartScreen() {
         blockPlacementController.initialize(niftyScreen);
+        inventoryManagementController.initialize(niftyScreen);
         initKeys();
         
         if (null != mainMenu) {
@@ -110,11 +117,14 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         if (null != helpPanel) {
             helpPanel.hide();
         }
+        
+        inventoryManagementController.hideInventoryGrid();
     }
 
     @Override
     public void onEndScreen() {
         blockPlacementController.deInitialize();
+        inventoryManagementController.deInitialize();
         detachKeys();
     }
 
@@ -152,17 +162,20 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     private void initKeys() {
         YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_MAIN_MENU_ACTION_NAME, new KeyTrigger(KeyInput.KEY_ESCAPE));
         YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_HELP_TEXT_ACTION_NAME, new KeyTrigger(KeyInput.KEY_H));        
+        YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME, new KeyTrigger(KeyInput.KEY_I));
         
         YaumrGame.getInstance().getInputManager().addListener(keyEventHandler, 
                 new String[] {
                     TOGGLE_MAIN_MENU_ACTION_NAME, 
-                    TOGGLE_HELP_TEXT_ACTION_NAME
+                    TOGGLE_HELP_TEXT_ACTION_NAME,
+                    TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME
                 });        
     }
     
     private void detachKeys() {
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_MAIN_MENU_ACTION_NAME);
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_HELP_TEXT_ACTION_NAME);
+        YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME);
         
         YaumrGame.getInstance().getInputManager().removeListener(keyEventHandler);
     }    
@@ -171,11 +184,16 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         if (null != mainMenu && toggleKeyIsPressed) {
             if (mainMenu.isVisible()) {
                 mainMenu.hide();
-                YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
-                YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);                
+                setFlycamActivationState();
             } else {
                 mainMenu.show();
                 YaumrGame.getInstance().getFlyByCamera().setEnabled(false);
+                
+                if (null != helpPanel) {
+                    helpPanel.hide();
+                }
+                
+                inventoryManagementController.hideInventoryGrid();
             }
         }
     }
@@ -184,14 +202,42 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         if (null != helpPanel && toggleKeyIsPressed) {
             if (helpPanel.isVisible()) {
                 helpPanel.hide();
-                YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
-                YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);                 
+                setFlycamActivationState();                
             } else {
                 helpPanel.show();
+                setFlycamActivationState();
                 
                 if (null != mainMenu && mainMenu.isVisible()) {
                     mainMenu.hide();
                 }
+            }
+        }
+    }
+    
+    private void toggleTerraformingInventory(boolean toggleKeyIsPressed) {
+        if (toggleKeyIsPressed) {
+            if (inventoryManagementController.inventoryGridIsVisible()) {
+                inventoryManagementController.hideInventoryGrid();
+                setFlycamActivationState();               
+            } else {
+                inventoryManagementController.showInventoryGrid();
+
+                if (null != mainMenu && mainMenu.isVisible()) {
+                    mainMenu.hide();
+                }
+                
+                setFlycamActivationState();
+            }
+        }        
+    }
+    
+    private void setFlycamActivationState() {
+        if (null != mainMenu && null != helpPanel) {
+            if (!mainMenu.isVisible() && !helpPanel.isVisible() && !inventoryManagementController.inventoryGridIsVisible()) {
+                YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
+                YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);                  
+            } else {
+                YaumrGame.getInstance().getFlyByCamera().setEnabled(false);
             }
         }
     }

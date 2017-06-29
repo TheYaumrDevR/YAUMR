@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.controllers.interfaces;
 
+import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 import de.lessvoid.nifty.screen.Screen;
 
 /**
@@ -12,5 +13,6 @@ public interface BlockPlacementController {
     
     public void initialize(Screen niftyScreen);
     public void update(float tpf);
+    public void setSelectableItemAtPosition(QuickSelectableEntity item, int position);
     public void deInitialize();
 }

@@ -65,46 +65,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     @Override
     public void initialize(Screen niftyScreen) {
         quickSelectionBar = niftyScreen.findNiftyControl(BOTTOM_QUICKSELECTION_BAR_NAME, QuickSelectionBar.class);
-        
-        Block earthBlock = new Block();
-        earthBlock.setBlockType(BlockTypes.EARTH);
-        
-        Block grassBlock = new Block();
-        grassBlock.setBlockType(BlockTypes.GRASS); 
-        
-        Block rockBlock = new Block();
-        rockBlock.setBlockType(BlockTypes.ROCK);  
-        
-        Block wateredEarthBlock = new Block();
-        wateredEarthBlock.setBlockType(BlockTypes.WATERED_EARTH);
-
-        Block plowedEarthBlock = new Block();
-        plowedEarthBlock.setBlockType(BlockTypes.PLOWED_EARTH);
-
-        Block plowedWateredEarthBlock = new Block();
-        plowedWateredEarthBlock.setBlockType(BlockTypes.PLOWED_WATERED_EARTH);    
-        
-        Block clayBlock = new Block();
-        clayBlock.setBlockType(BlockTypes.CLAY); 
-
-        Block bedrockBlock = new Block();
-        bedrockBlock.setBlockType(BlockTypes.BEDROCK);    
-        
-        Block sandBlock = new Block();
-        sandBlock.setBlockType(BlockTypes.SAND);              
-        
-        quickSelectionBar.addItemToPosition(earthBlock, 0);
-        quickSelectionBar.addItemToPosition(grassBlock, 1);
-        quickSelectionBar.addItemToPosition(rockBlock, 2);
-        quickSelectionBar.addItemToPosition(wateredEarthBlock, 3);
-        quickSelectionBar.addItemToPosition(plowedEarthBlock, 4);
-        quickSelectionBar.addItemToPosition(plowedWateredEarthBlock, 5);
-        quickSelectionBar.addItemToPosition(clayBlock, 6);
-        quickSelectionBar.addItemToPosition(sandBlock, 7);
-        quickSelectionBar.addItemToPosition(bedrockBlock, 8);
-        
         initKeys();
-        
         islandToEdit = new Island(16);
     }    
     
@@ -118,6 +79,11 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
             BlockOutlineRenderer placementIndicatorRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(BlockOutlineRenderer.class);
             placementIndicatorRenderer.renderBlockOutline(islandToEdit, blockPosition);
         }
+    }
+    
+    @Override
+    public void setSelectableItemAtPosition(QuickSelectableEntity item, int position) {
+        quickSelectionBar.addItemToPosition(item, position);
     }
     
     @Override

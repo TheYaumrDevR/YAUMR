@@ -9,6 +9,29 @@
 		</panel>
 	</controlDefinition>
 
+	<controlDefinition id="$draggableID" name="draggableItemBox" controller="de.ethasia.yaumr.customcontrols.implementations.DraggableItemBoxControl">
+		<panel width="74px" height="74px" childLayout="center">
+			<image id="#boxFrame" width="100%" height="100%" childLayout="absolute" valign="bottom" filename="Interface/ImagesGUI/HUD/InventoryGrid/InventoryGridBox.png">
+				<control id="$draggableID" name="draggable" x="5" y="5" width="64px" height="64px" childLayout="center">
+  					<image width="100%" height="100%" id="#itemImage"/>
+				</control>
+				<image width="64px" height="64px" x="5" y="5" id="#itemImageDuplicate"/>
+			</image>
+		</panel>
+	</controlDefinition>
+
+	<controlDefinition id="$droppableID" name="droppableItemBox" controller="de.ethasia.yaumr.customcontrols.implementations.DroppableItemBoxControl">
+		<panel width="74px" height="74px" childLayout="center">
+			<image width="100%" height="100%" childLayout="absolute" valign="bottom" filename="Interface/ImagesGUI/HUD/InventoryGrid/InventoryGridBox.png">
+				<control id="$droppableID" name="droppable" x="5" y="5" width="64px" height="64px" childLayout="center">
+					<control id="$droppableID#internalDraggable" name="draggable" width="64px" height="64px" childLayout="center">
+						<image width="100%" height="100%" id="#itemImage"/>
+					</control>
+				</control>
+			</image>
+		</panel>
+	</controlDefinition>
+
 	<controlDefinition name="quickSelectionBar" controller="de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl">
 		<panel childLayout="horizontal" width="740px" height="97px" backgroundColor="#00000000">
 			<control name="quickSelectionBarButton" id="#firstSelectionButton"/> 
@@ -21,6 +44,83 @@
 			<control name="quickSelectionBarButton" id="#eighthSelectionButton"/> 	
 			<control name="quickSelectionBarButton" id="#ninthSelectionButton"/> 
 			<control name="quickSelectionBarButton" id="#tenthSelectionButton"/> 
+		</panel>
+	</controlDefinition>
+
+	<controlDefinition name="inventoryGrid" controller="de.ethasia.yaumr.customcontrols.implementations.InventoryGridControl">
+		<panel id="#itemSelectionPanel" width="100%" height="100%" childLayout="center" backgroundColor="#00000000">
+			<control name="droppable" id="#discardDroppable" width="100%" height="100%"/>
+			<panel valign="top" childLayout="vertical" backgroundColor="#00000000">
+				<panel id="#itemSelectionTitle" childLayout="center" width="300px" height="34px" align="center" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+					<text id="#inventoryGridTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Available Terraforming Objects" width="100%" textHAlign="center"/>
+				</panel>
+				<panel childLayout="vertical" width="740px" height="404px" backgroundColor="#00000000">
+					<panel childLayout="horizontal" width="100%" height="74px" backgroundColor="#00000000">
+						<control name="draggableItemBox" draggableID="itemBox1"/> 
+						<control name="draggableItemBox" draggableID="itemBox2"/> 
+						<control name="draggableItemBox" draggableID="itemBox3"/> 
+						<control name="draggableItemBox" draggableID="itemBox4"/> 
+						<control name="draggableItemBox" draggableID="itemBox5"/> 
+						<control name="draggableItemBox" draggableID="itemBox6"/> 
+						<control name="draggableItemBox" draggableID="itemBox7"/> 
+						<control name="draggableItemBox" draggableID="itemBox8"/> 
+						<control name="draggableItemBox" draggableID="itemBox9"/> 
+						<control name="draggableItemBox" draggableID="itemBox10"/> 
+					</panel>
+					<panel childLayout="horizontal" width="100%" height="74px" backgroundColor="#00000000">
+						<control name="draggableItemBox" draggableID="itemBox11"/> 
+						<control name="draggableItemBox" draggableID="itemBox12"/> 
+						<control name="draggableItemBox" draggableID="itemBox13"/> 
+						<control name="draggableItemBox" draggableID="itemBox14"/> 
+						<control name="draggableItemBox" draggableID="itemBox15"/> 
+						<control name="draggableItemBox" draggableID="itemBox16"/> 
+						<control name="draggableItemBox" draggableID="itemBox17"/> 
+						<control name="draggableItemBox" draggableID="itemBox18"/> 
+						<control name="draggableItemBox" draggableID="itemBox19"/> 
+						<control name="draggableItemBox" draggableID="itemBox20"/> 
+					</panel>
+					<panel childLayout="horizontal" width="100%" height="74px" backgroundColor="#00000000">
+						<control name="draggableItemBox" draggableID="itemBox21"/> 
+						<control name="draggableItemBox" draggableID="itemBox22"/> 
+						<control name="draggableItemBox" draggableID="itemBox23"/> 
+						<control name="draggableItemBox" draggableID="itemBox24"/> 
+						<control name="draggableItemBox" draggableID="itemBox25"/> 
+						<control name="draggableItemBox" draggableID="itemBox26"/> 
+						<control name="draggableItemBox" draggableID="itemBox27"/> 
+						<control name="draggableItemBox" draggableID="itemBox28"/> 
+						<control name="draggableItemBox" draggableID="itemBox29"/> 
+						<control name="draggableItemBox" draggableID="itemBox30"/> 
+					</panel>
+					<panel childLayout="horizontal" width="100%" height="74px" backgroundColor="#00000000">
+						<control name="draggableItemBox" draggableID="itemBox31"/> 
+						<control name="draggableItemBox" draggableID="itemBox32"/> 
+						<control name="draggableItemBox" draggableID="itemBox33"/> 
+						<control name="draggableItemBox" draggableID="itemBox34"/> 
+						<control name="draggableItemBox" draggableID="itemBox35"/> 
+						<control name="draggableItemBox" draggableID="itemBox36"/> 
+						<control name="draggableItemBox" draggableID="itemBox37"/> 
+						<control name="draggableItemBox" draggableID="itemBox38"/> 
+						<control name="draggableItemBox" draggableID="itemBox39"/> 
+						<control name="draggableItemBox" draggableID="itemBox40"/> 
+					</panel>
+					<panel width="100%" height="5px" backgroundColor="#00000000"/>
+					<panel id="#selectionBarTitle" childLayout="center" width="200px" height="34px" align="center" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+						<text font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Selection Bar" width="100%" textHAlign="center"/>
+					</panel>
+					<panel childLayout="horizontal" width="100%" height="74px" backgroundColor="#00000000">
+						<control name="droppableItemBox" droppableID="droppableBox1"/> 
+						<control name="droppableItemBox" droppableID="droppableBox2"/> 
+						<control name="droppableItemBox" droppableID="droppableBox3"/> 
+						<control name="droppableItemBox" droppableID="droppableBox4"/> 
+						<control name="droppableItemBox" droppableID="droppableBox5"/> 
+						<control name="droppableItemBox" droppableID="droppableBox6"/> 
+						<control name="droppableItemBox" droppableID="droppableBox7"/> 
+						<control name="droppableItemBox" droppableID="droppableBox8"/> 
+						<control name="droppableItemBox" droppableID="droppableBox9"/> 
+						<control name="droppableItemBox" droppableID="droppableBox10"/> 
+					</panel>
+				</panel>
+			</panel>
 		</panel>
 	</controlDefinition>
 

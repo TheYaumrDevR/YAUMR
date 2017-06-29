@@ -85,7 +85,11 @@ public class QuickSelectionBarButtonControl extends AbstractController implement
         this.entityToSelect = entityToSelect;
         
         if (null != itemImageRenderer) {
-            itemImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, entityToSelect.getQuickSelectionImagePath(), false));         
+            if (null == entityToSelect) {
+                itemImageRenderer.setImage(null);
+            } else {
+                itemImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, entityToSelect.getQuickSelectionImagePath(), false));         
+            }
         }         
     }    
     
