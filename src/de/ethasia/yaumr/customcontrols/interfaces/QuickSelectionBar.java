@@ -10,7 +10,8 @@ import de.lessvoid.nifty.controls.NiftyControl;
  */
 public interface QuickSelectionBar extends NiftyControl {
     
-    public QuickSelectableEntity reactToKeyInput(String keyActionName);
+    public void reactToKeyInput(String keyActionName);
     public void addItemToPosition(QuickSelectableEntity item, int position);
     public boolean isButtonSelected(int position);
+    public QuickSelectableEntity getEntityContainedInSelection();
 }

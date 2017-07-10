@@ -108,7 +108,7 @@ public class QuickSelectionBarControl extends AbstractController implements Quic
     }
 
     @Override
-    public QuickSelectableEntity reactToKeyInput(String keyActionName) {
+    public void reactToKeyInput(String keyActionName) {
         Integer barPosition = keyActionOnPosition.get(keyActionName);
         
         if (null != barPosition) {
@@ -121,9 +121,14 @@ public class QuickSelectionBarControl extends AbstractController implements Quic
                 
                 buttonToSelect.setSelected();
                 currentlySelectedButton = buttonToSelect;
-                
-                return buttonToSelect.getContainedItem();
             }
+        }
+    }
+    
+    @Override
+    public QuickSelectableEntity getEntityContainedInSelection() {
+        if (null != currentlySelectedButton) {
+            return currentlySelectedButton.getContainedItem();
         }
         
         return null;

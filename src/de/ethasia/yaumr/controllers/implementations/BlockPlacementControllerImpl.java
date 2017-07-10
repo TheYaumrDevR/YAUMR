@@ -8,8 +8,6 @@ import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import de.ethasia.yaumr.base.YaumrGame;
-import de.ethasia.yaumr.blockengine.entities.Block;
-import de.ethasia.yaumr.blockengine.entities.BlockTypes;
 import de.ethasia.yaumr.blockengine.entities.GlobalBlockPosition;
 import de.ethasia.yaumr.blockengine.entities.Island;
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
@@ -38,7 +36,6 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     private QuickSelectionBar quickSelectionBar;
     private final ActionListener keyEventHandler;
     private Island islandToEdit;
-    private QuickSelectableEntity selectedEntity;
     
     //</editor-fold>
     
@@ -148,21 +145,25 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     private void handleQuickSelectionButtonPressed(boolean isPressed, String eventName) {
         if (!isPressed) {
             if (null != quickSelectionBar) {
-                selectedEntity = quickSelectionBar.reactToKeyInput(eventName);
+                quickSelectionBar.reactToKeyInput(eventName);
             }
         }
     }
     
     private void executePrimaryAction(boolean isPressed) {
         if (isPressed) {
-            if (null != selectedEntity) {
-                if (null != islandToEdit) {
-                    Camera camera = YaumrGame.getInstance().getCamera();  
-                    Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));                    
+            if (null != islandToEdit) {
+                Camera camera = YaumrGame.getInstance().getCamera();  
+                Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));                    
                     
-                    selectedEntity.executePrimaryAction(pointingPoint, islandToEdit);
-                }                
-            }
+                if (null != quickSelectionBar) {
+                    QuickSelectableEntity selectedEntity = quickSelectionBar.getEntityContainedInSelection();
+                    
+                    if (null != selectedEntity) {
+                        selectedEntity.executePrimaryAction(pointingPoint, islandToEdit);
+                    }
+                }
+            }                
         }
     }
     
