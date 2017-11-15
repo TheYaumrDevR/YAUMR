@@ -95,7 +95,43 @@ public class IslandCreationInventoryManagementControllerImpl implements IslandCr
             
             blockToAdd = new Block();
             blockToAdd.setBlockType(BlockTypes.PLOWED_WATERED_EARTH);
-            selectionGrid.setItemOnPosition(blockToAdd, 8);            
+            selectionGrid.setItemOnPosition(blockToAdd, 8);  
+            
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.LEAVES);
+            selectionGrid.setItemOnPosition(blockToAdd, 9);
+            
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.WALNUT_WOOD);
+            selectionGrid.setItemOnPosition(blockToAdd, 10);   
+            
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.OAK_WOOD);
+            selectionGrid.setItemOnPosition(blockToAdd, 11); 
+            
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.ASH_WOOD);
+            selectionGrid.setItemOnPosition(blockToAdd, 12); 
+
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.BIRCH_WOOD);
+            selectionGrid.setItemOnPosition(blockToAdd, 13);             
+            
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.WALNUT_PLANKS);
+            selectionGrid.setItemOnPosition(blockToAdd, 14); 
+
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.OAK_PLANKS);
+            selectionGrid.setItemOnPosition(blockToAdd, 15);     
+            
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.ASH_PLANKS);
+            selectionGrid.setItemOnPosition(blockToAdd, 16);    
+
+            blockToAdd = new Block();
+            blockToAdd.setBlockType(BlockTypes.BIRCH_PLANKS);
+            selectionGrid.setItemOnPosition(blockToAdd, 17);               
         }
     }
     
