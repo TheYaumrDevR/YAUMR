@@ -68,7 +68,7 @@ public class Block implements QuickSelectableEntity {
      */
     @Override
     public void executePrimaryAction(Vector3f interactionPoint, Island islandToInteractWith) {
-        boolean blockPlacedOrOutsideGrid = islandToInteractWith.placeBlock(interactionPoint, blockType);
+        boolean blockPlacedOrOutsideGrid = addSelfToWorld(interactionPoint, islandToInteractWith);
         
         if (!blockPlacedOrOutsideGrid) {
             islandToInteractWith.removeBLock(interactionPoint);
@@ -97,6 +97,16 @@ public class Block implements QuickSelectableEntity {
     public boolean isDirectionObstructed(FacingDirection direction) {
         int directionValue = direction.getValue() & nonObstructedDirections;
         return directionValue == 0;
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    private boolean addSelfToWorld(Vector3f interactionPoint, Island islandToInteractWith) {
+        BlockPlacementStrategy blockPlacementStrategy = blockType.getBlockPlacementStrategy();
+        blockPlacementStrategy.setBlockType(blockType);
+        return blockPlacementStrategy.placeBlockInWorld(interactionPoint, islandToInteractWith);
     }
     
     //</editor-fold>

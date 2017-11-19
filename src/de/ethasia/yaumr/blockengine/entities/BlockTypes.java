@@ -37,6 +37,11 @@ public enum BlockTypes {
         public boolean fallsDownWhenAirBelow() {
             return false;
         }
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }
     },
     EARTH {
         
@@ -65,7 +70,12 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
-        }        
+        }    
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }
     },
     WATERED_EARTH {
         
@@ -95,6 +105,11 @@ public enum BlockTypes {
         public boolean fallsDownWhenAirBelow() {
             return false;
         }
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }        
     },
     PLOWED_EARTH {
         
@@ -123,6 +138,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     PLOWED_WATERED_EARTH {
@@ -152,6 +172,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }   
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     PLOWED_SEEDED_EARTH {
@@ -181,6 +206,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }   
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     PLOWED_SEEDED_WATERED_EARTH {
@@ -211,6 +241,11 @@ public enum BlockTypes {
         public boolean fallsDownWhenAirBelow() {
             return false;
         }
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }        
     },
     CLAY {
         
@@ -239,6 +274,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     ROCK {
@@ -268,6 +308,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     SAND {
@@ -297,6 +342,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return true;
+        }   
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     BEDROCK {
@@ -326,6 +376,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     LEAVES {
@@ -355,6 +410,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     WALNUT_WOOD {
@@ -384,6 +444,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }      
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     OAK_WOOD {
@@ -413,6 +478,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     ASH_WOOD {
@@ -442,6 +512,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     BIRCH_WOOD {
@@ -471,6 +546,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     WALNUT_PLANKS {
@@ -500,6 +580,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     OAK_PLANKS {
@@ -529,6 +614,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     ASH_PLANKS {
@@ -558,6 +648,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     BIRCH_PLANKS {
@@ -587,6 +682,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     WALNUT_STAIRS {
@@ -616,6 +716,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     OAK_STAIRS {
@@ -645,7 +750,12 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
-        }        
+        }   
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }
     },
     ASH_STAIRS {
         
@@ -674,6 +784,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }
+
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     BIRCH_STAIRS {
@@ -703,6 +818,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     WALNUT_ROOF {
@@ -732,6 +852,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     OAK_ROOF {
@@ -761,6 +886,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     ASH_ROOF {
@@ -790,6 +920,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     BIRCH_ROOF {
@@ -820,6 +955,11 @@ public enum BlockTypes {
         public boolean fallsDownWhenAirBelow() {
             return false;
         }        
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }        
     },
     STRAW_ROOF {
         
@@ -848,6 +988,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     WALNUT_DOOR {
@@ -877,7 +1022,12 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
-        }        
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new DoorBlockPlacementStrategy();
+        }         
     },
     OAK_DOOR {
         
@@ -906,7 +1056,12 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
-        }        
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new DoorBlockPlacementStrategy();
+        }         
     },
     ASH_DOOR {
         
@@ -935,7 +1090,12 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
-        }        
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new DoorBlockPlacementStrategy();
+        }         
     },
     BIRCH_DOOR {
         
@@ -964,7 +1124,12 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
-        }        
+        }   
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new DoorBlockPlacementStrategy();
+        }         
     },
     GLASS {
         
@@ -993,6 +1158,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     COPPER_VEIN {
@@ -1022,6 +1192,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     CASSITERITE {
@@ -1052,6 +1227,11 @@ public enum BlockTypes {
         public boolean fallsDownWhenAirBelow() {
             return false;
         }        
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
+        }        
     },
     IRON_ORE {
         
@@ -1080,6 +1260,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }    
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     SILVER_VEIN {
@@ -1109,6 +1294,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     GOLD_VEIN {
@@ -1138,6 +1328,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        }  
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     },
     AIR {
@@ -1161,6 +1356,11 @@ public enum BlockTypes {
         @Override
         public boolean fallsDownWhenAirBelow() {
             return false;
+        } 
+        
+        @Override
+        public BlockPlacementStrategy getBlockPlacementStrategy() {
+            return new SimpleBlockPlacementStrategy();
         }        
     };
     
@@ -1171,4 +1371,5 @@ public enum BlockTypes {
     public abstract boolean fallsDownWhenAirBelow();
     public abstract float[] getUVCoordinates();
     public abstract BlockShape getShape();
+    public abstract BlockPlacementStrategy getBlockPlacementStrategy();
 }
