@@ -1,0 +1,32 @@
+package yaumrrefactored.core.interfaces;
+
+import yaumrrefactored.core.Block;
+import yaumrrefactored.core.BlockPosition;
+import yaumrrefactored.core.Island;
+
+/**
+ * Represents a facade which provides interface methods to place and remove blocks from the current Island. 
+ * All manipulation should be done exclusively through his class.
+ * 
+ * @author R
+ */
+public interface IslandManipulationFacade {
+    
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
+    public void setIsland(Island islandToChange);
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Facade Methods">
+    
+    public void placeBlockAt(Block block, BlockPosition position);
+    
+    public void removeBlockAt(BlockPosition position);
+    
+    public void copyBlockTo(Block blockToCopy, BlockPosition position);  
+    
+    public void tick(long timeSinceLastTickInMS);
+    
+    //</editor-fold>    
+}
