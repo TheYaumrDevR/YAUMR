@@ -3,6 +3,7 @@ package yaumrrefactored.core;
 import yaumrrefactored.core.blocks.BlockTypes;
 import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.blocks.Block;
+import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 /**
  * Represents the highest level division of the game world. 
@@ -98,7 +99,7 @@ public class Island {
         for (int i = 0; i < xz; i++) {
             for (int j = 0; j < HEIGHT_IN_BLOCKS; j++) {
                 for (int k = 0; k < xz; k++) {
-                    blocks[i][j][k] = new Block();
+                    blocks[i][j][k] = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
                 }
             }
         }

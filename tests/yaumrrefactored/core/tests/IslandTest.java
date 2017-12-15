@@ -1,13 +1,15 @@
 package yaumrrefactored.core.tests;
 
+import org.junit.Assert;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import yaumrrefactored.core.blocks.AxisRotationValues;
 import yaumrrefactored.core.blocks.Block;
 import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.blocks.BlockTypes;
 import yaumrrefactored.core.Island;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 public class IslandTest {
     
@@ -23,7 +25,7 @@ public class IslandTest {
         BlockPosition placementPosition = new BlockPosition(157, 109, 66);
         Assert.assertEquals(testCandidate.getBlockAt(placementPosition).getBlockType(), BlockTypes.AIR);
     
-        Block block = new Block(BlockTypes.CASSITERITE);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.CASSITERITE);
         testCandidate.placeBlockAt(block, placementPosition);
     
         Assert.assertEquals(testCandidate.getBlockAt(placementPosition), block);
@@ -32,7 +34,7 @@ public class IslandTest {
     @Test(expected=IllegalArgumentException.class)
     public void testPlaceBlock_placeBlockOnInValidPosition_throwsException() {
         BlockPosition placementPosition = new BlockPosition(355, 70, 14);
-        Block block = new Block(BlockTypes.ASH_ROOF);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_ROOF);
         testCandidate.placeBlockAt(block, placementPosition);
     }
   
@@ -40,8 +42,8 @@ public class IslandTest {
     public void testPlaceBlock_positionHasAlreadyBlockPresent_blockIsNotPlaced() {
         BlockPosition placementPosition = new BlockPosition(32, 187, 181);
     
-        Block firstBlock = new Block(BlockTypes.GOLD_VEIN);
-        Block secondBlock = new Block(BlockTypes.ASH_DOOR);
+        Block firstBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GOLD_VEIN);
+        Block secondBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_DOOR);
         testCandidate.placeBlockAt(firstBlock, placementPosition);
         testCandidate.placeBlockAt(secondBlock, placementPosition);
     
@@ -51,9 +53,9 @@ public class IslandTest {
     @Test
     public void testPlaceBlock_displacableBlockIsPresent_blockIsDisplaced() {
         BlockPosition position = new BlockPosition(164, 232, 75);
-        Block block = new Block(BlockTypes.INLAND_WATER);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.INLAND_WATER);
         testCandidate.placeBlockAt(block, position);
-        block = new Block(BlockTypes.GOLD_VEIN);
+        block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GOLD_VEIN);
     
         testCandidate.placeBlockAt(block, position);
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.GOLD_VEIN);
@@ -62,7 +64,7 @@ public class IslandTest {
     @Test
     public void testRemoveBlock_positionIsValid_blockIsRemoved() {
         BlockPosition position = new BlockPosition(203, 91, 242);
-        Block block = new Block(BlockTypes.EARTH);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);
         testCandidate.placeBlockAt(block, position);
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.EARTH);
     
@@ -80,11 +82,11 @@ public class IslandTest {
     @Test
     public void testCopyBlockTo_positionIsValid_blockIsCopied() {
         BlockPosition position = new BlockPosition(135, 104, 180);
-        Block block = new Block(BlockTypes.OCEAN_WATER);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.OCEAN_WATER);
         testCandidate.placeBlockAt(block, position);
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.OCEAN_WATER);
     
-        block = new Block(BlockTypes.BIRCH_STAIRS);
+        block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_STAIRS);
         block.rotateOnAxisX(AxisRotationValues.NINETY);
         block.rotateOnAxisX(AxisRotationValues.NINETY);
         block.rotateOnAxisY(AxisRotationValues.NINETY);
@@ -103,11 +105,11 @@ public class IslandTest {
     @Test
     public void testCopyBlockTo_blockOnPositionIsNotDisplaced_blockIsNotCopied() {
         BlockPosition position = new BlockPosition(219, 246, 84);
-        Block block = new Block(BlockTypes.BEDROCK);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BEDROCK);
         testCandidate.placeBlockAt(block, position);
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.BEDROCK);
     
-        block = new Block(BlockTypes.ASH_ROOF);
+        block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_ROOF);
         testCandidate.copyBlockTo(block, position);
     
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.BEDROCK);
@@ -116,9 +118,9 @@ public class IslandTest {
     @Test
     public void testCopyBlockTo_copiedBlockDoesNotDisplace_blockIsNotCopied() {
         BlockPosition position = new BlockPosition(147, 106, 156);
-        Block block = new Block(BlockTypes.INLAND_WATER);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.INLAND_WATER);
         testCandidate.placeBlockAt(block, position);
-        block = new Block(BlockTypes.ASH_DOOR);
+        block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_DOOR);
     
         testCandidate.copyBlockTo(block, position);
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.INLAND_WATER);
@@ -127,7 +129,7 @@ public class IslandTest {
     @Test(expected=IllegalArgumentException.class)
     public void testCopyBlockTo_positionIsInvalid_throwsException() {
         BlockPosition position = new BlockPosition(91, 119, 323);
-        Block block = new Block(BlockTypes.STRAW_ROOF);
+        Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.STRAW_ROOF);
         testCandidate.copyBlockTo(block, position);
     }
 }

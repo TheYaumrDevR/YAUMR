@@ -6,6 +6,7 @@ import yaumrrefactored.core.blocks.BlockFaceTypes;
 import yaumrrefactored.core.blocks.BlockTypes;
 import org.junit.Assert;
 import org.junit.Test;
+import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 public class BlockTest
 {
@@ -13,19 +14,19 @@ public class BlockTest
   
     @Test
     public void testDefaultConstructor_initializesVariablesCorrectly() {
-        Block objectToTest = new Block();
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
         Assert.assertEquals(objectToTest.getBlockType(), BlockTypes.AIR);
     }
   
     @Test
     public void testBlockTypeConstructor_initializesVariablesCorrectly() {
-        Block objectToTest = new Block(BlockTypes.OAK_TRUNK);
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.OAK_TRUNK);
         Assert.assertEquals(objectToTest.getBlockType(), BlockTypes.OAK_TRUNK);
     }
   
     @Test
     public void testResetBlock_allPropertiesAreResetCorrectly() {
-        Block objectToTest = new Block(BlockTypes.BEDROCK);
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BEDROCK);
         objectToTest.rotateOnAxisY(AxisRotationValues.NINETY);
     
         objectToTest.resetBlockToType(BlockTypes.EARTH);
@@ -35,7 +36,7 @@ public class BlockTest
   
     @Test
     public void testBlockRotation_blockIsCorrectlyRotated() {
-        Block objectToTest = new Block(BlockTypes.ASH_STAIRS);
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_STAIRS);
     
         objectToTest.rotateOnAxisX(AxisRotationValues.NINETY);
         objectToTest.rotateOnAxisY(AxisRotationValues.MINUS_NINETY);
@@ -51,7 +52,7 @@ public class BlockTest
   
     @Test
     public void testBlockRotation_rotateDoorBlockByXAxis_doesNotRotate() {
-        Block objectToTest = new Block(BlockTypes.OAK_DOOR);
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.OAK_DOOR);
     
         objectToTest.rotateOnAxisX(AxisRotationValues.MINUS_NINETY);
     
@@ -65,7 +66,7 @@ public class BlockTest
   
     @Test
     public void testBlockRotation_rotateDoorBlockByZAxis_doesNotRotate() {
-        Block objectToTest = new Block(BlockTypes.OAK_DOOR);
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.OAK_DOOR);
     
         objectToTest.rotateOnAxisZ(AxisRotationValues.MINUS_NINETY);
     
@@ -79,7 +80,7 @@ public class BlockTest
   
     @Test
     public void testBlockRotation_doorBlockIsCorrectlyRotated() {
-        Block objectToTest = new Block(BlockTypes.OAK_DOOR);
+        Block objectToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.OAK_DOOR);
     
         objectToTest.rotateOnAxisX(AxisRotationValues.MINUS_NINETY);
         objectToTest.rotateOnAxisY(AxisRotationValues.NINETY);
@@ -95,12 +96,12 @@ public class BlockTest
   
     @Test
     public void testCopyBlock_allPropertiesAreCopied() {
-        Block copiedBlock = new Block(BlockTypes.BIRCH_STAIRS);
+        Block copiedBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_STAIRS);
     
         copiedBlock.rotateOnAxisX(AxisRotationValues.MINUS_NINETY);
         copiedBlock.rotateOnAxisZ(AxisRotationValues.MINUS_NINETY);
     
-        Block blockToTest = new Block();
+        Block blockToTest = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
         blockToTest.setBlockTo(copiedBlock);
     
         Assert.assertEquals(blockToTest.getBlockType(), copiedBlock.getBlockType());

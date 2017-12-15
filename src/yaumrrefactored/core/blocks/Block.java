@@ -30,12 +30,12 @@ public class Block {
     
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     
-    public Block() {
+    Block() {
         blockType = BlockTypes.AIR;
         initDefaultBlockFaces(BlockTypes.AIR);
     }
     
-    public Block(BlockTypes blockType) {
+    Block(BlockTypes blockType) {
         this.blockType = blockType;
         initDefaultBlockFaces(blockType);      
     }

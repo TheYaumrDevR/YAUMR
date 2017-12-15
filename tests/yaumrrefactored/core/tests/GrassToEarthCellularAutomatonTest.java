@@ -10,6 +10,7 @@ import yaumrrefactored.core.tests.mock.IslandManipulationFacadeMock;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 public class GrassToEarthCellularAutomatonTest {
     
@@ -33,9 +34,9 @@ public class GrassToEarthCellularAutomatonTest {
         BlockPosition aboveBlockPosition = bottomGrassPosition.getPositionOneAbove();
         BlockPosition twoAboveBlockPosition = aboveBlockPosition.getPositionOneAbove();
     
-        Block belowGrassBlock = new Block(BlockTypes.GRASSY_EARTH);
-        Block placedGrassBlock = new Block(BlockTypes.GRASSY_EARTH);
-        Block rockBlock = new Block(BlockTypes.ROCK);
+        Block belowGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
+        Block placedGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
+        Block rockBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
     
         islandManipulationFacade.placeBlockAt(rockBlock, twoAboveBlockPosition);
         islandManipulationFacade.placeBlockAt(belowGrassBlock, bottomGrassPosition);
@@ -57,9 +58,9 @@ public class GrassToEarthCellularAutomatonTest {
         BlockPosition aboveBlockPosition = bottomPosition.getPositionOneAbove();
         BlockPosition twoAboveBlockPosition = aboveBlockPosition.getPositionOneAbove();
     
-        Block belowBlock = new Block(BlockTypes.EARTH_PLOWED);
-        Block placedGrassBlock = new Block(BlockTypes.EARTH_PLOWED);
-        Block topBlock = new Block(BlockTypes.ROCK);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_PLOWED);
+        Block placedGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_PLOWED);
+        Block topBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
     
         islandManipulationFacade.placeBlockAt(topBlock, twoAboveBlockPosition);
         islandManipulationFacade.placeBlockAt(belowBlock, bottomPosition);
@@ -81,9 +82,9 @@ public class GrassToEarthCellularAutomatonTest {
         BlockPosition aboveBlockPosition = bottomPosition.getPositionOneAbove();
         BlockPosition twoAboveBlockPosition = aboveBlockPosition.getPositionOneAbove();
     
-        Block belowBlock = new Block(BlockTypes.EARTH_PLOWED_WATERED);
-        Block placedGrassBlock = new Block(BlockTypes.EARTH_PLOWED_WATERED);
-        Block topBlock = new Block(BlockTypes.ROCK);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_PLOWED_WATERED);
+        Block placedGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_PLOWED_WATERED);
+        Block topBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
     
         islandManipulationFacade.placeBlockAt(topBlock, twoAboveBlockPosition);
         islandManipulationFacade.placeBlockAt(belowBlock, bottomPosition);
@@ -106,10 +107,10 @@ public class GrassToEarthCellularAutomatonTest {
         BlockPosition twoAboveBlockPosition = aboveBlockPosition.getPositionOneAbove();
         BlockPosition belowBottom = bottomPosition.getPositionOneBelow();
     
-        Block belowBlock = new Block(BlockTypes.EARTH_SEEDED);
-        Block placedGrassBlock = new Block(BlockTypes.EART_SEEDED_WATERED);
-        Block topBlock = new Block(BlockTypes.ROCK);
-        Block belowBottomBlock = new Block(BlockTypes.EARTH_WATERED);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_SEEDED);
+        Block placedGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_SEEDED_WATERED);
+        Block topBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
+        Block belowBottomBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_WATERED);
     
         islandManipulationFacade.placeBlockAt(topBlock, twoAboveBlockPosition);
         islandManipulationFacade.placeBlockAt(belowBlock, bottomPosition);
@@ -119,7 +120,7 @@ public class GrassToEarthCellularAutomatonTest {
         testCandidate.tick(1000L);
     
         Assert.assertEquals(updatedIsland.getBlockAt(bottomPosition).getBlockType(), BlockTypes.EARTH_SEEDED);
-        Assert.assertEquals(updatedIsland.getBlockAt(aboveBlockPosition).getBlockType(), BlockTypes.EART_SEEDED_WATERED);
+        Assert.assertEquals(updatedIsland.getBlockAt(aboveBlockPosition).getBlockType(), BlockTypes.EARTH_SEEDED_WATERED);
         Assert.assertEquals(updatedIsland.getBlockAt(belowBottom).getBlockType(), BlockTypes.EARTH_WATERED);
     }
   
@@ -133,9 +134,9 @@ public class GrassToEarthCellularAutomatonTest {
         BlockPosition aboveBlockPosition = bottomPosition.getPositionOneAbove();
         BlockPosition twoAboveBlockPosition = aboveBlockPosition.getPositionOneAbove();
     
-        Block belowBlock = new Block(BlockTypes.GRASSY_EARTH);
-        Block placedGrassBlock = new Block(BlockTypes.GRASSY_EARTH);
-        Block topBlock = new Block(BlockTypes.ASH_STAIRS);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
+        Block placedGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
+        Block topBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_STAIRS);
         topBlock.rotateOnAxisX(AxisRotationValues.NINETY);
     
         islandManipulationFacade.placeBlockAt(topBlock, twoAboveBlockPosition);
@@ -158,9 +159,9 @@ public class GrassToEarthCellularAutomatonTest {
         BlockPosition aboveBlockPosition = bottomPosition.getPositionOneAbove();
         BlockPosition twoAboveBlockPosition = aboveBlockPosition.getPositionOneAbove();
     
-        Block belowBlock = new Block(BlockTypes.GRASSY_EARTH);
-        Block placedGrassBlock = new Block(BlockTypes.GRASSY_EARTH);
-        Block topBlock = new Block(BlockTypes.BIRCH_STAIRS);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
+        Block placedGrassBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
+        Block topBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_STAIRS);
     
         islandManipulationFacade.placeBlockAt(topBlock, twoAboveBlockPosition);
         islandManipulationFacade.placeBlockAt(belowBlock, bottomPosition);

@@ -15,7 +15,7 @@ public class DoorBlock extends Block {
     
     //<editor-fold defaultstate="collapsed" desc="Constructor">
     
-    public DoorBlock(BlockTypes blockType) {
+    DoorBlock(BlockTypes blockType) {
         super(blockType);
         isClosed = false;
     }

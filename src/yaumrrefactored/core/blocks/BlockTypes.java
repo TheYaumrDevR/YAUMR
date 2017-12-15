@@ -249,7 +249,7 @@ public enum BlockTypes {
         }        
     },
     
-    EART_SEEDED_WATERED {
+    EARTH_SEEDED_WATERED {
 
         @Override
         public boolean isDisplaced() {

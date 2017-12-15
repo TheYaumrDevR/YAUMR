@@ -13,7 +13,7 @@ public class DoorPlacementStrategy {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private DoorBlock blockToPlace;
+    private Block blockToPlace;
     
     //</editor-fold>
     
@@ -24,9 +24,7 @@ public class DoorPlacementStrategy {
      * @param value The door block to place. 
      */
     public void setBlockToPlace(Block value) {
-        if (value instanceof DoorBlock) {
-            blockToPlace = (DoorBlock)value;    
-        }
+        blockToPlace = (DoorBlock)value;    
     }
     
     //</editor-fold>

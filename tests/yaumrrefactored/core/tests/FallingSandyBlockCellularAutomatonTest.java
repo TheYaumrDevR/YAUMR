@@ -9,6 +9,7 @@ import yaumrrefactored.core.tests.mock.IslandManipulationFacadeMock;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 public class FallingSandyBlockCellularAutomatonTest {
     
@@ -34,8 +35,8 @@ public class FallingSandyBlockCellularAutomatonTest {
         BlockPosition abovePosition = fallenOnPosition.getPositionOneAbove();
         BlockPosition placementPosition = new BlockPosition(103, 217, 139);
     
-        Block belowBlock = new Block(BlockTypes.CLAY);
-        Block placedBlock = new Block(BlockTypes.SAND);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.CLAY);
+        Block placedBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);
     
         islandManipulationFacade.placeBlockAt(belowBlock, fallenOnPosition);
         islandManipulationFacade.placeBlockAt(placedBlock, placementPosition);
@@ -57,9 +58,9 @@ public class FallingSandyBlockCellularAutomatonTest {
         BlockPosition abovePosition = fallenOnPosition.getPositionOneAbove();
         BlockPosition placementPosition = new BlockPosition(0, 174, 60);
     
-        Block belowBlock = new Block(BlockTypes.CLAY);
-        Block placedBlock = new Block(BlockTypes.SAND);
-        Block waterBlock = new Block(BlockTypes.INLAND_WATER);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.CLAY);
+        Block placedBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);
+        Block waterBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.INLAND_WATER);
     
         islandManipulationFacade.placeBlockAt(belowBlock, fallenOnPosition);
         islandManipulationFacade.placeBlockAt(waterBlock, abovePosition);
@@ -82,9 +83,9 @@ public class FallingSandyBlockCellularAutomatonTest {
         BlockPosition sandBlockOnePosition = new BlockPosition(40, 98, 186);
         BlockPosition sandBlockTwoPosition = new BlockPosition(40, 99, 186);
     
-        Block belowBlock = new Block(BlockTypes.IRON_ORE);
-        Block removedBlock = new Block(BlockTypes.EARTH);
-        Block placedBlock = new Block(BlockTypes.SAND);
+        Block belowBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.IRON_ORE);
+        Block removedBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);
+        Block placedBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);
     
         islandManipulationFacade.placeBlockAt(belowBlock, fallenOnPosition);
         islandManipulationFacade.placeBlockAt(removedBlock, abovePosition);

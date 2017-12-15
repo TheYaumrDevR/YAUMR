@@ -12,6 +12,7 @@ import yaumrrefactored.core.FallingSandyBlockCellularAutomatonImpl;
 import yaumrrefactored.core.GrassToEarthCellularAutomatonImpl;
 import yaumrrefactored.core.Island;
 import yaumrrefactored.core.IslandManipulationFacadeImpl;
+import yaumrrefactored.core.blocks.SimpleBlockFactory;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;
 import yaumrrefactored.core.tests.mock.FallingSandyBlockCellularAutomatonMock;
 import yaumrrefactored.core.tests.mock.GrassToEarthCellularAutomatonMock;
@@ -39,7 +40,7 @@ public class IslandManipulationFacadeTest {
         testCandidate.setIsland(islandToManipulate);
         
         BlockPosition position = new BlockPosition(91, 119, 223);
-        Block blockToPlace = new Block(BlockTypes.BEDROCK);
+        Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BEDROCK);
         testCandidate.placeBlockAt(blockToPlace, position);
         
         assertEquals(BlockTypes.BEDROCK, islandToManipulate.getBlockAt(position).getBlockType());
@@ -56,7 +57,7 @@ public class IslandManipulationFacadeTest {
         testCandidate.setIsland(islandToManipulate);
         
         BlockPosition position = new BlockPosition(152, 9, 169);
-        Block blockToPlace = new Block(BlockTypes.BIRCH_PLANKS);
+        Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_PLANKS);
         testCandidate.placeBlockAt(blockToPlace, position);
         testCandidate.removeBlockAt(position);
         
@@ -74,7 +75,7 @@ public class IslandManipulationFacadeTest {
         testCandidate.setIsland(islandToManipulate);
         
         BlockPosition position = new BlockPosition(167, 122, 179);
-        Block blockToPlace = new Block(BlockTypes.BIRCH_ROOF);
+        Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_ROOF);
         testCandidate.copyBlockTo(blockToPlace, position);
         
         assertEquals(BlockTypes.BIRCH_ROOF, islandToManipulate.getBlockAt(position).getBlockType());
