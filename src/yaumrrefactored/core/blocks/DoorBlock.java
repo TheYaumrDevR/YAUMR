@@ -1,8 +1,5 @@
 package yaumrrefactored.core.blocks;
 
-import yaumrrefactored.core.blocks.BlockTypes;
-import yaumrrefactored.core.blocks.Block;
-
 /**
  * Represents a Block which can be opened or closed.
  * 

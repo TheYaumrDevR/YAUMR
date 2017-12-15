@@ -1,8 +1,5 @@
 package yaumrrefactored.core.blocks;
 
-import yaumrrefactored.core.blocks.DoorBlock;
-import yaumrrefactored.core.blocks.BlockTypes;
-
 /**
  *
  * @author R
