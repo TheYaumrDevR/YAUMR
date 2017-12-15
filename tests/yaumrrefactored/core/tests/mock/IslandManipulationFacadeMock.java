@@ -1,7 +1,7 @@
 package yaumrrefactored.core.tests.mock;
 
-import yaumrrefactored.core.Block;
-import yaumrrefactored.core.BlockPosition;
+import yaumrrefactored.core.blocks.Block;
+import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.FallingSandyBlockCellularAutomatonImpl;
 import yaumrrefactored.core.GrassToEarthCellularAutomatonImpl;
 import yaumrrefactored.core.Island;

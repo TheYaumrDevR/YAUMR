@@ -2,7 +2,7 @@ package yaumrrefactored.core.tests.mock;
 
 import java.util.HashMap;
 import java.util.Map;
-import yaumrrefactored.core.BlockPosition;
+import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.FallingSandyBlockCellularAutomatonImpl;
 
 /**

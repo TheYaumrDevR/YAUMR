@@ -1,9 +1,9 @@
 package yaumrrefactored.core.tests;
 
-import yaumrrefactored.core.AxisRotationValues;
-import yaumrrefactored.core.Block;
-import yaumrrefactored.core.BlockPosition;
-import yaumrrefactored.core.BlockTypes;
+import yaumrrefactored.core.blocks.AxisRotationValues;
+import yaumrrefactored.core.blocks.Block;
+import yaumrrefactored.core.blocks.BlockPosition;
+import yaumrrefactored.core.blocks.BlockTypes;
 import yaumrrefactored.core.GrassToEarthCellularAutomatonImpl;
 import yaumrrefactored.core.Island;
 import yaumrrefactored.core.tests.mock.IslandManipulationFacadeMock;

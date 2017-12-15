@@ -1,7 +1,7 @@
 package yaumrrefactored.core.tests;
 
-import yaumrrefactored.core.BlockFaceTypes;
-import yaumrrefactored.core.BlockFacesOfBlock;
+import yaumrrefactored.core.blocks.BlockFaceTypes;
+import yaumrrefactored.core.blocks.BlockFacesOfBlock;
 import org.junit.Test;
 
 public class BlockFacesOfBlockTest {

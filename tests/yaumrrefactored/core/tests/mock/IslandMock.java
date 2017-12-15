@@ -2,8 +2,8 @@ package yaumrrefactored.core.tests.mock;
 
 import java.util.HashMap;
 import java.util.Map;
-import yaumrrefactored.core.Block;
-import yaumrrefactored.core.BlockPosition;
+import yaumrrefactored.core.blocks.Block;
+import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.Island;
 
 /**

@@ -1,9 +1,9 @@
 package yaumrrefactored.core.tests;
 
-import yaumrrefactored.core.AxisRotationValues;
-import yaumrrefactored.core.Block;
-import yaumrrefactored.core.BlockFaceTypes;
-import yaumrrefactored.core.BlockTypes;
+import yaumrrefactored.core.blocks.AxisRotationValues;
+import yaumrrefactored.core.blocks.Block;
+import yaumrrefactored.core.blocks.BlockFaceTypes;
+import yaumrrefactored.core.blocks.BlockTypes;
 import org.junit.Assert;
 import org.junit.Test;
 
