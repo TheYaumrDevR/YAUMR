@@ -13,15 +13,7 @@ public class FallingSandyBlockCellularAutomatonMock extends FallingSandyBlockCel
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private final Map<String, Integer> calledMethodNamesWithCallCount;
-    
-    //</editor-fold>
-
-    //<editor-fold defaultstate="collapsed" desc="Constructors">
-    
-    public FallingSandyBlockCellularAutomatonMock() {
-        calledMethodNamesWithCallCount = new HashMap<>();
-    }
+    private static Map<String, Integer> calledMethodNamesWithCallCount = new HashMap<>();
     
     //</editor-fold>
     
@@ -41,12 +33,16 @@ public class FallingSandyBlockCellularAutomatonMock extends FallingSandyBlockCel
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public int getCallCounterForMethodName(String methodName) {
+    public static int getCallCounterForMethodName(String methodName) {
         if (null != calledMethodNamesWithCallCount.get(methodName)) {
             return calledMethodNamesWithCallCount.get(methodName);
         }
         
         return 0;
+    }
+    
+    public static void resetMethodCallCounts() {
+        calledMethodNamesWithCallCount = new HashMap<>();
     }
     
     //</editor-fold>
