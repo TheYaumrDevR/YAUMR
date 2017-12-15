@@ -1,4 +1,6 @@
-package yaumrrefactored.core;
+package yaumrrefactored.core.blocks;
+
+import yaumrrefactored.core.Island;
 
 /**
  * Represents the BlockPosition on an Island. This is just a data structure.

@@ -1,5 +1,7 @@
 package yaumrrefactored.core;
 
+import yaumrrefactored.core.blocks.BlockPosition;
+import yaumrrefactored.core.blocks.Block;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;
 import java.util.LinkedList;
 import java.util.List;

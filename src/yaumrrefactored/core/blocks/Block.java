@@ -1,4 +1,6 @@
-package yaumrrefactored.core;
+package yaumrrefactored.core.blocks;
+
+import yaumrrefactored.core.blocks.AxisRotationValues;
 
 /**
  * Represents a block with all of its properties.

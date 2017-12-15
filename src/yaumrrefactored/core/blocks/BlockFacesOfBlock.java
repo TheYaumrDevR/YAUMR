@@ -1,4 +1,6 @@
-package yaumrrefactored.core;
+package yaumrrefactored.core.blocks;
+
+import yaumrrefactored.core.blocks.BlockFaceTypes;
 
 /**
  * Container class for all faces of a block.

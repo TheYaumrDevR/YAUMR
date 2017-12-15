@@ -1,5 +1,6 @@
-package yaumrrefactored.core;
+package yaumrrefactored.core.blocks;
 
+import yaumrrefactored.core.blocks.BlockFacesOfBlock;
 import java.util.HashMap;
 import java.util.Map;
 

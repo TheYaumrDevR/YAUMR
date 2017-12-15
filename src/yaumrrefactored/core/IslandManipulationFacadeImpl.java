@@ -1,5 +1,7 @@
 package yaumrrefactored.core;
 
+import yaumrrefactored.core.blocks.BlockPosition;
+import yaumrrefactored.core.blocks.Block;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;

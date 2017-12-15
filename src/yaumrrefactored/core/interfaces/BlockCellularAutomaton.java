@@ -1,6 +1,6 @@
 package yaumrrefactored.core.interfaces;
 
-import yaumrrefactored.core.BlockPosition;
+import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.Island;
 
 /**

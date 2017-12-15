@@ -1,5 +1,9 @@
 package yaumrrefactored.core;
 
+import yaumrrefactored.core.blocks.BlockTypes;
+import yaumrrefactored.core.blocks.BlockPosition;
+import yaumrrefactored.core.blocks.Block;
+
 /**
  * Represents the highest level division of the game world. 
  * An island has a dimension and consists of blocks.
@@ -73,6 +77,14 @@ public class Island {
         }
         
         return blocks[position.x][position.y][position.z];
+    }
+    
+    public boolean checkBlockCanBeSetToPosition(Block toCheck, BlockPosition position) {
+        if (blockPositionIsOutsideMapBounds(position)) {
+            return false;
+        }
+        
+        return blockOnPositionIsDisplacedByBlock(position, toCheck.getBlockType());
     }
     
     //</editor-fold>

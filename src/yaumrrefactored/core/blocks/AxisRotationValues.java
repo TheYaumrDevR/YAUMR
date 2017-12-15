@@ -1,4 +1,4 @@
-package yaumrrefactored.core;
+package yaumrrefactored.core.blocks;
 
 /**
  * Lists all the available rotation values by wihch a block can rotate around one axis.

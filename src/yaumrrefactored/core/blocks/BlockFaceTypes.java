@@ -1,4 +1,4 @@
-package yaumrrefactored.core;
+package yaumrrefactored.core.blocks;
 
 /**
  * Lists all block faces. All blocks have six faces, regardless of block shape.

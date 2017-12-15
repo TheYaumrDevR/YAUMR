@@ -1,5 +1,8 @@
 package yaumrrefactored.core;
 
+import yaumrrefactored.core.blocks.BlockTypes;
+import yaumrrefactored.core.blocks.BlockPosition;
+import yaumrrefactored.core.blocks.Block;
 import java.util.LinkedList;
 import java.util.List;
 
