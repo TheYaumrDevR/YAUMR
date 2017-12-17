@@ -14,8 +14,8 @@ import yaumrrefactored.core.Island;
 import yaumrrefactored.core.IslandManipulationFacadeImpl;
 import yaumrrefactored.core.blocks.SimpleBlockFactory;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;
-import yaumrrefactored.core.tests.mock.FallingSandyBlockCellularAutomatonMock;
-import yaumrrefactored.core.tests.mock.GrassToEarthCellularAutomatonMock;
+import yaumrrefactored.core.tests.mocks.FallingSandyBlockCellularAutomatonMock;
+import yaumrrefactored.core.tests.mocks.GrassToEarthCellularAutomatonMock;
 
 public class IslandManipulationFacadeTest {
     

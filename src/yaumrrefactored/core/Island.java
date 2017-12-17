@@ -124,7 +124,8 @@ public class Island {
     }
     
     private boolean blockPositionIsOutsideMapBounds(BlockPosition position) {
-        return position.x >= edgeLengthOfHorizontalPlaneInBlocks 
+        return null == position 
+                || position.x >= edgeLengthOfHorizontalPlaneInBlocks 
                 || position.z >= edgeLengthOfHorizontalPlaneInBlocks 
                 || position.y >= HEIGHT_IN_BLOCKS;
     }

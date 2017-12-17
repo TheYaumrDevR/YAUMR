@@ -6,7 +6,7 @@ import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.blocks.BlockTypes;
 import yaumrrefactored.core.GrassToEarthCellularAutomatonImpl;
 import yaumrrefactored.core.Island;
-import yaumrrefactored.core.tests.mock.IslandManipulationFacadeMock;
+import yaumrrefactored.core.tests.mocks.IslandManipulationFacadeMock;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;

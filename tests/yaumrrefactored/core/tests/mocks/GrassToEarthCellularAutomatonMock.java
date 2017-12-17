@@ -1,15 +1,15 @@
-package yaumrrefactored.core.tests.mock;
+package yaumrrefactored.core.tests.mocks;
 
 import java.util.HashMap;
 import java.util.Map;
 import yaumrrefactored.core.blocks.BlockPosition;
-import yaumrrefactored.core.FallingSandyBlockCellularAutomatonImpl;
+import yaumrrefactored.core.GrassToEarthCellularAutomatonImpl;
 
 /**
  *
  * @author R
  */
-public class FallingSandyBlockCellularAutomatonMock extends FallingSandyBlockCellularAutomatonImpl {
+public class GrassToEarthCellularAutomatonMock extends GrassToEarthCellularAutomatonImpl {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
@@ -58,5 +58,5 @@ public class FallingSandyBlockCellularAutomatonMock extends FallingSandyBlockCel
         }
     }
     
-    //</editor-fold>
+    //</editor-fold>    
 }

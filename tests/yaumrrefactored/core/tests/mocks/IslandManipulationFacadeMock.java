@@ -1,4 +1,4 @@
-package yaumrrefactored.core.tests.mock;
+package yaumrrefactored.core.tests.mocks;
 
 import yaumrrefactored.core.blocks.Block;
 import yaumrrefactored.core.blocks.BlockPosition;

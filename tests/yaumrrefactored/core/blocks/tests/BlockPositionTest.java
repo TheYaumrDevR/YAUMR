@@ -1,4 +1,4 @@
-package yaumrrefactored.core.tests;
+package yaumrrefactored.core.blocks.tests;
 
 import yaumrrefactored.core.blocks.BlockPosition;
 import org.junit.Assert;

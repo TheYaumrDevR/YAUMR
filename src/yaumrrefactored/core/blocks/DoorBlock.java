@@ -20,6 +20,7 @@ public class DoorBlock extends Block {
     
     DoorBlock(BlockTypes blockType) {
         super(blockType);
+        isClosed = true;
         initialize();
     }
     

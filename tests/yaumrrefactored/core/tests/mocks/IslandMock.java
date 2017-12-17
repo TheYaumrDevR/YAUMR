@@ -1,4 +1,4 @@
-package yaumrrefactored.core.tests.mock;
+package yaumrrefactored.core.tests.mocks;
 
 import java.util.HashMap;
 import java.util.Map;
