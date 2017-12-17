@@ -1,5 +1,7 @@
 package yaumrrefactored.core.blocks;
 
+import yaumrrefactored.core.DoorPlacementStrategy;
+
 /**
  * Represents a Block which can be opened or closed.
  * 
@@ -10,6 +12,7 @@ public class DoorBlock extends Block {
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     private boolean isClosed;
+    private boolean isUpperPartOfDoor;
     
     //</editor-fold>
     
@@ -17,7 +20,7 @@ public class DoorBlock extends Block {
     
     DoorBlock(BlockTypes blockType) {
         super(blockType);
-        isClosed = false;
+        initialize();
     }
     
     //</editor-fold>
@@ -32,12 +35,50 @@ public class DoorBlock extends Block {
         return isClosed;
     }
     
+    public void setIsUpperPartOfDoor(boolean value) {
+        isUpperPartOfDoor = value;
+    }
+    
+    public boolean getIsUpperPartOfDoor() {
+        return isUpperPartOfDoor;
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
+    @Override
+    public void executePrimaryInteraction() {
+        openOrClose();
+    }
+    
     public void openOrClose() {
         isClosed = !isClosed;
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Overrides">
+    
+    @Override
+    public void setBlockTo(Block otherBlock) {
+        super.setBlockTo(otherBlock);
+        if (otherBlock instanceof DoorBlock) {
+            DoorBlock otherDoorBlock = (DoorBlock)otherBlock;
+            isUpperPartOfDoor = otherDoorBlock.isUpperPartOfDoor;
+            isClosed = otherDoorBlock.isClosed;
+        }
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    
+    private void initialize() {
+        isClosed = false;
+        isUpperPartOfDoor = false;
+        blockPlacementStrategy = new DoorPlacementStrategy();
+        blockPlacementStrategy.setBlockToPlace(this);        
     }
     
     //</editor-fold>

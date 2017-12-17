@@ -9,22 +9,23 @@ public class Block {
 
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private BlockTypes blockType;
+    protected BlockTypes blockType;
+    protected BlockPlacementStrategy blockPlacementStrategy;
     
     // This is faster than having objects. 
-    private BlockFaceTypes rightFace;
-    private BlockFaceTypes frontFace;
-    private BlockFaceTypes leftFace;
-    private BlockFaceTypes backFace;
-    private BlockFaceTypes topFace;
-    private BlockFaceTypes bottomFace;
+    protected BlockFaceTypes rightFace;
+    protected BlockFaceTypes frontFace;
+    protected BlockFaceTypes leftFace;
+    protected BlockFaceTypes backFace;
+    protected BlockFaceTypes topFace;
+    protected BlockFaceTypes bottomFace;
     
-    private boolean rightFaceIsCovering;
-    private boolean frontFaceIsCovering;
-    private boolean leftFaceIsCovering;
-    private boolean backFaceIsCovering;
-    private boolean topFaceIsCovering;
-    private boolean bottomFaceIsCovering;
+    protected boolean rightFaceIsCovering;
+    protected boolean frontFaceIsCovering;
+    protected boolean leftFaceIsCovering;
+    protected boolean backFaceIsCovering;
+    protected boolean topFaceIsCovering;
+    protected boolean bottomFaceIsCovering;
     
     //</editor-fold>
     
@@ -43,6 +44,10 @@ public class Block {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
+    public BlockPlacementStrategy getBlockPlacementStrategy() {
+        return blockPlacementStrategy;
+    }
     
     public BlockTypes getBlockType() {
         return blockType;
@@ -274,6 +279,10 @@ public class Block {
         }
         
         return blockType.getAffectingAutomatonNames().get(automatonTypeName);
+    }
+    
+    public void executePrimaryInteraction() {
+        
     }
     
     //</editor-fold>

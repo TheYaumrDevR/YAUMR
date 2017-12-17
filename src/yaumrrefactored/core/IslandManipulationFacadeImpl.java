@@ -4,6 +4,7 @@ import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.blocks.Block;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import yaumrrefactored.core.blocks.BlockPlacementStrategy;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;
 
 /**
@@ -45,9 +46,17 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     @Override
     public void placeBlockAt(Block block, BlockPosition position) {
         if (null != island) {
-            if (island.placeBlockAt(block, position)) {
-                grassToEarthUpdater.setChangedPosition(position);
-                fallingSandHandler.setChangedPosition(position);                
+            BlockPlacementStrategy blockPlacementStrategy = block.getBlockPlacementStrategy();
+            if (null == blockPlacementStrategy) {
+                if (island.placeBlockAt(block, position)) {
+                    grassToEarthUpdater.setChangedPosition(position);
+                    fallingSandHandler.setChangedPosition(position);                
+                }
+            } else {
+                if (blockPlacementStrategy.placeBlockOnIslandAt(island, position)) {
+                    grassToEarthUpdater.setChangedPosition(position);
+                    fallingSandHandler.setChangedPosition(position);                
+                }                
             }
         }
     } 
@@ -55,9 +64,19 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     @Override
     public void removeBlockAt(BlockPosition position) {
         if (null != island) {
-            if (island.removeBlockAt(position)) {
-                grassToEarthUpdater.setChangedPosition(position);
-                fallingSandHandler.setChangedPosition(position);
+            Block blockToRemove = island.getBlockAt(position);
+            BlockPlacementStrategy blockPlacementStrategy = blockToRemove.getBlockPlacementStrategy();
+            
+            if (null == blockPlacementStrategy) {
+                if (island.removeBlockAt(position)) {
+                    grassToEarthUpdater.setChangedPosition(position);
+                    fallingSandHandler.setChangedPosition(position);
+                }                
+            } else {
+                if (blockPlacementStrategy.removeBlockFromIslandAt(island, position)) {
+                    grassToEarthUpdater.setChangedPosition(position);
+                    fallingSandHandler.setChangedPosition(position);
+                }                  
             }
         }
     }
@@ -65,9 +84,18 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     @Override
     public void copyBlockTo(Block blockToCopy, BlockPosition position) {
         if (null != island) {
-            if (island.copyBlockTo(blockToCopy, position)) {
-                grassToEarthUpdater.setChangedPosition(position);
-                fallingSandHandler.setChangedPosition(position);
+            BlockPlacementStrategy blockPlacementStrategy = blockToCopy.getBlockPlacementStrategy();
+            
+            if (null == blockPlacementStrategy) {
+                if (island.copyBlockTo(blockToCopy, position)) {
+                    grassToEarthUpdater.setChangedPosition(position);
+                    fallingSandHandler.setChangedPosition(position);
+                }                
+            } else {
+                if (blockPlacementStrategy.copyBlockToPositionOnIsland(island, position)) {
+                    grassToEarthUpdater.setChangedPosition(position);
+                    fallingSandHandler.setChangedPosition(position);
+                }
             }
         }
     }   

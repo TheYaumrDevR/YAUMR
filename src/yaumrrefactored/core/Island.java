@@ -54,6 +54,12 @@ public class Island {
         throwExceptionForInvalidBlockPosition(position);
         
         if (getBlockAt(position).getBlockType() != BlockTypes.AIR) {
+            Block blockToRemove = blocks[position.x][position.y][position.z];
+            if (!SimpleBlockFactory.blockTypesAreOfSameKind(blockToRemove.getBlockType(), BlockTypes.AIR)) {
+                blocks[position.x][position.y][position.z] = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
+                return true;
+            }
+            
             blocks[position.x][position.y][position.z].resetBlockToType(BlockTypes.AIR);            
             return true;
         }
@@ -65,7 +71,13 @@ public class Island {
         throwExceptionForInvalidBlockPosition(position);
         
         if (blockOnPositionIsDisplacedByBlock(position, blockToCopy.getBlockType())) {
-            blocks[position.x][position.y][position.z].setBlockTo(blockToCopy);
+            Block currentBlock = blocks[position.x][position.y][position.z];
+            if (!SimpleBlockFactory.blockTypesAreOfSameKind(currentBlock.getBlockType(), blockToCopy.getBlockType())) {
+                currentBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(blockToCopy.getBlockType());
+                placeBlockAt(currentBlock, position);
+            }
+            
+            currentBlock.setBlockTo(blockToCopy);
             return true;
         }
         

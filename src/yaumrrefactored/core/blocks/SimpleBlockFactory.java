@@ -58,7 +58,11 @@ public class SimpleBlockFactory {
         }
     }
     
-    public static String getBlockSubTypeNameForBlockType(BlockTypes blockType) {
+    public static boolean blockTypesAreOfSameKind(BlockTypes first, BlockTypes second) {
+        return getBlockSubTypeNameForBlockType(first).equals(getBlockSubTypeNameForBlockType(second));
+    }
+    
+    private static String getBlockSubTypeNameForBlockType(BlockTypes blockType) {
         switch (blockType) {
             case ASH_DOOR:
             case BIRCH_DOOR:
