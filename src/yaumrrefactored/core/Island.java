@@ -3,6 +3,7 @@ package yaumrrefactored.core;
 import yaumrrefactored.core.blocks.BlockTypes;
 import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.blocks.Block;
+import yaumrrefactored.core.blocks.BlockFaceTypes;
 import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 /**
@@ -98,6 +99,63 @@ public class Island {
         }
         
         return blockOnPositionIsDisplacedByBlock(position, toCheck.getBlockType());
+    }
+    
+    public boolean blockFaceAtPositionIsHidden(BlockFaceTypes faceType, BlockPosition position) {
+        throwExceptionForInvalidBlockPosition(position);
+        
+        switch(faceType) {
+            case FRONT:
+                if (position.z < edgeLengthOfHorizontalPlaneInBlocks - 1) {
+                    if (blocks[position.x][position.y][position.z].frontFaceIsCovering()) {
+                        return blocks[position.x][position.y][position.z + 1].backFaceIsCovering();
+                    }
+                }
+                
+                return false;
+            case BACK:
+                if (position.z > 0) {
+                    if (blocks[position.x][position.y][position.z].backFaceIsCovering()) {
+                        return blocks[position.x][position.y][position.z - 1].frontFaceIsCovering();
+                    }                    
+                }
+                
+                return false;
+            case LEFT:
+                if (position.x > 0) {
+                    if (blocks[position.x][position.y][position.z].leftFaceIsCovering()) {
+                        return blocks[position.x - 1][position.y][position.z].rightFaceIsCovering();
+                    }                    
+                }
+                
+                return false;
+            case RIGHT:
+                if (position.x < edgeLengthOfHorizontalPlaneInBlocks - 1) {
+                    if (blocks[position.x][position.y][position.z].rightFaceIsCovering()) {
+                        return blocks[position.x + 1][position.y][position.z].leftFaceIsCovering();
+                    }                    
+                }
+                
+                return false;
+            case BOTTOM:
+                if (position.y > 0) {
+                    if (blocks[position.x][position.y][position.z].bottomFaceIsCovering()) {
+                        return blocks[position.x][position.y - 1][position.z].topFaceIsCovering();
+                    }                    
+                }
+                
+                return false;
+            case TOP:
+                if (position.y < HEIGHT_IN_BLOCKS - 1) {
+                    if (blocks[position.x][position.y][position.z].topFaceIsCovering()) {
+                        return blocks[position.x][position.y + 1][position.z].bottomFaceIsCovering();
+                    }                    
+                }
+                
+                return false;
+        }
+        
+        return false;
     }
     
     //</editor-fold>

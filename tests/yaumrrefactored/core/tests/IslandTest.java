@@ -9,6 +9,7 @@ import yaumrrefactored.core.blocks.Block;
 import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.blocks.BlockTypes;
 import yaumrrefactored.core.Island;
+import yaumrrefactored.core.blocks.BlockFaceTypes;
 import yaumrrefactored.core.blocks.SimpleBlockFactory;
 
 public class IslandTest {
@@ -132,4 +133,47 @@ public class IslandTest {
         Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.STRAW_ROOF);
         testCandidate.copyBlockTo(block, position);
     }
+    
+    @Test
+    public void testBlockFaceAtPositionIsHidden_twoCoveringBlocksAreNextToEachOther_neighborFacesAreHidden() {
+        Block firstBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_PLANKS);
+        Block secondBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);
+        BlockPosition firstPosition = new BlockPosition(123, 210, 98);
+        BlockPosition secondPosition = new BlockPosition(124, 210, 98);
+        
+        testCandidate.placeBlockAt(firstBlock, firstPosition);
+        testCandidate.placeBlockAt(secondBlock, secondPosition);
+        
+        Assert.assertTrue(testCandidate.blockFaceAtPositionIsHidden(BlockFaceTypes.RIGHT, firstPosition));
+        Assert.assertTrue(testCandidate.blockFaceAtPositionIsHidden(BlockFaceTypes.LEFT, secondPosition));
+    }
+    
+    @Test
+    public void testBlockFaceAtPositionIsHidden_nonCoveringFaceIsNextToCoveringFace_neighborFacesAreVisible() {
+        Block firstBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_STAIRS);
+        Block secondBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
+        firstBlock.rotateOnAxisY(AxisRotationValues.NINETY);
+        BlockPosition firstPosition = new BlockPosition(155, 210, 109);
+        BlockPosition secondPosition = new BlockPosition(155, 210, 108);
+        
+        testCandidate.placeBlockAt(firstBlock, firstPosition);
+        testCandidate.placeBlockAt(secondBlock, secondPosition);
+        
+        Assert.assertFalse(testCandidate.blockFaceAtPositionIsHidden(BlockFaceTypes.BACK, firstPosition));
+        Assert.assertFalse(testCandidate.blockFaceAtPositionIsHidden(BlockFaceTypes.FRONT, secondPosition));        
+    }
+
+    @Test
+    public void testBlockFaceAtPositionIsHidden_twoNonCoveringFacesAreNextToEachOther_neighborFacesAreVisible() {
+        Block firstBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.WALNUT_DOOR);
+        Block secondBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_DOOR);
+        BlockPosition firstPosition = new BlockPosition(205, 4, 205);
+        BlockPosition secondPosition = new BlockPosition(206, 4, 205);
+        
+        testCandidate.placeBlockAt(firstBlock, firstPosition);
+        testCandidate.placeBlockAt(secondBlock, secondPosition);
+        
+        Assert.assertFalse(testCandidate.blockFaceAtPositionIsHidden(BlockFaceTypes.RIGHT, firstPosition));
+        Assert.assertFalse(testCandidate.blockFaceAtPositionIsHidden(BlockFaceTypes.LEFT, secondPosition));        
+    }     
 }
