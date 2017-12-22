@@ -3,6 +3,7 @@ package yaumrrefactored.core.interfaces;
 import yaumrrefactored.core.blocks.Block;
 import yaumrrefactored.core.blocks.BlockPosition;
 import yaumrrefactored.core.Island;
+import yaumrrefactored.interactors.InteractionVector;
 
 /**
  * Represents a facade which provides interface methods to place and remove blocks from the current Island. 
@@ -27,6 +28,8 @@ public interface IslandManipulationFacade {
     public void copyBlockTo(Block blockToCopy, BlockPosition position);  
     
     public void tick(long timeSinceLastTickInMS);
+    
+    public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector);
     
     //</editor-fold>    
 }

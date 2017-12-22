@@ -38,6 +38,14 @@ public class Island {
     
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
+    public int getHorizontalEdgeLengthOfIslandInBlocks() {
+        return edgeLengthOfHorizontalPlaneInBlocks;
+    }
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
     public boolean placeBlockAt(Block block, BlockPosition position) {

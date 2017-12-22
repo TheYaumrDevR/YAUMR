@@ -6,6 +6,7 @@ import yaumrrefactored.core.FallingSandyBlockCellularAutomatonImpl;
 import yaumrrefactored.core.GrassToEarthCellularAutomatonImpl;
 import yaumrrefactored.core.Island;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;
+import yaumrrefactored.interactors.InteractionVector;
 
 public class IslandManipulationFacadeMock implements IslandManipulationFacade {
     
@@ -72,4 +73,10 @@ public class IslandManipulationFacadeMock implements IslandManipulationFacade {
   
     @Override
     public void tick(long timeSinceLastTickInMS) {}
+
+    @Override
+    public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector) {
+        BlockPosition result = new BlockPosition(0, 0, 0);
+        return result;
+    }
 }

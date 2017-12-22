@@ -3,6 +3,7 @@ package yaumrrefactored.core.tests;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import yaumrrefactored.core.blocks.Block;
@@ -16,6 +17,7 @@ import yaumrrefactored.core.blocks.SimpleBlockFactory;
 import yaumrrefactored.core.interfaces.IslandManipulationFacade;
 import yaumrrefactored.core.tests.mocks.FallingSandyBlockCellularAutomatonMock;
 import yaumrrefactored.core.tests.mocks.GrassToEarthCellularAutomatonMock;
+import yaumrrefactored.interactors.InteractionVector;
 
 public class IslandManipulationFacadeTest {
     
@@ -99,4 +101,27 @@ public class IslandManipulationFacadeTest {
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();      
     }
+    
+    @Test
+    public void testGetBlockPositionOnCurrentIslandForInteractionVector_facadeIsSetup_validPositionIsReturned() {
+        IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
+        testCandidate.setIsland(islandToManipulate);
+        InteractionVector interactionVector = new InteractionVector(5.6f, 3.2f, 7.9f);
+        
+        BlockPosition result = testCandidate.getBlockPositionOnCurrentIslandForInteractionVector(interactionVector);
+        
+        assertEquals(11, result.x);
+        assertEquals(6, result.y);
+        assertEquals(15, result.z);
+    }
+    
+    @Test
+    public void testGetBlockPositionOnCurrentIslandForInteractionVector_noIslandPresent_noPositionIsReturned() {
+        IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
+        InteractionVector interactionVector = new InteractionVector(5.6f, 3.2f, 7.9f);
+        
+        BlockPosition result = testCandidate.getBlockPositionOnCurrentIslandForInteractionVector(interactionVector);
+        
+        assertNull(result);
+    }    
 }
