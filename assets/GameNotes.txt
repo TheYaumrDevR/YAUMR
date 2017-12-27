@@ -1,0 +1,118 @@
+Foraging
+
+- Wild Spring Crops: Mint, Wild Garlic
+- Wild Summer Crops: Blackberries, Gooseberries, Mint
+- Wild Fall Crops: Walnut (from trees), Puffball (mushroom), chicken of the woods (mushroom on oak stumps)
+
+Planted Crops:
+--------------
+--------------
+
+Spring:
+-------
+
+-Asparagus Also known as sparrow grass. A spring vegetable known since ancient times. Has a delicate flavour.
+8g
+13 days growth time
+Not regrowing
+Glycophyte
+
+-Turnip: A white bulbous root which can be eaten.
+3g
+5 days growth time
+Not regrowing
+Glycophyte
+
+-Peas: These pods contain little, spherical fruits which can be cooked and eaten.
+2g
+8 days growth time
+2 days regrowth time
+Regrowing
+Glycophyte
+
+Summer:
+-------
+
+-Celery A marshland plant of which the stalk and leaves are eaten.
+6g
+10 days growth time
+Not regrowing
+Glycophyte
+
+-Corn Also known as maize. These ears grow on tall stalks. They contain multiple yellow kernels which can be eaten.
+2g
+18 days growth time
+1 day regrowth time
+Regrowing
+Glycophyte
+
+Autumn:
+-------
+
+-Spinach Edible leafs which contain a high amount of vitamins and other nutrients.
+2g
+3 days growth time
+Not Regrowing
+Glycophyte
+
+-Chard These leafs and leaf stalks have a high amount of nutrients typical of leaf based vegetables.
+4g
+7 days growth time
+Not Regrowing
+Glycophyte
+
+-Turnip, see above
+
+Buyables
+--------
+--------
+
+- Stone Hoe: 7G
+Used to till grass or earth blocks. Seeds can only be sown on tilled blocks. Tills one block per use.
+
+- Watering Bucket: 4G
+A bucket made of clay. Used to water field plants to make them grow. Waters one tilled earth block per use.
+
+- Asparagus Seeds (9 Charges): 10G
+Sow in spring. Takes 13 days to fully grow. Does not regrow.
+
+- Turnip Seeds (9 Charges): 10G
+Sow in spring or autumn. Takes 5 days to fully grow. Does not regrow.
+
+- Pea Seeds (9 charges): 10G
+Sow in spring. Regrows after harvest. Takes 8 days for the first harvest and then 2 days for subsequent harvests.
+
+- Corn Seeds (9 charges): 10G
+Sow in spring. Regrows after harvest. Takes 18 days for the first harvest and then 1 days for subsequent harvests.
+
+- Celery Seeds (9 charges): 10G
+Sow in spring. Takes 10 days to fully grow. Does not regrow.
+
+- Spinach Seeds (9 charges): 10G
+Sow in spring. Takes 3 days to fully grow. Does not regrow.
+
+- Chard Seeds (9 charges): 10G
+Sow in spring. Takes 7 days to fully grow. Does not regrow.
+
+Unsorted Notes
+--------------
+
+First Version (Alpha 1) will have 4 Islands:
+- Staring Island (no Monsters, Lv 1 soil)
+- Town Island (towns, not editable)
+- Lv 2 soil island with monsters
+- Lv 3 soil island with monsters
+- It will have lvl 3 level cap
+
+- Using combat skills levels them up
+- Better combat skills become available at certain levels
+- Combat skills have a tier
+- Combat skills of tier n can be combined with n-1 other combat skills
+- The resulting combined skill cannot be further combined
+- For a combination a tier n skill combinator is required
+- New blocks will be available at higher levels
+- Boss monsters on each island drop monster core for which the corresponding lvl seed makers can be crafted
+- Higher level seeds need an increasing amount of crops to be combined to create +1 lvl seeds
+- Boss monsters drop blocks, but only if they have been previously acquired
+- Boss monsters drop items, but only if they have been previously acquired
+- Level cap can be increased every 5 levels by paying money
