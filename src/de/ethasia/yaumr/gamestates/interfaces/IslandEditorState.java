@@ -7,7 +7,10 @@ package de.ethasia.yaumr.gamestates.interfaces;
  */
 public interface IslandEditorState extends DisplayableGameState {
     
+    public void showMainMenu();
     public void showHelpPanel();
-    public void gotoGameEntryState();
-    public void quitGame();
+    public void showTerraformingToolbox();
+    public void hideAllVisibleGUIItems();
+    public void activateMovementControls();
+    public void deactivateMovementControls();
 }

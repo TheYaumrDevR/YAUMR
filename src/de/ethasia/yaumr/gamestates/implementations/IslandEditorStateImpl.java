@@ -145,12 +145,10 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
         }
     }
 
-    @Override
     public void gotoGameEntryState() {
         YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(GameEntryState.class).startDisplaying();        
     }
 
-    @Override
     public void quitGame() {
         System.exit(0);
     }    
@@ -243,4 +241,29 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     }
     
     //</editor-fold>
+
+    @Override
+    public void showMainMenu() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void showTerraformingToolbox() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void hideAllVisibleGUIItems() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void activateMovementControls() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void deactivateMovementControls() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }

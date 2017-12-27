@@ -81,6 +81,17 @@ public class Island {
         }
     }
     
+    /**
+     * 
+     * @param interactionPoint The interaction point. Used to calculate the block pointed at.
+     * @param positionRelativeToInteractionPoint The block position relative to the block pointed at.
+     * e.g. [-1, 0, 0] is the block one position to the left (on the x-axis).
+     * @return 
+     */
+    public boolean blockOnPositionRelativeToInteractionPointIsFree(Vector3f interactionPoint, int[] positionRelativeToInteractionPoint) {
+        return false;
+    }
+    
     public GlobalBlockPosition calculateBlockPositionInIsland(Vector3f interactionPoint) {
         float[] origin = calculateOrigin();
         int[] globalBlockPosition = getGlobalBlockPositionFromInteractionPoint(origin, interactionPoint);
