@@ -7,7 +7,7 @@
 	<useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
 	<useControls filename="nifty-default-controls.xml" />
 
-	<screen id="entryMenu" controller="de.ethasia.yaumr.gamestates.implementations.GameEntryStateImpl">
+	<screen id="entryMenu" controller="de.ethasia.yaumr.outsidedependencies.views.GameEntryStateImpl">
 		<layer id="buttonLayer" backgroundColor="#00000000" childLayout="center">
 			<panel childLayout="vertical" backgroundColor="#00000000" height="300px" width="250px" align="center" valign="center">
 				<text id="gameNameText" font="Interface/Fonts/BloxBRK.fnt" color="#dc6100ff" text="YAUMR" width="100%" textHAlign="center"/>

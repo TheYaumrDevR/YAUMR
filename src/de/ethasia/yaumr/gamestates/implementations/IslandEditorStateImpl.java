@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.gamestates.implementations;
 
+import de.ethasia.yaumr.outsidedependencies.views.YaumrGameState;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.KeyInput;
@@ -10,8 +11,8 @@ import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.blockengine.usecases.interfaces.FallingBlockCellularAutomaton;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.controllers.interfaces.IslandCreationInventoryManagementController;
-import de.ethasia.yaumr.gamestates.interfaces.GameEntryState;
-import de.ethasia.yaumr.gamestates.interfaces.IslandEditorState;
+import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
+import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
@@ -125,11 +126,13 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
     public void onEndScreen() {
         blockPlacementController.deInitialize();
         inventoryManagementController.deInitialize();
+        YaumrGame.getInstance().getClassInstanceContainer().removeSingletonInstance(IslandEditorState.class);
         detachKeys();
     }
 
     @Override
     public void startDisplaying() {
+        YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(IslandEditorState.class, this);
         YaumrGame.getInstance().setGameState(this);
         YaumrGame.getInstance().getViewPort().setBackgroundColor(new ColorRGBA(0.529f, 0.808f, 0.922f, 1.0f));
     }    

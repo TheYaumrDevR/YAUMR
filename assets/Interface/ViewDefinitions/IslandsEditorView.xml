@@ -7,7 +7,7 @@
 	<useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
 	<useControls filename="nifty-default-controls.xml" />
 
-	<screen id="manageIslandsMenu" controller="de.ethasia.yaumr.gamestates.implementations.ManageIslandsStateImpl">
+	<screen id="manageIslandsMenu" controller="de.ethasia.yaumr.outsidedependencies.views.ManageIslandsStateImpl">
 		<layer id="buttonLayer" backgroundColor="#00000000" childLayout="center">
 			<panel childLayout="vertical" backgroundColor="#00000000" width="250px" height="310px" align="center" valign="center">
 				<text id="#menuHeaderText" font="Interface/Fonts/HomespunTTBRK.fnt" color="#dc6100ff" text="Manage Islands" width="100%" textHAlign="center"/>

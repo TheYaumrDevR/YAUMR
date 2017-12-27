@@ -4,8 +4,8 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 
-import de.ethasia.yaumr.gamestates.implementations.YaumrGameState;
-import de.ethasia.yaumr.gamestates.interfaces.GameEntryState;
+import de.ethasia.yaumr.outsidedependencies.views.YaumrGameState;
+import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
 
 /**
  * This class is the entry point of the application. All important things

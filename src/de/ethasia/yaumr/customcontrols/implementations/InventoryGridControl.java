@@ -188,6 +188,7 @@ public class InventoryGridControl extends AbstractController implements Inventor
 
     @Override
     public void onStartScreen() {
+        hideInventoryGrid();
     }
 
     @Override
