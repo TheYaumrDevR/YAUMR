@@ -30,6 +30,8 @@ public class IslandManipulationFacadeTest {
     @BeforeClass
     public static void setUpClass() {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        dependencyResolver.removeRegisteredImplementation(FallingSandyBlockCellularAutomatonImpl.class);
+        dependencyResolver.removeRegisteredImplementation(GrassToEarthCellularAutomatonImpl.class);
         dependencyResolver.registerImplementation(FallingSandyBlockCellularAutomatonImpl.class, FallingSandyBlockCellularAutomatonMock.class);
         dependencyResolver.registerImplementation(GrassToEarthCellularAutomatonImpl.class, GrassToEarthCellularAutomatonMock.class);
         
