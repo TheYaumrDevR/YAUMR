@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.ioadapters.interfaces;
 
+import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.outsidedependencies.views.DisplayableGameState;
 
 /**
@@ -15,4 +16,6 @@ public interface IslandEditorState extends DisplayableGameState {
     public void hideAllVisibleGUIItems();
     public void activateMovementControls();
     public void deactivateMovementControls();
+    public void displayBlockPointingIndicator(InteractionVector position);
+    public void removeBlockPointingIndicator();
 }

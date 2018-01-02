@@ -4,6 +4,7 @@ import de.ethasia.yaumr.base.AutowiringClass;
 import de.ethasia.yaumr.base.AutowiringMethod;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.ioadapters.presenters.BlockInteractionIndicatorPresenterImpl;
 import de.ethasia.yaumr.outsidedependencies.views.GameEntryStateImpl;
 import de.ethasia.yaumr.outsidedependencies.views.ManageIslandsStateImpl;
 import de.ethasia.yaumr.outsidedependencies.views.WorldEditorBaseMenuStateImpl;
@@ -25,5 +26,6 @@ public class GameStateRegistration {
         classInstanceContainer.registerImplementation(WorldEditorBaseMenuState.class, WorldEditorBaseMenuStateImpl.class);
         classInstanceContainer.registerImplementation(ManageIslandsState.class, ManageIslandsStateImpl.class);
         classInstanceContainer.registerImplementation(IslandEditorState.class, RefactoredIslandEditorState.class);
+        classInstanceContainer.registerImplementation(BlockInteractionIndicatorPresenter.class, BlockInteractionIndicatorPresenterImpl.class);
     }
 }

@@ -116,3 +116,148 @@ First Version (Alpha 1) will have 4 Islands:
 - Boss monsters drop blocks, but only if they have been previously acquired
 - Boss monsters drop items, but only if they have been previously acquired
 - Level cap can be increased every 5 levels by paying money
+
+Skills
+------
+
+Melee
+-----
+-----
+
+Power Swing
+-----------
+-----------
+-----------
+
+Swings a melee weapon to do increased damage to multiple enemies in front of the character.
+
+Double Attack
+-------------
+-------------
+-------------
+
+Attacks one enemy twice with a melee weapon. Each hit deals enhanced damage and has an enhanced critical strike chance.
+
+Magic
+-----
+-----
+
+Magic Bolt
+----------
+----------
+----------
+
+Fires a bolt of uncontrolled magical energy which detonates on contact, dealing damage to enemies hit.
+
+Ranged
+------
+------
+
+Power Arrow
+-----------
+-----------
+-----------
+
+Speeds up a fired arrow with magic, dealing increased damage to enemies.
+
+Unarmed
+-------
+-------
+
+Push Kick
+---------
+---------
+---------
+
+Empowers a kick with magic, dealing enhanced damage to an enemy. The kick pushes pushable enemies back.
+
+Perks
+-----
+
+Combat
+------
+------
+
+Swords
+------
+------
+------
+
+Piercing Attacks (1): Attacks with swords have an additional 20% chance to critically strike.
+
+Axes
+----
+----
+----
+
+Clean Cuts (1): Blows with axes have a 20% chance to criple enemies. Cripled enemies are 25% slower and deal 25% less damage.
+
+Maces
+-----
+-----
+-----
+
+Staggering Blows (1): Hits with maces have a 20% chance to stun enemies. Stun enemies don't attack and move for 3 seconds.
+
+Spears
+------
+------
+------
+
+Daggers
+-------
+-------
+-------
+
+Bows
+----
+----
+----
+
+Unarmed
+-------
+-------
+-------
+
+Elemental Magic
+---------------
+---------------
+---------------
+
+Conjuration
+-----------
+-----------
+-----------
+
+Necromancy
+----------
+----------
+----------
+
+Farming (Contains ability improvements related to farming)
+-------
+-------
+
+Watering (Improves your abilities with watering tools)
+--------
+--------
+--------
+
+- Lucky Watering 1 (1): 10% chance for watered plant to skip one growth step.
+
+- Reduced Stamina Tin (2): Reduces the stamina point needed for copper watering cans by 1.
+- Lucky Watering 2 (2): 15% chance for watered plant to skip one growth step. 10% chance to make a random crop (wild or seed) to grow when watering an unseeded patch of earth.
+
+Hoe (Improves your abilities with the hoe)
+---
+---
+---
+
+- Lucky Hoe 1 (1): 20% chance to find stone when tilling the ground.
+
+- Reduced Stamina Copper (2): Reduces the stamina point needed for copper hoes by 1.
+- Lucky Hoe 2 (2): 30% chance to find stone when tilling the ground. 10% chance to find seeds when tilling the ground.
+
+Creation
+--------
+--------

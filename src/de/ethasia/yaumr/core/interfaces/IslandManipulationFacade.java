@@ -31,5 +31,9 @@ public interface IslandManipulationFacade {
     
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector);
     
+    public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(float pointingPositionX, float pointingPositionY, float pointingPositionZ);
+    
+    public int getIslandEdgeLengthInBlocks();
+    
     //</editor-fold>    
 }

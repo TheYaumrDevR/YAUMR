@@ -1,6 +1,7 @@
 package de.ethasia.yaumr.outsidedependencies.views;
 
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.interactors.interfaces.IslandCreationInteractor;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.ethasia.yaumr.ioadapters.interfaces.ManageIslandsState;
 import de.ethasia.yaumr.ioadapters.interfaces.WorldEditorBaseMenuState;
@@ -32,6 +33,8 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
 
     @Override
     public void createNewIsland() {
+        IslandCreationInteractor islandCreationInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandCreationInteractor.class);
+        islandCreationInteractor.createNewIslandWithRegisteredSingletonFacadeInstance(256);
         YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandEditorState.class).startDisplaying();        
     }
 

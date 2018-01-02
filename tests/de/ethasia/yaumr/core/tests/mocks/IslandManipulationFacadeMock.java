@@ -76,6 +76,16 @@ public class IslandManipulationFacadeMock implements IslandManipulationFacade {
 
     @Override
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector) {
+        return getBlockPositionOnCurrentIslandForInteractionVector(vector.getX(), vector.getY(), vector.getZ());
+    }
+
+    @Override
+    public int getIslandEdgeLengthInBlocks() {
+        return islandToChange.getHorizontalEdgeLengthOfIslandInBlocks();
+    }
+
+    @Override
+    public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(float pointingPositionX, float pointingPositionY, float pointingPositionZ) {
         BlockPosition result = new BlockPosition(0, 0, 0);
         return result;
     }

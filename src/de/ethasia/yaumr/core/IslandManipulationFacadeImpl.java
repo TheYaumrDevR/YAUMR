@@ -111,14 +111,19 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     
     @Override
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector) {
+        return getBlockPositionOnCurrentIslandForInteractionVector(vector.getX(), vector.getY(), vector.getZ());
+    }
+    
+    @Override
+    public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(float pointingPositionX, float pointingPositionY, float pointingPositionZ) {
         if (null != island) {
             int horizontalEdgeLength = island.getHorizontalEdgeLengthOfIslandInBlocks();
             int height = Island.HEIGHT_IN_BLOCKS;
             
-            if (vector.getX() > 0 && vector.getY() > 0 && vector.getZ() > 0) {
-                int posX = (int)Math.floor(vector.getX() / 0.5f);
-                int posY = (int)Math.floor(vector.getY() / 0.5f);
-                int posZ = (int)Math.floor(vector.getZ() / 0.5f);
+            if (pointingPositionX > 0 && pointingPositionY > 0 && pointingPositionZ > 0) {
+                int posX = (int)Math.floor(pointingPositionX / 0.5f);
+                int posY = (int)Math.floor(pointingPositionY / 0.5f);
+                int posZ = (int)Math.floor(pointingPositionZ / 0.5f);
                 
                 if (posX < horizontalEdgeLength && posY < height && posZ < horizontalEdgeLength) {
                     return new BlockPosition(posX, posY, posZ);
@@ -127,7 +132,16 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
         }
         
         return null;
-    }
+    }    
+    
+    @Override
+    public int getIslandEdgeLengthInBlocks() {
+        if (null != island) {
+            return island.getHorizontalEdgeLengthOfIslandInBlocks();
+        } 
+        
+        return 0;
+    }    
     
     //</editor-fold>
 }

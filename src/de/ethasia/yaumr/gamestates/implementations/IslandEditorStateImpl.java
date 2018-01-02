@@ -11,6 +11,7 @@ import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.blockengine.usecases.interfaces.FallingBlockCellularAutomaton;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
 import de.ethasia.yaumr.controllers.interfaces.IslandCreationInventoryManagementController;
+import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.lessvoid.nifty.Nifty;
@@ -267,6 +268,16 @@ public class IslandEditorStateImpl extends YaumrGameState implements IslandEdito
 
     @Override
     public void deactivateMovementControls() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void displayBlockPointingIndicator(InteractionVector position) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void removeBlockPointingIndicator() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

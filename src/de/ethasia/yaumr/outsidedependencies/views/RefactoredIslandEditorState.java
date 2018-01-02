@@ -5,14 +5,22 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.Camera;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.debug.WireBox;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateMainInteractor;
+import de.ethasia.yaumr.ioadapters.interfaces.BlockInteractionIndicatorPresenter;
 
 /**
  *
@@ -29,6 +37,8 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private static final String TOGGLE_HELP_TEXT_ACTION_NAME = "toggleHelp";
     private static final String TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME = "toggleTerraformingInventory";
     
+    private static final String BLOCK_INTERACTION_INDICATOR_NAME = "BlockInteractionIndicator";
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
@@ -37,8 +47,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         
     private Element mainMenu;
     private Element helpPanel;
+    private Geometry blockInteractionIndicator;
     
     private IslandEditorStateMainInteractor windowsInteractor;
+    private BlockInteractionIndicatorPresenter blockInteractionIndicatorPresenter;
     
     //</editor-fold>
     
@@ -80,6 +92,15 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     }
     
     @Override
+    public void update(float tpf) {
+        if (null != blockInteractionIndicatorPresenter) {
+            Camera camera = YaumrGame.getInstance().getCamera();  
+            Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));
+            blockInteractionIndicatorPresenter.presentPointingIndicator(pointingPoint.x, pointingPoint.y, pointingPoint.z);            
+        }
+    }
+    
+    @Override
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
@@ -91,6 +112,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         super.bind(nifty, screen);
         
         windowsInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandEditorStateMainInteractor.class);
+        blockInteractionIndicatorPresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(BlockInteractionIndicatorPresenter.class);
         mainMenu = screen.findElementById(MAIN_MENU_PANEL_NAME);
         helpPanel = screen.findElementById(HELP_PANEL_NAME);
     }    
@@ -114,9 +136,13 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     @Override
     public void startDisplaying() {
+        IslandManipulationFacade islandManipulationFacade = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandManipulationFacade.class);
         YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(IslandEditorState.class, this);
         YaumrGame.getInstance().setGameState(this);
-        YaumrGame.getInstance().getViewPort().setBackgroundColor(new ColorRGBA(0.529f, 0.808f, 0.922f, 1.0f));        
+        YaumrGame.getInstance().getViewPort().setBackgroundColor(new ColorRGBA(0.529f, 0.808f, 0.922f, 1.0f));
+        
+        float camXZLocation = 0.5f * (islandManipulationFacade.getIslandEdgeLengthInBlocks() / 2);
+        YaumrGame.getInstance().getCamera().setLocation(new Vector3f(camXZLocation, 0, camXZLocation));
     }     
     
     @Override
@@ -159,6 +185,21 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         YaumrGame.getInstance().getFlyByCamera().setEnabled(false);
     }
     
+    @Override
+    public void displayBlockPointingIndicator(InteractionVector position) {
+        if (null == blockInteractionIndicator) {
+            blockInteractionIndicator = createBlockPointingIndicator();
+        }
+        
+        YaumrGame.getInstance().getRootNode().attachChild(blockInteractionIndicator);
+        blockInteractionIndicator.setLocalTranslation(position.getX(), position.getY(), position.getZ());
+    }
+
+    @Override
+    public void removeBlockPointingIndicator() {
+        YaumrGame.getInstance().getRootNode().detachChildNamed(BLOCK_INTERACTION_INDICATOR_NAME);
+    }    
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="UI Callbacks">
@@ -170,10 +211,6 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     public void quitGame() {
         System.exit(0);        
     }    
-    
-    //</editor-fold>
-    
-    //<editor-fold defaultstate="collapsed" desc="Methods">    
     
     //</editor-fold>
     
@@ -210,6 +247,16 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         if (toggleKeyIsPressed) {
             windowsInteractor.toggleHelpMenu();
         }
+    }
+    
+    private Geometry createBlockPointingIndicator() {
+        WireBox wireCube = new WireBox(0.25f, 0.25f, 0.25f);
+        Geometry geometry = new Geometry(BLOCK_INTERACTION_INDICATOR_NAME, wireCube );
+        Material material = new Material(YaumrGame.getInstance().getAssetManager(), "Common/MatDefs/Misc/Unshaded.j3md");
+        material.setColor("Color", ColorRGBA.Black);
+        geometry.setMaterial(material);
+        
+        return geometry;
     }
     
     //</editor-fold>
