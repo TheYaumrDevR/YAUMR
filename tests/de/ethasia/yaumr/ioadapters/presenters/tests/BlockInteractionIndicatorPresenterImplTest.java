@@ -5,16 +5,21 @@
  */
 package de.ethasia.yaumr.ioadapters.presenters.tests;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
+import de.ethasia.yaumr.base.ClassInstanceContainer;
+import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import de.ethasia.yaumr.core.tests.mocks.IslandManipulationFacadeMock;
+import de.ethasia.yaumr.ioadapters.interfaces.BlockInteractionIndicatorPresenter;
+import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
+import de.ethasia.yaumr.ioadapters.presenters.BlockInteractionIndicatorPresenterImpl;
+import de.ethasia.yaumr.outsidedependencies.tests.mocks.IslandEditorStateMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
  *
- * @author Noro
+ * @author R
  */
 public class BlockInteractionIndicatorPresenterImplTest {
     
@@ -23,29 +28,68 @@ public class BlockInteractionIndicatorPresenterImplTest {
     
     @BeforeClass
     public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        
+        dependencyResolver.removeSingletonInstance(IslandManipulationFacade.class);
+        dependencyResolver.removeSingletonInstance(IslandEditorState.class);  
+        dependencyResolver.registerSingletonInstance(IslandManipulationFacade.class, new IslandManipulationFacadeMock());
+        dependencyResolver.registerSingletonInstance(IslandEditorState.class, new IslandEditorStateMock());
     }
 
     @Test
-    public void testPresentPointingIndicator_pointsOnValidBlockPosition_allMethodsAreCalled() {}
+    public void testPresentPointingIndicator_pointsOnValidBlockPosition_allMethodsAreCalled() {
+        IslandEditorStateMock.resetMethodCallCounts();
+        BlockInteractionIndicatorPresenter testCandidate = new BlockInteractionIndicatorPresenterImpl();
+
+        testCandidate.presentPointingIndicator(1.2f, 3.f, 4.1f);
+        
+        int actualDelegateMethodCallCount = IslandEditorStateMock.getCallCounterForMethodName("displayBlockPointingIndicator");
+        int removeInteractionIndicatorCallCount = IslandEditorStateMock.getCallCounterForMethodName("removeBlockPointingIndicator");
+        assertEquals(1, actualDelegateMethodCallCount);
+        assertEquals(0, removeInteractionIndicatorCallCount);
+    }
     
     @Test
-    public void testPresentPointingIndicator_pointsOnValidBlockPoitionThenOnInvalidPosition_removeMethodIsCalled() {}
+    public void testPresentPointingIndicator_pointsOnValidBlockPoitionThenOnInvalidPosition_removeMethodIsCalled() {
+        IslandEditorStateMock.resetMethodCallCounts();
+        BlockInteractionIndicatorPresenter testCandidate = new BlockInteractionIndicatorPresenterImpl();
+
+        testCandidate.presentPointingIndicator(1.2f, 3.f, 4.1f);
+        testCandidate.presentPointingIndicator(0, -0.1f, 0);
+                
+        int actualDelegateMethodCallCount = IslandEditorStateMock.getCallCounterForMethodName("removeBlockPointingIndicator");
+        assertEquals(1, actualDelegateMethodCallCount);    
+    }
     
     @Test
-    public void testPresentPointingIndicator_pointsOnSamePositionTwice_methodsAreOnlyCalledOnce() {}
+    public void testPresentPointingIndicator_pointsOnSamePositionTwice_methodsAreOnlyCalledOnce() {
+        IslandEditorStateMock.resetMethodCallCounts();
+        BlockInteractionIndicatorPresenter testCandidate = new BlockInteractionIndicatorPresenterImpl();
+
+        testCandidate.presentPointingIndicator(1.2f, 3.f, 4.1f);
+        testCandidate.presentPointingIndicator(1.2f, 3.f, 4.1f);
+                
+        int actualDelegateMethodCallCount = IslandEditorStateMock.getCallCounterForMethodName("displayBlockPointingIndicator");
+        assertEquals(1, actualDelegateMethodCallCount);       
+    }
 
     @Test
-    public void testPresentPointingIndicator_islandEditorStateIsNotPresent_throwsNoExceptions() {}        
+    public void testPresentPointingIndicator_islandEditorStateIsNotPresent_throwsNoExceptions() {
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        
+        IslandEditorState registeredIslandEditorState = dependencyResolver.getSingletonInstance(IslandEditorState.class);
+        dependencyResolver.removeSingletonInstance(IslandEditorState.class);
+        
+        IslandEditorStateMock.resetMethodCallCounts();
+        BlockInteractionIndicatorPresenter testCandidate = new BlockInteractionIndicatorPresenterImpl();
+
+        testCandidate.presentPointingIndicator(1.2f, 3.f, 4.1f);
+        
+        int actualDelegateMethodCallCount = IslandEditorStateMock.getCallCounterForMethodName("displayBlockPointingIndicator");
+        int removeInteractionIndicatorCallCount = IslandEditorStateMock.getCallCounterForMethodName("removeBlockPointingIndicator");
+        assertEquals(0, actualDelegateMethodCallCount);
+        assertEquals(0, removeInteractionIndicatorCallCount);
+        
+        dependencyResolver.registerSingletonInstance(IslandEditorState.class, registeredIslandEditorState);
+    }        
 }

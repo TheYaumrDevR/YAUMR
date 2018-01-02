@@ -86,7 +86,16 @@ public class IslandManipulationFacadeMock implements IslandManipulationFacade {
 
     @Override
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(float pointingPositionX, float pointingPositionY, float pointingPositionZ) {
-        BlockPosition result = new BlockPosition(0, 0, 0);
-        return result;
+        if (pointingPositionX < 0
+                || pointingPositionY < 0
+                || pointingPositionZ < 0) {
+            return null;
+        }
+        
+        int posX = (int)Math.floor(pointingPositionX / 0.5f);
+        int posY = (int)Math.floor(pointingPositionY / 0.5f);
+        int posZ = (int)Math.floor(pointingPositionZ / 0.5f);        
+        
+        return new BlockPosition(posX, posY, posZ);
     }
 }
