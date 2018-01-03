@@ -1,7 +1,7 @@
-package de.ethasia.yaumr.customcontrols.interfaces;
+package de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces;
 
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
-import de.ethasia.yaumr.customcontrols.implementations.InventoryGridQuickbarDropFilter;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.InventoryGridQuickbarDropFilter;
 import de.lessvoid.nifty.controls.NiftyControl;
 
 /**

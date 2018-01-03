@@ -1,7 +1,7 @@
-package de.ethasia.yaumr.customcontrols.implementations;
+package de.ethasia.yaumr.outsidedependencies.niftyguiextensions;
 
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
-import de.ethasia.yaumr.customcontrols.interfaces.DraggableItemBox;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.DraggableItemBox;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.AbstractController;
 import de.lessvoid.nifty.controls.Parameters;

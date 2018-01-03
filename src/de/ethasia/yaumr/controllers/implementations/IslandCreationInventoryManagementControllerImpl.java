@@ -3,7 +3,7 @@ package de.ethasia.yaumr.controllers.implementations;
 import de.ethasia.yaumr.blockengine.entities.Block;
 import de.ethasia.yaumr.blockengine.entities.BlockTypes;
 import de.ethasia.yaumr.controllers.interfaces.IslandCreationInventoryManagementController;
-import de.ethasia.yaumr.customcontrols.interfaces.InventoryGrid;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
 import de.lessvoid.nifty.screen.Screen;
 
 /**

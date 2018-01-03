@@ -1,13 +1,13 @@
-package de.ethasia.yaumr.customcontrols.implementations;
+package de.ethasia.yaumr.outsidedependencies.niftyguiextensions;
 
 import de.ethasia.yaumr.base.YaumrGame;
 import java.util.Map;
 
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
-import de.ethasia.yaumr.customcontrols.interfaces.DraggableItemBox;
-import de.ethasia.yaumr.customcontrols.interfaces.DroppableItemBox;
-import de.ethasia.yaumr.customcontrols.interfaces.InventoryGrid;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.DraggableItemBox;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.DroppableItemBox;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.NiftyEventSubscriber;
 import de.lessvoid.nifty.controls.AbstractController;

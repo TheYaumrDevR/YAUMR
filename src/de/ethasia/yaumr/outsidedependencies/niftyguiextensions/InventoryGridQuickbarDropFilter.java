@@ -1,17 +1,19 @@
-package de.ethasia.yaumr.customcontrols.implementations;
+package de.ethasia.yaumr.outsidedependencies.niftyguiextensions;
 
-import de.ethasia.yaumr.customcontrols.interfaces.InventoryGrid;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
 import de.lessvoid.nifty.controls.Draggable;
 import de.lessvoid.nifty.controls.Droppable;
 import de.lessvoid.nifty.controls.DroppableDropFilter;
 
 /**
- * This dropfilter is rejects drop operations and notifies the owner that the 
- * player moved an item in the throw away area.
+ * This DropFilter rejects the standard nifty gui drag and drop operation.
+ * It then tells the owning InventoryGridControl that a user attempted a drag
+ * and drop operation. The InventoryGridControl can then decide how to handle
+ * the drag and drop attempt.
  * 
  * @author R
  */
-public class TerraformingInventoryThrowAwayDropFilter implements DroppableDropFilter {
+public class InventoryGridQuickbarDropFilter implements DroppableDropFilter {
 
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
@@ -23,16 +25,16 @@ public class TerraformingInventoryThrowAwayDropFilter implements DroppableDropFi
     
     public void setOwner(InventoryGrid value) {
         owner = value;
-    }    
+    }
     
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Implementations">
     
     @Override
-    public boolean accept(Droppable dropSource, Draggable draggable, Droppable dropTarget) {
+    public boolean accept(Droppable dropSource, Draggable drgbl, Droppable droppedAt) {
         if (null != owner) {
-            owner.onDragAndDropItemRemovedFromGrid(dropSource, draggable, dropTarget);
+            owner.onDragAndDropOperationCompleted(dropSource, drgbl, droppedAt);
         }
         
         return false;

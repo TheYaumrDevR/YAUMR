@@ -7,8 +7,9 @@ import de.ethasia.yaumr.core.GrassToEarthCellularAutomatonImpl;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
+import de.ethasia.yaumr.tests.helpers.ClassMock;
 
-public class IslandManipulationFacadeMock implements IslandManipulationFacade {
+public class IslandManipulationFacadeMock extends ClassMock implements IslandManipulationFacade {
     
     private Island islandToChange;
     private GrassToEarthCellularAutomatonImpl grassToEarthAutomaton;
@@ -59,6 +60,8 @@ public class IslandManipulationFacadeMock implements IslandManipulationFacade {
   
     @Override
     public void copyBlockTo(Block blockToCopy, BlockPosition position) {
+        incrementMockCounterForCalledMethod("copyBlockTo");
+        
         if ((null != islandToChange) && (islandToChange.copyBlockTo(blockToCopy, position))) {
             
             if (null != grassToEarthAutomaton) {

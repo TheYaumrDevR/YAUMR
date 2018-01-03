@@ -1,9 +1,5 @@
 package de.ethasia.yaumr.interactors.tests;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import de.ethasia.yaumr.core.BlockPlacementTerraformingTool;
@@ -19,32 +15,11 @@ import de.ethasia.yaumr.interactors.TerraformingToolsSelector;
  */
 public class TerraformingToolsSelectorTest {
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-    @Before
-    public void setUp() {
-    }
-    
-    @After
-    public void tearDown() {
-    }
-
-    @Test
-    public void gotoNextPage() {
-
-    }
-    
     @Test
     public void testGotoPreviousPage_previousPageIsPresent_pageSwitchesToPreviousPage() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(3, 4);
-        testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(), 8);
-        testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(), 2);
+        testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(null), 8);
+        testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(null), 2);
         
         testCandidate.gotoNextPage();
         testCandidate.gotoNextPage();
@@ -63,7 +38,7 @@ public class TerraformingToolsSelectorTest {
     @Test
     public void testGotoPreviousPage_previousPageIsNotPresent_staysOnCurrentPage() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(3, 4);
-        testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(), 2);
+        testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(null), 2);
         
         testCandidate.gotoPreviousPage();
         
@@ -88,7 +63,7 @@ public class TerraformingToolsSelectorTest {
     @Test
     public void testSetToolToOtherPosition_positionIsValid_toolIsPresent() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(5, 4);
-        TerraformingTool tool = new BlockPlacementTerraformingTool();
+        TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
         testCandidate.setToolToOtherPosition(tool, 0);
         
@@ -98,8 +73,8 @@ public class TerraformingToolsSelectorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testSwapToolsOnSelectionPositions_positionIsInvalid_throwsException() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(5, 4);
-        TerraformingTool tool1 = new BlockPlacementTerraformingTool();
-        TerraformingTool tool2 = new BlockPlacementTerraformingTool();
+        TerraformingTool tool1 = new BlockPlacementTerraformingTool(null);
+        TerraformingTool tool2 = new BlockPlacementTerraformingTool(null);
         
         testCandidate.setToolToSelectionPosition(tool1, 0);
         testCandidate.setToolToSelectionPosition(tool2, 1);
@@ -109,8 +84,8 @@ public class TerraformingToolsSelectorTest {
     @Test
     public void testSwapToolsOnSelectionPositions_positionsAreValid_toolsAreSwapped() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(5, 4);
-        TerraformingTool tool1 = new BlockPlacementTerraformingTool();
-        TerraformingTool tool2 = new BlockPlacementTerraformingTool();
+        TerraformingTool tool1 = new BlockPlacementTerraformingTool(null);
+        TerraformingTool tool2 = new BlockPlacementTerraformingTool(null);
         
         testCandidate.setToolToSelectionPosition(tool1, 4);
         testCandidate.setToolToSelectionPosition(tool2, 7);
@@ -123,7 +98,7 @@ public class TerraformingToolsSelectorTest {
     @Test
     public void testSetToolToSelectionPosition_positionIsValid_toolIsSet() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(5, 4);
-        TerraformingTool tool = new BlockPlacementTerraformingTool();
+        TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
         testCandidate.setToolToSelectionPosition(tool, 8);
         
@@ -133,7 +108,7 @@ public class TerraformingToolsSelectorTest {
     @Test(expected = IllegalArgumentException.class)
     public void testSetToolToSelectionPosition_positionIsInvalid_throwsException() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(5, 4);
-        TerraformingTool tool = new BlockPlacementTerraformingTool();
+        TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
         testCandidate.setToolToSelectionPosition(tool, 12);
     }    
@@ -141,7 +116,7 @@ public class TerraformingToolsSelectorTest {
     @Test
     public void testGetOtherItemsOnCurrentPage_previouslySetItemsAreRetrieved() {
         TerraformingToolsSelector testCandidate = new TerraformingToolsSelector(5, 4);
-        TerraformingTool tool = new BlockPlacementTerraformingTool();
+        TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
         testCandidate.setToolToOtherPosition(tool, 3);
         

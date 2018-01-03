@@ -1,4 +1,4 @@
-package de.ethasia.yaumr.customcontrols.interfaces;
+package de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces;
 
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 import de.lessvoid.nifty.controls.NiftyControl;

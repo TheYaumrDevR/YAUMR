@@ -1,8 +1,8 @@
-package de.ethasia.yaumr.customcontrols.implementations;
+package de.ethasia.yaumr.outsidedependencies.niftyguiextensions;
 
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
-import de.ethasia.yaumr.customcontrols.interfaces.QuickSelectionBar;
-import de.ethasia.yaumr.customcontrols.interfaces.QuickSelectionBarButton;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBarButton;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.AbstractController;
 import de.lessvoid.nifty.controls.Parameters;
@@ -128,7 +128,7 @@ public class QuickSelectionBarControl extends AbstractController implements Quic
     @Override
     public QuickSelectableEntity getEntityContainedInSelection() {
         if (null != currentlySelectedButton) {
-            return currentlySelectedButton.getContainedItem();
+            // return currentlySelectedButton.getContainedItem();
         }
         
         return null;
@@ -139,7 +139,7 @@ public class QuickSelectionBarControl extends AbstractController implements Quic
         QuickSelectionBarButton button = buttonOnPosition.get(position);
             
         if (null != button) {
-            button.setItemToSelect(item);
+            // button.setItemToSelect(item);
         }
     }
     
