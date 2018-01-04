@@ -46,6 +46,8 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
   
     @Override
     public void removeBlockAt(BlockPosition position) {
+        incrementMockCounterForCalledMethod("removeBlockAt");
+        
         if ((null != islandToChange) && (islandToChange.removeBlockAt(position))) {
             
             if (null != grassToEarthAutomaton) {
