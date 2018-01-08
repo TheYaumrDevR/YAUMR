@@ -6,6 +6,7 @@ import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.interactors.IslandCreationInteractorImpl;
 import de.ethasia.yaumr.interactors.IslandEditorStateMainInteractorImpl;
+import de.ethasia.yaumr.interactors.TerraformingToolsSelectorImpl;
 
 /**
  *
@@ -20,5 +21,6 @@ public class InteractorsLayerResolutionRegistration {
         
         classInstanceContainer.registerImplementation(IslandEditorStateMainInteractor.class, IslandEditorStateMainInteractorImpl.class);
         classInstanceContainer.registerImplementation(IslandCreationInteractor.class, IslandCreationInteractorImpl.class);
+        classInstanceContainer.registerImplementation(TerraformingToolsSelector.class, TerraformingToolsSelectorImpl.class);
     }     
 }

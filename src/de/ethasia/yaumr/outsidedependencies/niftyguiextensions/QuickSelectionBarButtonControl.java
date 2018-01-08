@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.outsidedependencies.niftyguiextensions;
 
+import com.jme3.asset.AssetNotFoundException;
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBarButton;
@@ -33,8 +34,6 @@ public class QuickSelectionBarButtonControl extends AbstractController implement
     private Screen screen;
     private ImageRenderer itemImageRenderer;
     private ImageRenderer frameImageRenderer;
-    
-    private QuickSelectableEntity entityToSelect;
     
     //</editor-fold>
     
@@ -70,26 +69,50 @@ public class QuickSelectionBarButtonControl extends AbstractController implement
     @Override
     public void setSelected() {
         if (null != frameImageRenderer) {
-            frameImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, SELECTED_IMAGE_PATH, false));         
+            try {
+                frameImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, SELECTED_IMAGE_PATH, false));                         
+            } catch (AssetNotFoundException ex) {
+                setFrameImageToNotAvailableImage();
+            }
         }
     }
 
     @Override
     public void setUnselected() {
         if (null != frameImageRenderer) {
-            frameImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, UNSELECTED_IMAGE_PATH, false));         
+            try {
+                frameImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, UNSELECTED_IMAGE_PATH, false));                         
+            } catch (AssetNotFoundException ex) {
+                setFrameImageToNotAvailableImage();
+            }
         }    
     }
 
     @Override
     public void setItemToDisplay(ItemDisplayData itemDisplayData) {
         if (null != itemImageRenderer) {
-            if (null == entityToSelect) {
+            if (null == itemDisplayData) {
                 itemImageRenderer.setImage(null);
             } else {
-                itemImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, itemDisplayData.getItemImagePath(), false));         
+                try {
+                    itemImageRenderer.setImage(nifty.getRenderEngine().createImage(screen, itemDisplayData.getItemImagePath(), false));                             
+                } catch (AssetNotFoundException ex) {
+                    setItemImageToNotAvailableImage();
+                }
             }
         }         
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    private void setItemImageToNotAvailableImage() {
+        
+    }
+    
+    private void setFrameImageToNotAvailableImage() {
+        
     }
     
     //</editor-fold>

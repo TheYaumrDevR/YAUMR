@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <nifty-controls>
 
-	<controlDefinition name="quickSelectionBarButton" controller="de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarButtonControl">
+	<controlDefinition name="quickSelectionBarButton" controller="de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBarButtonControl">
 		<panel width="74px" height="97px" childLayout="center">
 			<image id="#buttonFrame" width="100%" height="100%" childLayout="absolute" valign="bottom" filename="Interface/ImagesGUI/HUD/QuickSelectionBar/SelectionBar.png">
 				<image width="64px" height="64px" id="#itemImage" x="5" y="28"/>
@@ -9,7 +9,7 @@
 		</panel>
 	</controlDefinition>
 
-	<controlDefinition id="$draggableID" name="draggableItemBox" controller="de.ethasia.yaumr.customcontrols.implementations.DraggableItemBoxControl">
+	<controlDefinition id="$draggableID" name="draggableItemBox" controller="de.ethasia.yaumr.outsidedependencies.niftyguiextensions.DraggableItemBoxControl">
 		<panel width="74px" height="74px" childLayout="center">
 			<image id="#boxFrame" width="100%" height="100%" childLayout="absolute" valign="bottom" filename="Interface/ImagesGUI/HUD/InventoryGrid/InventoryGridBox.png">
 				<control id="$draggableID" name="draggable" x="5" y="5" width="64px" height="64px" childLayout="center">
@@ -20,7 +20,7 @@
 		</panel>
 	</controlDefinition>
 
-	<controlDefinition id="$droppableID" name="droppableItemBox" controller="de.ethasia.yaumr.customcontrols.implementations.DroppableItemBoxControl">
+	<controlDefinition id="$droppableID" name="droppableItemBox" controller="de.ethasia.yaumr.outsidedependencies.niftyguiextensions.DroppableItemBoxControl">
 		<panel width="74px" height="74px" childLayout="center">
 			<image width="100%" height="100%" childLayout="absolute" valign="bottom" filename="Interface/ImagesGUI/HUD/InventoryGrid/InventoryGridBox.png">
 				<control id="$droppableID" name="droppable" x="5" y="5" width="64px" height="64px" childLayout="center">
@@ -32,7 +32,7 @@
 		</panel>
 	</controlDefinition>
 
-	<controlDefinition name="quickSelectionBar" controller="de.ethasia.yaumr.customcontrols.implementations.QuickSelectionBarControl">
+	<controlDefinition name="quickSelectionBar" controller="de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBarControl">
 		<panel childLayout="horizontal" width="740px" height="97px" backgroundColor="#00000000">
 			<control name="quickSelectionBarButton" id="#firstSelectionButton"/> 
 			<control name="quickSelectionBarButton" id="#secondSelectionButton"/> 
@@ -47,7 +47,7 @@
 		</panel>
 	</controlDefinition>
 
-	<controlDefinition name="inventoryGrid" controller="de.ethasia.yaumr.customcontrols.implementations.InventoryGridControl">
+	<controlDefinition name="inventoryGrid" controller="de.ethasia.yaumr.outsidedependencies.niftyguiextensions.InventoryGridControl">
 		<panel id="#itemSelectionPanel" width="100%" height="100%" childLayout="center" backgroundColor="#00000000">
 			<control name="droppable" id="#discardDroppable" width="100%" height="100%"/>
 			<panel valign="top" childLayout="vertical" backgroundColor="#00000000">

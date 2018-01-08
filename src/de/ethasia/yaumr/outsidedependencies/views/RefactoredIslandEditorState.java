@@ -11,6 +11,7 @@ import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.debug.WireBox;
+import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
@@ -20,7 +21,13 @@ import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateMainInteractor;
+import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateSetupInteractor;
+import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsSelector;
+import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.ioadapters.interfaces.BlockInteractionIndicatorPresenter;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBarControl;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
+import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
 
 /**
  *
@@ -32,10 +39,14 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     private static final String MAIN_MENU_PANEL_NAME = "#mainMenu";
     private static final String HELP_PANEL_NAME = "#helpPanel";
+    private static final String BOTTOM_QUICKSELECTION_BAR_NAME = "#bottomQuickSelectionBar";  
+    private static final String TOOLGRID_NAME = "#itemSelectionGrid";
     
     private static final String TOGGLE_MAIN_MENU_ACTION_NAME = "toggleMainMenu";
     private static final String TOGGLE_HELP_TEXT_ACTION_NAME = "toggleHelp";
     private static final String TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME = "toggleTerraformingInventory";
+    private static final String SELECT_QUICKBAR_ITEM_ACTION_NAME = "selectItem";
+    private static final String EXECUTE_PRIMARY_ACTION_EVENT_NAME = "executePrimaryAction";    
     
     private static final String BLOCK_INTERACTION_INDICATOR_NAME = "BlockInteractionIndicator";
     
@@ -48,8 +59,12 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private Element mainMenu;
     private Element helpPanel;
     private Geometry blockInteractionIndicator;
+    private QuickSelectionBar quickSelectionBar;
+    private InventoryGrid toolsSelectionGrid;
     
     private IslandEditorStateMainInteractor windowsInteractor;
+    private IslandEditorStateSetupInteractor setupInteractor;
+    private TerraformingToolsSelector terraformingToolsSelector;
     private BlockInteractionIndicatorPresenter blockInteractionIndicatorPresenter;
     
     //</editor-fold>
@@ -61,17 +76,23 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
             
             @Override
             public void onAction(String name, boolean isPressed, float tpf) {
-                switch (name) {
-                    case TOGGLE_MAIN_MENU_ACTION_NAME:
-                        toggleMainMenu(isPressed);
-                        break;
-                    case TOGGLE_HELP_TEXT_ACTION_NAME:
-                        toggleHelpText(isPressed);
-                        break;
-                    case TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME:
-                        break;
-                    default:
-                        break;
+                if (name.startsWith(SELECT_QUICKBAR_ITEM_ACTION_NAME)) {
+                    selectQuickbarItem(name, isPressed);
+                } else {
+                    switch (name) {
+                        case TOGGLE_MAIN_MENU_ACTION_NAME:
+                            toggleMainMenu(isPressed);
+                            break;
+                        case TOGGLE_HELP_TEXT_ACTION_NAME:
+                            toggleHelpText(isPressed);
+                            break;
+                        case TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME:
+                            break;
+                        case EXECUTE_PRIMARY_ACTION_EVENT_NAME:
+                            break;
+                        default:
+                            break;
+                    }                    
                 }
             }
         };
@@ -104,24 +125,35 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     public void initialize(AppStateManager stateManager, Application app) {
         super.initialize(stateManager, app);
         YaumrGame.getInstance().getFlyByCamera().setEnabled(true);
-        YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);
+        YaumrGame.getInstance().getFlyByCamera().setDragToRotate(false);        
     } 
 
     @Override
     public void bind(Nifty nifty, Screen screen) {
         super.bind(nifty, screen);
         
-        windowsInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandEditorStateMainInteractor.class);
-        blockInteractionIndicatorPresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(BlockInteractionIndicatorPresenter.class);
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        windowsInteractor = dependencyResolver.getImplementationInstance(IslandEditorStateMainInteractor.class);
+        setupInteractor = dependencyResolver.getImplementationInstance(IslandEditorStateSetupInteractor.class);
+        blockInteractionIndicatorPresenter = dependencyResolver.getImplementationInstance(BlockInteractionIndicatorPresenter.class);
         mainMenu = screen.findElementById(MAIN_MENU_PANEL_NAME);
         helpPanel = screen.findElementById(HELP_PANEL_NAME);
+        quickSelectionBar = screen.findNiftyControl(BOTTOM_QUICKSELECTION_BAR_NAME, QuickSelectionBar.class);    
+        toolsSelectionGrid = screen.findNiftyControl(TOOLGRID_NAME, InventoryGrid.class);
+        
+        setupInteractor.setupInventoryInteractorsForIslandEditorState();
+        terraformingToolsSelector = dependencyResolver.getSingletonInstance(TerraformingToolsSelector.class);
     }    
 
     @Override
     public void onStartScreen() {
         initKeys();
         hideAllVisibleGUIItems();  
-        windowsInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandEditorStateMainInteractor.class);
+        terraformingToolsSelector.setSelectedToolIndex(0);
+        
+        if (null != toolsSelectionGrid) {
+            toolsSelectionGrid.hideInventoryGrid();
+        }        
     }
 
     @Override
@@ -171,7 +203,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         
         if (null != helpPanel) {
             helpPanel.hide();
-        }         
+        }  
     }
     
     @Override
@@ -198,7 +230,21 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     @Override
     public void removeBlockPointingIndicator() {
         YaumrGame.getInstance().getRootNode().detachChildNamed(BLOCK_INTERACTION_INDICATOR_NAME);
-    }    
+    } 
+    
+    @Override
+    public void selectItemOnQuickbar(int itemIndex) {
+        if (null != quickSelectionBar) {
+            quickSelectionBar.highlightSelectionAtIndex(itemIndex);
+        }
+    }
+    
+    @Override
+    public void showItemsOnQuickbar(ItemDisplayData[] displayData) {
+        if (null != quickSelectionBar) {
+            quickSelectionBar.setItemDisplayData(displayData);
+        }
+    }
     
     //</editor-fold>
     
@@ -212,6 +258,15 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         System.exit(0);        
     }    
     
+    public void selectQuickbarItem(String uiEventName, boolean keyIsPressed) {
+        if (keyIsPressed) {
+            if (null != quickSelectionBar) {
+                Integer itemIndex = quickSelectionBar.getItemIndexForKeyActionName(uiEventName);
+                terraformingToolsSelector.setSelectedToolIndex(itemIndex);
+            }
+        }
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
@@ -221,11 +276,32 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_HELP_TEXT_ACTION_NAME, new KeyTrigger(KeyInput.KEY_H));        
         YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME, new KeyTrigger(KeyInput.KEY_I));
         
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FIRST_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_1));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_SECOND_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_2));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_3));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_4));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_5));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_SIXTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_6));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_7));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_8));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_9));
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_0));        
+        
         YaumrGame.getInstance().getInputManager().addListener(keyEventHandler, 
                 new String[] {
                     TOGGLE_MAIN_MENU_ACTION_NAME, 
                     TOGGLE_HELP_TEXT_ACTION_NAME,
-                    TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME
+                    TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME,
+                    QuickSelectionBarControl.SELECT_FIRST_ITEM_KEYACTION, 
+                    QuickSelectionBarControl.SELECT_SECOND_ITEM_KEYACTION, 
+                    QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, 
+                    QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_SIXTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION,
+                    QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION                    
                 });          
     }
     
@@ -233,6 +309,16 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_MAIN_MENU_ACTION_NAME);
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_HELP_TEXT_ACTION_NAME);
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FIRST_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_SECOND_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FOURTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FIFTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_SIXTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION);
+        YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION);        
         
         YaumrGame.getInstance().getInputManager().removeListener(keyEventHandler);        
     }

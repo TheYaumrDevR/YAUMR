@@ -80,7 +80,6 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     
     @Override
     public void setSelectableItemAtPosition(QuickSelectableEntity item, int position) {
-        quickSelectionBar.addItemToPosition(item, position);
     }
     
     @Override
@@ -145,7 +144,6 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
     private void handleQuickSelectionButtonPressed(boolean isPressed, String eventName) {
         if (!isPressed) {
             if (null != quickSelectionBar) {
-                quickSelectionBar.reactToKeyInput(eventName);
             }
         }
     }
@@ -156,12 +154,7 @@ public class BlockPlacementControllerImpl implements BlockPlacementController {
                 Camera camera = YaumrGame.getInstance().getCamera();  
                 Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));                    
                     
-                if (null != quickSelectionBar) {
-                    QuickSelectableEntity selectedEntity = quickSelectionBar.getEntityContainedInSelection();
-                    
-                    if (null != selectedEntity) {
-                        selectedEntity.executePrimaryAction(pointingPoint, islandToEdit);
-                    }
+                if (null != quickSelectionBar) {                    
                 }
             }                
         }

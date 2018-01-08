@@ -17,6 +17,7 @@ public abstract class TerraformingTool {
     public abstract void rotateOnY();
     public abstract void rotateOnZ();
     public abstract void interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position);
+    public abstract String getTypeName();
     
     //</editor-fold>
 }

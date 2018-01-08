@@ -1,6 +1,7 @@
 package de.ethasia.yaumr.outsidedependencies.tests.mocks;
 
 import de.ethasia.yaumr.interactors.InteractionVector;
+import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.ethasia.yaumr.tests.helpers.ClassMock;
 
@@ -53,6 +54,16 @@ public class IslandEditorStateMock extends ClassMock implements IslandEditorStat
     @Override
     public void startDisplaying() {
         incrementMockCounterForCalledMethod("startDisplaying");          
+    }
+
+    @Override
+    public void selectItemOnQuickbar(int itemIndex) {
+        incrementMockCounterForCalledMethod("selectItemOnQuickbar");
+    }
+
+    @Override
+    public void showItemsOnQuickbar(ItemDisplayData[] displayData) {
+        incrementMockCounterForCalledMethod("showItemsOnQuickbar");
     }
     
 }

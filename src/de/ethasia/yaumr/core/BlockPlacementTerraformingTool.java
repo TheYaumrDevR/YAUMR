@@ -56,5 +56,10 @@ public class BlockPlacementTerraformingTool extends TerraformingTool {
         }
     }
     
+    @Override
+    public String getTypeName() {
+        return blockToPlace.getBlockType().toString();
+    }
+    
     //</editor-fold>    
 }

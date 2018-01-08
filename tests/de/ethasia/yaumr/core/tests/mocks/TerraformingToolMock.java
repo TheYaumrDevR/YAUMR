@@ -14,7 +14,7 @@ public class TerraformingToolMock extends TerraformingTool {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private static final Map<String, Integer> calledMethodNamesWithCount = new HashMap<>();
+    private static Map<String, Integer> calledMethodNamesWithCount = new HashMap<>();
     
     //</editor-fold>
 
@@ -39,6 +39,11 @@ public class TerraformingToolMock extends TerraformingTool {
     public void interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
         incrementMethodCallCount("interactWithIsland");
     }    
+    
+    @Override
+    public String getTypeName() {
+        return "TERRAFORMING_TOOL_MOCK";
+    }
     
     //</editor-fold>    
     

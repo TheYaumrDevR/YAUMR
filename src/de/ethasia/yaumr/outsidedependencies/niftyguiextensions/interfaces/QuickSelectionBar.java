@@ -1,6 +1,6 @@
 package de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces;
 
-import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
+import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.lessvoid.nifty.controls.NiftyControl;
 
 /**
@@ -10,8 +10,8 @@ import de.lessvoid.nifty.controls.NiftyControl;
  */
 public interface QuickSelectionBar extends NiftyControl {
     
-    public void reactToKeyInput(String keyActionName);
-    public void addItemToPosition(QuickSelectableEntity item, int position);
+    public void setItemDisplayData(ItemDisplayData[] displayData);
+    public int getItemIndexForKeyActionName(String keyActionName);    
+    public void highlightSelectionAtIndex(int itemIndex);    
     public boolean isButtonSelected(int position);
-    public QuickSelectableEntity getEntityContainedInSelection();
 }

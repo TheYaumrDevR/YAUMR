@@ -1,6 +1,6 @@
 package de.ethasia.yaumr.outsidedependencies.niftyguiextensions;
 
-import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
+import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBarButton;
 import de.lessvoid.nifty.Nifty;
@@ -20,16 +20,16 @@ public class QuickSelectionBarControl extends AbstractController implements Quic
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
-    public static final String SELECT_FIRST_ITEM_KEYACTION = "selectFirstItem";
-    public static final String SELECT_SECOND_ITEM_KEYACTION = "selectSecondItem";
-    public static final String SELECT_THIRD_ITEM_KEYACTION = "selectThirdItem";
-    public static final String SELECT_FOURTH_ITEM_KEYACTION = "selectFourthItem";
-    public static final String SELECT_FIFTH_ITEM_KEYACTION = "selectFifthItem";
-    public static final String SELECT_SIXTH_ITEM_KEYACTION = "selectSixthItem";
-    public static final String SELECT_SEVENTH_ITEM_KEYACTION = "selectSeventhItem";
-    public static final String SELECT_EIGHTH_ITEM_KEYACTION = "selectEighthItem";
-    public static final String SELECT_NINTH_ITEM_KEYACTION = "selectNinthItem";
-    public static final String SELECT_TENTH_ITEM_KEYACTION = "selectTenthItem";
+    public static final String SELECT_FIRST_ITEM_KEYACTION = "selectItemOne";
+    public static final String SELECT_SECOND_ITEM_KEYACTION = "selectItemTwo";
+    public static final String SELECT_THIRD_ITEM_KEYACTION = "selectItemThree";
+    public static final String SELECT_FOURTH_ITEM_KEYACTION = "selectItemFourth";
+    public static final String SELECT_FIFTH_ITEM_KEYACTION = "selectItemFive";
+    public static final String SELECT_SIXTH_ITEM_KEYACTION = "selectItemSix";
+    public static final String SELECT_SEVENTH_ITEM_KEYACTION = "selectItemSeven";
+    public static final String SELECT_EIGHTH_ITEM_KEYACTION = "selectItemEight";
+    public static final String SELECT_NINTH_ITEM_KEYACTION = "selectItemNine";
+    public static final String SELECT_TENTH_ITEM_KEYACTION = "selectItemTen";
     
     private static final String FIRST_QUICKBAR_BUTTON_NAME = "#firstSelectionButton";
     private static final String SECOND_QUICKBAR_BUTTON_NAME = "#secondSelectionButton";
@@ -106,40 +106,37 @@ public class QuickSelectionBarControl extends AbstractController implements Quic
     public boolean inputEvent(NiftyInputEvent nie) {
         return false;
     }
-
+    
     @Override
-    public void reactToKeyInput(String keyActionName) {
-        Integer barPosition = keyActionOnPosition.get(keyActionName);
+    public void setItemDisplayData(ItemDisplayData[] displayData) {
+        int numberOfShownItems = displayData.length > 10 ? 10 : displayData.length;
         
-        if (null != barPosition) {
-            QuickSelectionBarButton buttonToSelect = buttonOnPosition.get(barPosition);
+        for (int i = 0; i < numberOfShownItems; i++) {
+            QuickSelectionBarButton affectedButton = buttonOnPosition.get(i);
+            ItemDisplayData itemDisplayData = displayData[i];
             
-            if (null != buttonToSelect) {
-                if (null != currentlySelectedButton) {
-                    currentlySelectedButton.setUnselected();
-                }   
-                
-                buttonToSelect.setSelected();
-                currentlySelectedButton = buttonToSelect;
+            if (null != affectedButton) {
+                affectedButton.setItemToDisplay(itemDisplayData);
             }
         }
     }
     
     @Override
-    public QuickSelectableEntity getEntityContainedInSelection() {
-        if (null != currentlySelectedButton) {
-            // return currentlySelectedButton.getContainedItem();
-        }
-        
-        return null;
+    public int getItemIndexForKeyActionName(String keyActionName) {
+        return keyActionOnPosition.get(keyActionName);
     }
 
     @Override
-    public void addItemToPosition(QuickSelectableEntity item, int position) {
-        QuickSelectionBarButton button = buttonOnPosition.get(position);
+    public void highlightSelectionAtIndex(int itemIndex) {
+        QuickSelectionBarButton buttonToSelect = buttonOnPosition.get(itemIndex);
             
-        if (null != button) {
-            // button.setItemToSelect(item);
+        if (null != buttonToSelect) {
+            if (null != currentlySelectedButton) {
+                currentlySelectedButton.setUnselected();
+            }   
+                
+            buttonToSelect.setSelected();
+            currentlySelectedButton = buttonToSelect;
         }
     }
     

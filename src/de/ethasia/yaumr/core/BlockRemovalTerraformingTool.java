@@ -26,6 +26,11 @@ public class BlockRemovalTerraformingTool extends TerraformingTool {
     @Override
     public void interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
         islandManipulationFacade.removeBlockAt(position);
+    }  
+    
+    @Override
+    public String getTypeName() {
+        return "REMOVE_BLOCK";
     }    
     
     //</editor-fold>
