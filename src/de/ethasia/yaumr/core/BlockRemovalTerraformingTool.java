@@ -2,6 +2,8 @@ package de.ethasia.yaumr.core;
 
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -24,8 +26,14 @@ public class BlockRemovalTerraformingTool extends TerraformingTool {
     }
 
     @Override
-    public void interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
-        islandManipulationFacade.removeBlockAt(position);
+    public List<BlockPosition> interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
+        List<BlockPosition> changedBlockPositions = new LinkedList<>();
+        
+        if (islandManipulationFacade.removeBlockAt(position)) {
+            changedBlockPositions.add(position);
+        }
+        
+        return changedBlockPositions;
     }  
     
     @Override

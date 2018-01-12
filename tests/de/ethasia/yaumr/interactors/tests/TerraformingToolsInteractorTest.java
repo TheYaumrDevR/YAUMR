@@ -9,8 +9,10 @@ import de.ethasia.yaumr.core.TerraformingTool;
 import de.ethasia.yaumr.core.tests.mocks.IslandManipulationFacadeMock;
 import de.ethasia.yaumr.core.tests.mocks.TerraformingToolMock;
 import de.ethasia.yaumr.interactors.InteractionVector;
-import de.ethasia.yaumr.interactors.TerraformingToolsSelectorImpl;
+import de.ethasia.yaumr.interactors.TerraformingToolsInteractorImpl;
+import de.ethasia.yaumr.interactors.interfaces.ChunkPresenter;
 import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsQuickbarPresenter;
+import de.ethasia.yaumr.interactors.tests.mocks.ChunkPresenterMock;
 import de.ethasia.yaumr.interactors.tests.mocks.TerraformingToolsQuickbarPresenterMock;
 import org.junit.BeforeClass;
 
@@ -18,7 +20,7 @@ import org.junit.BeforeClass;
  *
  * @author R
  */
-public class TerraformingToolsSelectorTest {
+public class TerraformingToolsInteractorTest {
     
     @BeforeClass
     public static void setupClass() {
@@ -26,11 +28,13 @@ public class TerraformingToolsSelectorTest {
         
         dependencyResolver.removeRegisteredImplementation(TerraformingToolsQuickbarPresenter.class);
         dependencyResolver.registerImplementation(TerraformingToolsQuickbarPresenter.class, TerraformingToolsQuickbarPresenterMock.class);
+        dependencyResolver.removeRegisteredImplementation(ChunkPresenter.class);
+        dependencyResolver.registerImplementation(ChunkPresenter.class, ChunkPresenterMock.class);
     }
     
     @Test
     public void testGotoPreviousPage_previousPageIsPresent_pageSwitchesToPreviousPage() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(3, 4);
         testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(null), 8);
         testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(null), 2);
@@ -51,7 +55,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testGotoPreviousPage_previousPageIsNotPresent_staysOnCurrentPage() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(3, 4);
         testCandidate.setToolToOtherPosition(new BlockPlacementTerraformingTool(null), 2);
         
@@ -63,7 +67,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testSetSelectedToolIndex_indexIsInvalid_throwsException() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(1, 4);
         
         testCandidate.setSelectedToolIndex(14);
@@ -71,7 +75,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testSetSelectedToolIndex_indexIsValid_highLightingOnUIIsCalled() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(1, 16);    
         
         testCandidate.setSelectedToolIndex(5);
@@ -82,7 +86,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testSetToolToOtherPosition_positionIsInvalid_throwsException() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 40);
         
         testCandidate.setToolToOtherPosition(null, 200);
@@ -90,7 +94,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testSetToolToOtherPosition_positionIsValid_toolIsPresent() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
@@ -101,7 +105,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testSwapToolsOnSelectionPositions_positionIsInvalid_throwsException() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool1 = new BlockPlacementTerraformingTool(null);
         TerraformingTool tool2 = new BlockPlacementTerraformingTool(null);
@@ -114,7 +118,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testSwapToolsOnSelectionPositions_positionsAreValid_toolsAreSwapped() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool1 = new BlockPlacementTerraformingTool(null);
         TerraformingTool tool2 = new BlockPlacementTerraformingTool(null);
@@ -130,7 +134,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testSetToolToSelectionPosition_positionIsValid_toolIsSet() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
@@ -142,7 +146,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testSetToolToSelectionPosition_positionIsInvalid_throwsException() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
@@ -151,7 +155,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testGetOtherItemsOnCurrentPage_previouslySetItemsAreRetrieved() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool = new BlockPlacementTerraformingTool(null);
         
@@ -162,7 +166,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testExecuteActionOfCurrentlySelectedTool_toolIsSelected_actionIsExecuted() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool = new TerraformingToolMock();
         testCandidate.setToolToSelectionPosition(tool, 5);
@@ -172,13 +176,16 @@ public class TerraformingToolsSelectorTest {
         testCandidate.executeActionOfCurrentlySelectedTool(new InteractionVector(0.4f, 0.4f, 0.4f));
         
         assertEquals(1, TerraformingToolMock.getMethodCallCount("interactWithIsland"));
+        assertEquals(1, ChunkPresenterMock.getCallCounterForMethodName("setChangedPosition"));
+        assertEquals(1, ChunkPresenterMock.getCallCounterForMethodName("presentChunksForChangedPositions"));
         TerraformingToolMock.resetCalledMethodCounters();
         TerraformingToolsQuickbarPresenterMock.resetMethodCallCounts();
+        ChunkPresenterMock.resetMethodCallCounts();
     }
     
     @Test
     public void testExecuteActionOfCurrentlySelectedTool_noToolSelected_actionIsNotExecuted() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         testCandidate.setIslandManipulationFacade(new IslandManipulationFacadeMock());
         testCandidate.setSelectedToolIndex(5);
@@ -186,12 +193,14 @@ public class TerraformingToolsSelectorTest {
         testCandidate.executeActionOfCurrentlySelectedTool(new InteractionVector(0.4f, 0.4f, 0.4f));
         
         assertEquals(0, TerraformingToolMock.getMethodCallCount("interactWithIsland"));
+        assertEquals(0, ChunkPresenterMock.getCallCounterForMethodName("setChangedPosition"));
+        assertEquals(0, ChunkPresenterMock.getCallCounterForMethodName("presentChunksForChangedPositions"));
         TerraformingToolsQuickbarPresenterMock.resetMethodCallCounts();
     }    
     
     @Test
     public void testRotateCurrentlySelectedToolOnX_toolIsSelected_rotationMethodIsCalled() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         TerraformingTool tool = new TerraformingToolMock();
         testCandidate.setToolToSelectionPosition(tool, 5);
@@ -207,7 +216,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testRotateCurrentlySelectedToolOnX_noToolIsSelected_rotationMethodIsNotCalled() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         testCandidate.setIslandManipulationFacade(new IslandManipulationFacadeMock());
         testCandidate.setSelectedToolIndex(5);
@@ -220,7 +229,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testRotateCurrentlySelectedToolOnY_toolIsSelected_rotationMethodIsCalled() {     
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         TerraformingTool tool = new TerraformingToolMock();
         testCandidate.resetToDimensions(5, 4);
         testCandidate.setToolToSelectionPosition(tool, 5);
@@ -235,7 +244,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testRotateCurrentlySelectedToolOnY_noToolIsSelected_rotationMethodIsNotCalled() {  
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         testCandidate.setIslandManipulationFacade(new IslandManipulationFacadeMock());
         testCandidate.setSelectedToolIndex(5);
@@ -248,7 +257,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testRotateCurrentlySelectedToolOnZ_toolIsSelected_rotationMethodIsCalled() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         TerraformingTool tool = new TerraformingToolMock();
         testCandidate.resetToDimensions(5, 4);
         testCandidate.setToolToSelectionPosition(tool, 5);
@@ -263,7 +272,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testRotateCurrentlySelectedToolOnZ_toolIsNotSelected_rotationMethodIsNotCalled() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(5, 4);
         testCandidate.setIslandManipulationFacade(new IslandManipulationFacadeMock());
         testCandidate.setSelectedToolIndex(5);
@@ -276,7 +285,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testSwapToolsOnSelectionPositions_positionsAreValid_quickBarInGuiIsChanged() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(1, 16);    
         TerraformingTool tool1 = new BlockPlacementTerraformingTool(null);
         TerraformingTool tool2 = new BlockPlacementTerraformingTool(null);
@@ -291,7 +300,7 @@ public class TerraformingToolsSelectorTest {
     
     @Test
     public void testSetToolToSelectionPosition_positionIsValid_quickBarInGuiIsChanged() {
-        TerraformingToolsSelectorImpl testCandidate = new TerraformingToolsSelectorImpl();
+        TerraformingToolsInteractorImpl testCandidate = new TerraformingToolsInteractorImpl();
         testCandidate.resetToDimensions(1, 16);    
         TerraformingTool tool1 = new BlockPlacementTerraformingTool(null);
         

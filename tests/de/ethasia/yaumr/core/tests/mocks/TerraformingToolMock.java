@@ -5,6 +5,8 @@ import java.util.Map;
 import de.ethasia.yaumr.core.TerraformingTool;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  *
@@ -36,8 +38,11 @@ public class TerraformingToolMock extends TerraformingTool {
     }
 
     @Override
-    public void interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
+    public List<BlockPosition> interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
         incrementMethodCallCount("interactWithIsland");
+        List<BlockPosition> changedPositions = new LinkedList<>();
+        changedPositions.add(position);
+        return changedPositions;
     }    
     
     @Override

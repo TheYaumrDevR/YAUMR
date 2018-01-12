@@ -8,7 +8,7 @@ import de.ethasia.yaumr.interactors.InteractionVector;
  *
  * @author R
  */
-public interface TerraformingToolsSelector {
+public interface TerraformingToolsInteractor {
     
     public void resetToDimensions(int pageCount, int itemsPerPage);
     public void setIslandManipulationFacade(IslandManipulationFacade islandManipulationFacade);

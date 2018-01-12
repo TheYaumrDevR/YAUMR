@@ -31,7 +31,7 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     }
   
     @Override
-    public void placeBlockAt(Block block, BlockPosition position) {
+    public boolean placeBlockAt(Block block, BlockPosition position) {
         if ((null != islandToChange) && (islandToChange.placeBlockAt(block, position))) {
             
             if (null != grassToEarthAutomaton) {
@@ -41,11 +41,15 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
             if (null != fallingBlocksHandler) {
                 fallingBlocksHandler.setChangedPosition(position);
             }
+            
+            return true;
         }
+        
+        return false;
     }
   
     @Override
-    public void removeBlockAt(BlockPosition position) {
+    public boolean removeBlockAt(BlockPosition position) {
         incrementMockCounterForCalledMethod("removeBlockAt");
         
         if ((null != islandToChange) && (islandToChange.removeBlockAt(position))) {
@@ -57,11 +61,15 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
             if (null != fallingBlocksHandler) {
                 fallingBlocksHandler.setChangedPosition(position);
             }
+            
+            return true;
         }
+        
+        return false;
     }
   
     @Override
-    public void copyBlockTo(Block blockToCopy, BlockPosition position) {
+    public boolean copyBlockTo(Block blockToCopy, BlockPosition position) {
         incrementMockCounterForCalledMethod("copyBlockTo");
         
         if ((null != islandToChange) && (islandToChange.copyBlockTo(blockToCopy, position))) {
@@ -73,7 +81,11 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
             if (null != fallingBlocksHandler) {
                 fallingBlocksHandler.setChangedPosition(position);
             }
+            
+            return true;
         }
+        
+        return false;
     }
   
     @Override
@@ -102,5 +114,10 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
         int posZ = (int)Math.floor(pointingPositionZ / 0.5f);        
         
         return new BlockPosition(posX, posY, posZ);
+    }
+
+    @Override
+    public Island getIsland() {
+        return islandToChange;
     }
 }

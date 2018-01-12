@@ -17,15 +17,26 @@ public interface IslandManipulationFacade {
     
     public void setIsland(Island islandToChange);
     
+    /**
+     * Retrieves the Island this Facade works on. Do not use it to edit the Island
+     * directly. The Island is retrieved so that its data can be passed to renderers.
+     * The cleaner way would be to creates copies of the necessary Block data and pass it to the renderers.
+     * But object creation is a runtime costly operation compared to primitive operations.
+     * Especially with the amount of Blocks present on an Island.
+     * 
+     * @return 
+     */
+    public Island getIsland();
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Facade Methods">
     
-    public void placeBlockAt(Block block, BlockPosition position);
+    public boolean placeBlockAt(Block block, BlockPosition position);
     
-    public void removeBlockAt(BlockPosition position);
+    public boolean removeBlockAt(BlockPosition position);
     
-    public void copyBlockTo(Block blockToCopy, BlockPosition position);  
+    public boolean copyBlockTo(Block blockToCopy, BlockPosition position);  
     
     public void tick(long timeSinceLastTickInMS);
     

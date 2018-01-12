@@ -4,6 +4,8 @@ import de.ethasia.yaumr.core.blocks.AxisRotationValues;
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Represents a TerraformingTool with which the user places Blocks.
@@ -50,10 +52,16 @@ public class BlockPlacementTerraformingTool extends TerraformingTool {
     }
 
     @Override
-    public void interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
+    public List<BlockPosition> interactWithIsland(IslandManipulationFacade islandManipulationFacade, BlockPosition position) {
+        List<BlockPosition> changedBlocks = new LinkedList<>();
+        
         if (null != blockToPlace) {
-            islandManipulationFacade.copyBlockTo(blockToPlace, position);
+            if (islandManipulationFacade.copyBlockTo(blockToPlace, position)) {
+                changedBlocks.add(position);
+            }
         }
+        
+        return changedBlocks;
     }
     
     @Override

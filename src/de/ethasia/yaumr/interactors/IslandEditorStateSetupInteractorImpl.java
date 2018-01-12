@@ -8,7 +8,7 @@ import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateSetupInteractor;
-import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsSelector;
+import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
 
 /**
  *
@@ -21,7 +21,7 @@ public class IslandEditorStateSetupInteractorImpl implements IslandEditorStateSe
     @Override
     public void setupInventoryInteractorsForIslandEditorState() {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
-        TerraformingToolsSelector toolsSelector = dependencyResolver.getImplementationInstance(TerraformingToolsSelector.class);
+        TerraformingToolsInteractor toolsSelector = dependencyResolver.getImplementationInstance(TerraformingToolsInteractor.class);
         toolsSelector.resetToDimensions(1, 25);
         
         Block earthBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);
@@ -56,8 +56,8 @@ public class IslandEditorStateSetupInteractorImpl implements IslandEditorStateSe
         toolsSelector.setToolToSelectionPosition(addLeavesBlockTool, 8);        
         toolsSelector.setToolToSelectionPosition(blockRemovalTool, 9);       
         
-        dependencyResolver.removeSingletonInstance(TerraformingToolsSelector.class);
-        dependencyResolver.registerSingletonInstance(TerraformingToolsSelector.class, toolsSelector);
+        dependencyResolver.removeSingletonInstance(TerraformingToolsInteractor.class);
+        dependencyResolver.registerSingletonInstance(TerraformingToolsInteractor.class, toolsSelector);
     }    
     
     //</editor-fold>    

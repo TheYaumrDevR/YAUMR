@@ -22,12 +22,12 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateMainInteractor;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateSetupInteractor;
-import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsSelector;
 import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.ioadapters.interfaces.BlockInteractionIndicatorPresenter;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBarControl;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
+import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
 
 /**
  *
@@ -64,7 +64,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     private IslandEditorStateMainInteractor windowsInteractor;
     private IslandEditorStateSetupInteractor setupInteractor;
-    private TerraformingToolsSelector terraformingToolsSelector;
+    private TerraformingToolsInteractor terraformingToolsSelector;
     private BlockInteractionIndicatorPresenter blockInteractionIndicatorPresenter;
     
     //</editor-fold>
@@ -142,7 +142,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         toolsSelectionGrid = screen.findNiftyControl(TOOLGRID_NAME, InventoryGrid.class);
         
         setupInteractor.setupInventoryInteractorsForIslandEditorState();
-        terraformingToolsSelector = dependencyResolver.getSingletonInstance(TerraformingToolsSelector.class);
+        terraformingToolsSelector = dependencyResolver.getSingletonInstance(TerraformingToolsInteractor.class);
     }    
 
     @Override

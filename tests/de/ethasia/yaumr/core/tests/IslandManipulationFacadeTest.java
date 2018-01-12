@@ -18,6 +18,7 @@ import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.core.tests.mocks.FallingSandyBlockCellularAutomatonMock;
 import de.ethasia.yaumr.core.tests.mocks.GrassToEarthCellularAutomatonMock;
 import de.ethasia.yaumr.interactors.InteractionVector;
+import static org.junit.Assert.assertTrue;
 
 public class IslandManipulationFacadeTest {
     
@@ -45,11 +46,12 @@ public class IslandManipulationFacadeTest {
         
         BlockPosition position = new BlockPosition(91, 119, 223);
         Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BEDROCK);
-        testCandidate.placeBlockAt(blockToPlace, position);
+        boolean blockPlaced = testCandidate.placeBlockAt(blockToPlace, position);
         
         assertEquals(BlockTypes.BEDROCK, islandToManipulate.getBlockAt(position).getBlockType());
         assertEquals(1, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertEquals(1, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
+        assertTrue(blockPlaced);
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();
@@ -63,11 +65,12 @@ public class IslandManipulationFacadeTest {
         BlockPosition position = new BlockPosition(152, 9, 169);
         Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_PLANKS);
         testCandidate.placeBlockAt(blockToPlace, position);
-        testCandidate.removeBlockAt(position);
+        boolean blockRemoved = testCandidate.removeBlockAt(position);
         
         assertEquals(BlockTypes.AIR, islandToManipulate.getBlockAt(position).getBlockType());
         assertEquals(2, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertEquals(2, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
+        assertTrue(blockRemoved);
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();    
@@ -80,11 +83,12 @@ public class IslandManipulationFacadeTest {
         
         BlockPosition position = new BlockPosition(167, 122, 179);
         Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_ROOF);
-        testCandidate.copyBlockTo(blockToPlace, position);
+        boolean blockCopied = testCandidate.copyBlockTo(blockToPlace, position);
         
         assertEquals(BlockTypes.BIRCH_ROOF, islandToManipulate.getBlockAt(position).getBlockType());
         assertEquals(1, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertEquals(1, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
+        assertTrue(blockCopied);
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();    

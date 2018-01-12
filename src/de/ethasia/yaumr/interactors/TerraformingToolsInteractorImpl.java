@@ -5,15 +5,17 @@ import de.ethasia.yaumr.core.TerraformingTool;
 import java.util.Arrays;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import de.ethasia.yaumr.interactors.interfaces.ChunkPresenter;
 import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsQuickbarPresenter;
-import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsSelector;
+import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
+import java.util.List;
 
 /**
  * Provides methods to select and set the properties of tools for terraforming.
  * 
  * @author 
  */
-public class TerraformingToolsSelectorImpl implements TerraformingToolsSelector {
+public class TerraformingToolsInteractorImpl implements TerraformingToolsInteractor {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
@@ -26,13 +28,15 @@ public class TerraformingToolsSelectorImpl implements TerraformingToolsSelector 
     
     private IslandManipulationFacade islandManipulationFacade;
     private final TerraformingToolsQuickbarPresenter quickbarPresenter;
+    private final ChunkPresenter chunkPresenter;
     
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     
-    public TerraformingToolsSelectorImpl() {
+    public TerraformingToolsInteractorImpl() {
         quickbarPresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(TerraformingToolsQuickbarPresenter.class);
+        chunkPresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(ChunkPresenter.class);
         currentlySelectedToolIndex = -1;
     }
     
@@ -140,7 +144,8 @@ public class TerraformingToolsSelectorImpl implements TerraformingToolsSelector 
             if (null != islandManipulationFacade) {
                 BlockPosition interactionPosition = islandManipulationFacade.getBlockPositionOnCurrentIslandForInteractionVector(pointingPoint);
                 if (null != interactionPosition) {
-                    selectableTools[currentlySelectedToolIndex].interactWithIsland(islandManipulationFacade, interactionPosition);                                    
+                    List<BlockPosition> changedBlockPositions = selectableTools[currentlySelectedToolIndex].interactWithIsland(islandManipulationFacade, interactionPosition);  
+                    requestChunkRenderingForPositionsIfNecessary(changedBlockPositions);
                 }                
             }
         }
@@ -165,6 +170,21 @@ public class TerraformingToolsSelectorImpl implements TerraformingToolsSelector 
         if (selectableTools[currentlySelectedToolIndex] != null) {
             selectableTools[currentlySelectedToolIndex].rotateOnZ();
         }        
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    
+    private void requestChunkRenderingForPositionsIfNecessary(List<BlockPosition> changedBlockPositions) {
+        if (changedBlockPositions.size() > 0) {
+            for (BlockPosition changedPosition : changedBlockPositions) {
+                int[] changedCoordinates = {changedPosition.x, changedPosition.y, changedPosition.z};
+                chunkPresenter.setChangedPosition(changedCoordinates);
+            }
+            
+            chunkPresenter.presentChunksForChangedPositions(islandManipulationFacade.getIsland());
+        }
     }
     
     //</editor-fold>

@@ -40,30 +40,41 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
         fallingSandHandler.setIslandManipulationFacade(this);
     }
     
+    @Override
+    public Island getIsland() {
+        return island;
+    }    
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Facade Methods">
     
     @Override
-    public void placeBlockAt(Block block, BlockPosition position) {
+    public boolean placeBlockAt(Block block, BlockPosition position) {
         if (null != island) {
             BlockPlacementStrategy blockPlacementStrategy = block.getBlockPlacementStrategy();
             if (null == blockPlacementStrategy) {
                 if (island.placeBlockAt(block, position)) {
                     grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);                
+                    fallingSandHandler.setChangedPosition(position);   
+                    
+                    return true;
                 }
             } else {
                 if (blockPlacementStrategy.placeBlockOnIslandAt(island, position)) {
                     grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);                
+                    fallingSandHandler.setChangedPosition(position);   
+                    
+                    return true;
                 }                
             }
         }
+        
+        return false;
     } 
     
     @Override
-    public void removeBlockAt(BlockPosition position) {
+    public boolean removeBlockAt(BlockPosition position) {
         if (null != island) {
             Block blockToRemove = island.getBlockAt(position);
             BlockPlacementStrategy blockPlacementStrategy = blockToRemove.getBlockPlacementStrategy();
@@ -72,18 +83,24 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
                 if (island.removeBlockAt(position)) {
                     grassToEarthUpdater.setChangedPosition(position);
                     fallingSandHandler.setChangedPosition(position);
+                    
+                    return true;
                 }                
             } else {
                 if (blockPlacementStrategy.removeBlockFromIslandAt(island, position)) {
                     grassToEarthUpdater.setChangedPosition(position);
                     fallingSandHandler.setChangedPosition(position);
+                    
+                    return true;
                 }                  
             }
         }
+        
+        return false;
     }
     
     @Override
-    public void copyBlockTo(Block blockToCopy, BlockPosition position) {
+    public boolean copyBlockTo(Block blockToCopy, BlockPosition position) {
         if (null != island) {
             BlockPlacementStrategy blockPlacementStrategy = blockToCopy.getBlockPlacementStrategy();
             
@@ -91,14 +108,20 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
                 if (island.copyBlockTo(blockToCopy, position)) {
                     grassToEarthUpdater.setChangedPosition(position);
                     fallingSandHandler.setChangedPosition(position);
+                    
+                    return true;
                 }                
             } else {
                 if (blockPlacementStrategy.copyBlockToPositionOnIsland(island, position)) {
                     grassToEarthUpdater.setChangedPosition(position);
                     fallingSandHandler.setChangedPosition(position);
+                    
+                    return true;
                 }
             }
         }
+        
+        return false;
     }   
     
     @Override

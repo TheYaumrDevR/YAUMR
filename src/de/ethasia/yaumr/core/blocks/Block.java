@@ -7,10 +7,27 @@ package de.ethasia.yaumr.core.blocks;
  */
 public class Block {
 
+    //<editor-fold defaultstate="collapsed" desc="Constants">
+    
+    private final static Quaternion X_AXIS_ROTATE_90_QUAT = new Quaternion();
+    private final static Quaternion X_AXIS_ROTATE_MINUS_90_QUAT = new Quaternion();
+    private final static Quaternion Y_AXIS_ROTATE_90_QUAT = new Quaternion();
+    private final static Quaternion Y_AXIS_ROTATE_MINUS_90_QUAT = new Quaternion();
+    private final static Quaternion Z_AXIS_ROTATE_90_QUAT = new Quaternion();
+    private final static Quaternion Z_AXIS_ROTATE_MINUS_90_QUAT = new Quaternion();
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     protected BlockTypes blockType;
     protected BlockPlacementStrategy blockPlacementStrategy;
+    
+    // These are versors (unit quaternions) representing the current rotation around the axes. 
+    // Blocks can only be rotated in 90 degree steps.
+    private Quaternion xAxisRotation;
+    private Quaternion yAxisRotation;
+    private Quaternion zAxisRotation;
     
     // This is faster than having objects. 
     protected BlockFaceTypes rightFace;
@@ -29,16 +46,27 @@ public class Block {
     
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    //<editor-fold defaultstate="collapsed" desc="Initializers">
+    
+    static {
+        X_AXIS_ROTATE_90_QUAT.fromAngleAxis((float)Math.PI / 2.f, new Vector3(1, 0, 0));
+        X_AXIS_ROTATE_MINUS_90_QUAT.fromAngleAxis(-((float)Math.PI / 2.f), new Vector3(1, 0, 0));
+        Y_AXIS_ROTATE_90_QUAT.fromAngleAxis((float)Math.PI / 2.f, new Vector3(0, 1, 0));
+        Y_AXIS_ROTATE_MINUS_90_QUAT.fromAngleAxis(-((float)Math.PI / 2.f), new Vector3(0, 1, 0));  
+        Z_AXIS_ROTATE_90_QUAT.fromAngleAxis((float)Math.PI / 2.f, new Vector3(0, 0, 1));
+        Z_AXIS_ROTATE_MINUS_90_QUAT.fromAngleAxis(-((float)Math.PI / 2.f), new Vector3(0, 0, 1));        
+    }
     
     Block() {
         blockType = BlockTypes.AIR;
         initDefaultBlockFaces(BlockTypes.AIR);
+        initInitialRotationQuaternions();
     }
     
     Block(BlockTypes blockType) {
         this.blockType = blockType;
-        initDefaultBlockFaces(blockType);      
+        initDefaultBlockFaces(blockType); 
+        initInitialRotationQuaternions();
     }
     
     //</editor-fold>
@@ -101,6 +129,18 @@ public class Block {
         return bottomFaceIsCovering;
     }
     
+    public Quaternion getCurrentXAxisRotation() {
+        return xAxisRotation;
+    }
+    
+    public Quaternion getCurrentYAxisRotation() {
+        return yAxisRotation;
+    }    
+    
+    public Quaternion getCurrentZAxisRotation() {
+        return zAxisRotation;
+    }    
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
@@ -108,6 +148,7 @@ public class Block {
     public void resetBlockToType(BlockTypes value) {
         blockType = value;
         initDefaultBlockFaces(value);
+        initInitialRotationQuaternions();
     }
     
     public void setBlockTo(Block otherBlock) {
@@ -126,6 +167,10 @@ public class Block {
         rightFaceIsCovering = otherBlock.rightFaceIsCovering();
         topFaceIsCovering = otherBlock.topFaceIsCovering();
         bottomFaceIsCovering = otherBlock.bottomFaceIsCovering();
+        
+        xAxisRotation = otherBlock.xAxisRotation;
+        yAxisRotation = otherBlock.yAxisRotation;
+        zAxisRotation = otherBlock.zAxisRotation;
     }
     
     public void rotateOnAxisX(AxisRotationValues rotationValue) {
@@ -153,6 +198,12 @@ public class Block {
             coversBottomFace = backFaceIsCovering;
             coversFrontFace = bottomFaceIsCovering;
             coversTopFace = frontFaceIsCovering;
+            
+            if (null == xAxisRotation) {
+                xAxisRotation = new Quaternion(X_AXIS_ROTATE_MINUS_90_QUAT);
+            } else {
+                xAxisRotation = xAxisRotation.multiply(X_AXIS_ROTATE_MINUS_90_QUAT);                
+            }
         } else if (rotationValue == AxisRotationValues.NINETY) {
             newFrontFace = topFace;
             newBottomFace = frontFace;
@@ -162,7 +213,13 @@ public class Block {
             coversFrontFace = topFaceIsCovering;
             coversBottomFace = frontFaceIsCovering;
             coversBackFace = bottomFaceIsCovering;
-            coversTopFace =  backFaceIsCovering;       
+            coversTopFace =  backFaceIsCovering;     
+            
+            if (null == xAxisRotation) {
+                xAxisRotation = new Quaternion(X_AXIS_ROTATE_90_QUAT);
+            } else {
+                xAxisRotation = xAxisRotation.multiply(X_AXIS_ROTATE_90_QUAT);                
+            }            
         }
       
         topFace = newTopFace;
@@ -201,6 +258,12 @@ public class Block {
             coversRightFace = backFaceIsCovering;
             coversFrontFace = rightFaceIsCovering;
             coversLeftFace = frontFaceIsCovering;
+            
+            if (null == yAxisRotation) {
+                yAxisRotation = new Quaternion(Y_AXIS_ROTATE_MINUS_90_QUAT);
+            } else {
+                yAxisRotation = yAxisRotation.multiply(Y_AXIS_ROTATE_MINUS_90_QUAT);                
+            }            
         } else if (rotationValue == AxisRotationValues.NINETY) {
             newRightFace = frontFace;
             newFrontFace = leftFace;
@@ -211,6 +274,12 @@ public class Block {
             coversFrontFace = leftFaceIsCovering;
             coversLeftFace = backFaceIsCovering;
             coversBackFace = rightFaceIsCovering;
+            
+            if (null == yAxisRotation) {
+                yAxisRotation = new Quaternion(Y_AXIS_ROTATE_90_QUAT);
+            } else {
+                yAxisRotation = yAxisRotation.multiply(Y_AXIS_ROTATE_90_QUAT);                
+            }   
         }
         
         leftFace = newLeftFace;
@@ -249,6 +318,12 @@ public class Block {
             coversLeftFace = bottomFaceIsCovering;
             coversBottomFace = rightFaceIsCovering;
             coversRightFace = topFaceIsCovering;
+            
+            if (null == zAxisRotation) {
+                zAxisRotation = new Quaternion(Z_AXIS_ROTATE_MINUS_90_QUAT);
+            } else {
+                zAxisRotation = zAxisRotation.multiply(Z_AXIS_ROTATE_MINUS_90_QUAT);                
+            }             
         } else if (rotationValue == AxisRotationValues.NINETY) {
             newTopFace = rightFace;
             newLeftFace = topFace;
@@ -259,6 +334,12 @@ public class Block {
             coversLeftFace = topFaceIsCovering;
             coversBottomFace = leftFaceIsCovering;
             coversRightFace = bottomFaceIsCovering; 
+            
+            if (null == zAxisRotation) {
+                zAxisRotation = new Quaternion(X_AXIS_ROTATE_90_QUAT);
+            } else {
+                zAxisRotation = zAxisRotation.multiply(X_AXIS_ROTATE_90_QUAT);                
+            }            
         }
         
         leftFace = newLeftFace;
@@ -305,6 +386,12 @@ public class Block {
         backFaceIsCovering = faces.getBackFaceIsCovering();
         topFaceIsCovering = faces.getTopFaceIsCovering();
         bottomFaceIsCovering = faces.getBottomFaceIsCovering();
+    }
+    
+    private void initInitialRotationQuaternions() {
+        xAxisRotation = null;
+        yAxisRotation = null;
+        zAxisRotation = null;
     }
     
     //</editor-fold>
