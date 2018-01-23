@@ -53,6 +53,7 @@ public class Island {
         
         if (blockOnPositionIsDisplacedByBlock(position, block.getBlockType())) {
             blocks[position.x][position.y][position.z] = block;
+            block.setYPositionOnParentIsland(position.y);
             return true;
         }
         
@@ -62,10 +63,10 @@ public class Island {
     public boolean removeBlockAt(BlockPosition position) {
         throwExceptionForInvalidBlockPosition(position);
         
-        if (getBlockAt(position).getBlockType() != BlockTypes.AIR) {
+        if (null != getBlockAt(position) && getBlockAt(position).getBlockType() != BlockTypes.AIR) {
             Block blockToRemove = blocks[position.x][position.y][position.z];
             if (!SimpleBlockFactory.blockTypesAreOfSameKind(blockToRemove.getBlockType(), BlockTypes.AIR)) {
-                blocks[position.x][position.y][position.z] = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
+                blocks[position.x][position.y][position.z] = null;
                 return true;
             }
             
@@ -81,12 +82,19 @@ public class Island {
         
         if (blockOnPositionIsDisplacedByBlock(position, blockToCopy.getBlockType())) {
             Block currentBlock = blocks[position.x][position.y][position.z];
-            if (!SimpleBlockFactory.blockTypesAreOfSameKind(currentBlock.getBlockType(), blockToCopy.getBlockType())) {
+            BlockTypes currentBlockType = null == currentBlock ? BlockTypes.AIR : currentBlock.getBlockType();
+            if (!SimpleBlockFactory.blockTypesAreOfSameKind(currentBlockType, blockToCopy.getBlockType())) {
                 currentBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(blockToCopy.getBlockType());
                 placeBlockAt(currentBlock, position);
             }
             
+            if (null == currentBlock) {
+                currentBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
+            }
+            
             currentBlock.setBlockTo(blockToCopy);
+            blocks[position.x][position.y][position.z] = currentBlock;
+            currentBlock.setYPositionOnParentIsland(position.y);
             return true;
         }
         
@@ -115,48 +123,78 @@ public class Island {
         switch(faceType) {
             case FRONT:
                 if (position.z < edgeLengthOfHorizontalPlaneInBlocks - 1) {
-                    if (blocks[position.x][position.y][position.z].frontFaceIsCovering()) {
-                        return blocks[position.x][position.y][position.z + 1].backFaceIsCovering();
+                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
+                            && blocks[position.x][position.y][position.z].frontFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y][position.z + 1] != null
+                            && blocks[position.x][position.y][position.z + 1].backFaceIsCovering();
+                    
+                    if (currentBlockFaceIsCovering) {
+                        return neighborBlockFaceIsCovering;
                     }
                 }
                 
                 return false;
             case BACK:
                 if (position.z > 0) {
-                    if (blocks[position.x][position.y][position.z].backFaceIsCovering()) {
-                        return blocks[position.x][position.y][position.z - 1].frontFaceIsCovering();
+                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
+                            && blocks[position.x][position.y][position.z].backFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y][position.z - 1] != null
+                            && blocks[position.x][position.y][position.z - 1].frontFaceIsCovering();                    
+                    
+                    if (currentBlockFaceIsCovering) {
+                        return neighborBlockFaceIsCovering;
                     }                    
                 }
                 
                 return false;
             case LEFT:
                 if (position.x > 0) {
-                    if (blocks[position.x][position.y][position.z].leftFaceIsCovering()) {
-                        return blocks[position.x - 1][position.y][position.z].rightFaceIsCovering();
+                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
+                            && blocks[position.x][position.y][position.z].leftFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[position.x - 1][position.y][position.z] != null
+                            && blocks[position.x - 1][position.y][position.z].rightFaceIsCovering();                     
+                    
+                    if (currentBlockFaceIsCovering) {
+                        return neighborBlockFaceIsCovering;
                     }                    
                 }
                 
                 return false;
             case RIGHT:
                 if (position.x < edgeLengthOfHorizontalPlaneInBlocks - 1) {
-                    if (blocks[position.x][position.y][position.z].rightFaceIsCovering()) {
-                        return blocks[position.x + 1][position.y][position.z].leftFaceIsCovering();
+                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
+                            && blocks[position.x][position.y][position.z].rightFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[position.x + 1][position.y][position.z] != null
+                            && blocks[position.x + 1][position.y][position.z].leftFaceIsCovering();                     
+                    
+                    if (currentBlockFaceIsCovering) {
+                        return neighborBlockFaceIsCovering;
                     }                    
                 }
                 
                 return false;
             case BOTTOM:
                 if (position.y > 0) {
-                    if (blocks[position.x][position.y][position.z].bottomFaceIsCovering()) {
-                        return blocks[position.x][position.y - 1][position.z].topFaceIsCovering();
+                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
+                            && blocks[position.x][position.y][position.z].bottomFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y - 1][position.z] != null
+                            && blocks[position.x][position.y - 1][position.z].topFaceIsCovering();                    
+                    
+                    if (currentBlockFaceIsCovering) {
+                        return neighborBlockFaceIsCovering;
                     }                    
                 }
                 
                 return false;
             case TOP:
                 if (position.y < HEIGHT_IN_BLOCKS - 1) {
-                    if (blocks[position.x][position.y][position.z].topFaceIsCovering()) {
-                        return blocks[position.x][position.y + 1][position.z].bottomFaceIsCovering();
+                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
+                            && blocks[position.x][position.y][position.z].topFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y + 1][position.z] != null
+                            && blocks[position.x][position.y + 1][position.z].bottomFaceIsCovering();                     
+                    
+                    if (currentBlockFaceIsCovering) {
+                        return neighborBlockFaceIsCovering;
                     }                    
                 }
                 
@@ -173,14 +211,6 @@ public class Island {
     private void initializeEmptyIsland() {
         int xz = edgeLengthOfHorizontalPlaneInBlocks;
         blocks = new Block[xz][HEIGHT_IN_BLOCKS][xz];
-        
-        for (int i = 0; i < xz; i++) {
-            for (int j = 0; j < HEIGHT_IN_BLOCKS; j++) {
-                for (int k = 0; k < xz; k++) {
-                    blocks[i][j][k] = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.AIR);
-                }
-            }
-        }
     }
     
     private void throwExceptionForInvalidBlockPosition(BlockPosition position) {
@@ -197,7 +227,8 @@ public class Island {
     }
     
     private boolean blockOnPositionIsDisplacedByBlock(BlockPosition position, BlockTypes blockType) {
-        return blocks[position.x][position.y][position.z].getBlockType() == BlockTypes.AIR 
+        return (null == blocks[position.x][position.y][position.z] 
+                || blocks[position.x][position.y][position.z].getBlockType() == BlockTypes.AIR) 
                 || blocks[position.x][position.y][position.z].getBlockType().isDisplaced()
                 && blockType.displacesDisplacableBlock();
     }

@@ -52,7 +52,10 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
             Block blockAbove = islandToUpdate.getBlockAt(positionOneAbove);
             if (null != blockAbove) {
                 Block blockBelow = islandToUpdate.getBlockAt(affectedBlockPosition);
-                updateBlockStateIfNecessary(blockAbove, blockBelow);
+                
+                if (null != blockBelow) {
+                    updateBlockStateIfNecessary(blockAbove, blockBelow);
+                }
             }
         }                   
     }

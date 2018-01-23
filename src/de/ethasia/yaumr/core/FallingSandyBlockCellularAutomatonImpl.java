@@ -56,8 +56,15 @@ public class FallingSandyBlockCellularAutomatonImpl extends BlockCellularAutomat
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
     
     private void updateBlockBelowIfNecessary(BlockPosition positionToCheck, BlockPosition positionBelow) {
+        if (null == islandToUpdate.getBlockAt(positionToCheck)) {
+            return;
+        }
+        
         if (islandToUpdate.getBlockAt(positionToCheck).isAffectedByAutomatonType(getAutomatonName())) {
-            if (islandToUpdate.getBlockAt(positionBelow).getBlockType().isDisplaced()) {
+            boolean belowBlockIsDisplaced = null == islandToUpdate.getBlockAt(positionBelow) 
+                    || islandToUpdate.getBlockAt(positionBelow).getBlockType().isDisplaced();
+            
+            if (belowBlockIsDisplaced) {
                 if (islandToUpdate.getBlockAt(positionToCheck).getBlockType().displacesDisplacableBlock()) {
                     Block fallingBlock = islandToUpdate.getBlockAt(positionToCheck);
                     islandManipulationFacade.copyBlockTo(fallingBlock, positionBelow);

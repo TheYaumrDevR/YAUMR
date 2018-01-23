@@ -59,6 +59,14 @@ public abstract class BlockCellularAutomatonImpl implements BlockCellularAutomat
         if (null != islandToUpdate) {
             Block changedBlock = islandToUpdate.getBlockAt(changedPosition);
             
+            if (null == changedBlock) {
+                if (blockPositionsToCheck.contains(changedPosition)) {
+                    blockPositionsToCheck.remove(changedPosition);
+                }                
+                
+                return;
+            }
+            
             if (changedBlock.isAffectedByAutomatonType(getAutomatonName())) {
                 if (!blockPositionsToCheck.contains(changedPosition)) {
                     blockPositionsToCheck.add(changedPosition);

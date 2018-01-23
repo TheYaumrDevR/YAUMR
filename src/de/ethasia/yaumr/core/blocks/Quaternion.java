@@ -63,7 +63,15 @@ public final class Quaternion {
         result.w = -x * factorX - y * factorY - z * factorZ + w * factorW;
         
         return result;
-    }   
+    }  
+    
+    public Vector3 getVectorFromImaginaryPart() {
+        return new Vector3(x, y, z);
+    }
+    
+    public float getRealPart() {
+        return w;
+    }
     
     //</editor-fold>
     

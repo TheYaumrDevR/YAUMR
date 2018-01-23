@@ -12,6 +12,14 @@ package de.ethasia.yaumr.core.blocks;
  */
 public class Vector3 {
     
+    //<editor-fold defaultstate="collapsed" desc="Constants">
+    
+    public static final Vector3 UNIT_X = new Vector3(1, 0, 0);
+    public static final Vector3 UNIT_Y = new Vector3(0, 1, 0);
+    public static final Vector3 UNIT_Z = new Vector3(0, 0, 1);
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     private float x, y, z;
@@ -42,6 +50,14 @@ public class Vector3 {
         return z;
     }
     
+    public Vector3 set(Vector3 other) {
+        x = other.x;
+        y = other.y;
+        z = other.z;
+        
+        return this;
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
@@ -65,10 +81,72 @@ public class Vector3 {
         return x * x + y * y + z * z;
     }
     
+    /**
+     * Scales this vector by the given scalar. This vector is changed in the process.
+     * 
+     * @param scalar
+     * @return A reference to this.
+     */
     public Vector3 scale(float scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
+        
+        return this;
+    }
+    
+    /**
+     * The immutable variant of the scale method. Instead of scaling this object,
+     * this method creates a new Vector which is equal to this Vector scaled by
+     * the given scalar.
+     * 
+     * @param scalar
+     * @return 
+     */
+    public Vector3 scaleImmutable(float scalar) {
+        float newX = x * scalar;
+        float newY = y * scalar;
+        float newZ = z * scalar;
+        
+        return new Vector3(newX, newY, newZ);
+    }
+    
+    public Vector3 add(final Vector3 other) {
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        
+        return this;
+    }
+    
+    public Vector3 addImmutable(final Vector3 other) {
+        return new Vector3(x + other.x, y + other.y, z + other.z);
+    }
+    
+    public Vector3 subtract(final Vector3 other) {
+        x -= other.x;
+        y -= other.y;
+        z -= other.z;
+        
+        return this;
+    }
+    
+    public Vector3 subtractImmutable(final Vector3 other) {
+        return new Vector3(x - other.x, y - other.y, z - other.z);
+    }
+    
+    public float dot(final Vector3 other) {
+        return x * other.x + y * other.y + z * other.z;
+    }
+    
+    public Vector3 cross(final Vector3 other) {
+        float newX = y * other.z - z * other.y;
+        float newY = z * other.x - x * other.z;
+        float newZ = x * other.y - y * other.x;
+        
+        x = newX;
+        y = newY;
+        z = newZ;
         
         return this;
     }

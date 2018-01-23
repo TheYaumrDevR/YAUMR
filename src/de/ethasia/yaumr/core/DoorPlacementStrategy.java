@@ -55,6 +55,11 @@ public class DoorPlacementStrategy implements BlockPlacementStrategy {
     @Override
     public boolean removeBlockFromIslandAt(Island island, BlockPosition blockPosition) {
         Block blockAtPosition = island.getBlockAt(blockPosition);
+        
+        if (null == blockAtPosition) {
+            return false;
+        }
+        
         if (blockAtPosition instanceof DoorBlock) {
             DoorBlock blockToRemove = (DoorBlock)island.getBlockAt(blockPosition);
             if (blockToRemove.getIsUpperPartOfDoor()) {

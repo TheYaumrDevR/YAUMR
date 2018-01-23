@@ -23,11 +23,11 @@ public class Block {
     protected BlockTypes blockType;
     protected BlockPlacementStrategy blockPlacementStrategy;
     
+    protected int yOnParentIsland;
+    
     // These are versors (unit quaternions) representing the current rotation around the axes. 
     // Blocks can only be rotated in 90 degree steps.
-    private Quaternion xAxisRotation;
-    private Quaternion yAxisRotation;
-    private Quaternion zAxisRotation;
+    private Quaternion rotation;
     
     // This is faster than having objects. 
     protected BlockFaceTypes rightFace;
@@ -75,6 +75,14 @@ public class Block {
     
     public BlockPlacementStrategy getBlockPlacementStrategy() {
         return blockPlacementStrategy;
+    }
+    
+    public void setYPositionOnParentIsland(int value) {
+        yOnParentIsland = value;
+    }
+    
+    public int getYPositionOnParentIsland() {
+        return yOnParentIsland;
     }
     
     public BlockTypes getBlockType() {
@@ -129,17 +137,9 @@ public class Block {
         return bottomFaceIsCovering;
     }
     
-    public Quaternion getCurrentXAxisRotation() {
-        return xAxisRotation;
-    }
-    
-    public Quaternion getCurrentYAxisRotation() {
-        return yAxisRotation;
-    }    
-    
-    public Quaternion getCurrentZAxisRotation() {
-        return zAxisRotation;
-    }    
+    public Quaternion getCurrentRotation() {
+        return rotation;
+    }   
     
     //</editor-fold>
     
@@ -168,9 +168,7 @@ public class Block {
         topFaceIsCovering = otherBlock.topFaceIsCovering();
         bottomFaceIsCovering = otherBlock.bottomFaceIsCovering();
         
-        xAxisRotation = otherBlock.xAxisRotation;
-        yAxisRotation = otherBlock.yAxisRotation;
-        zAxisRotation = otherBlock.zAxisRotation;
+        rotation = otherBlock.rotation;
     }
     
     public void rotateOnAxisX(AxisRotationValues rotationValue) {
@@ -199,10 +197,10 @@ public class Block {
             coversFrontFace = bottomFaceIsCovering;
             coversTopFace = frontFaceIsCovering;
             
-            if (null == xAxisRotation) {
-                xAxisRotation = new Quaternion(X_AXIS_ROTATE_MINUS_90_QUAT);
+            if (null == rotation) {
+                rotation = X_AXIS_ROTATE_MINUS_90_QUAT;
             } else {
-                xAxisRotation = xAxisRotation.multiply(X_AXIS_ROTATE_MINUS_90_QUAT);                
+                rotation = rotation.multiply(X_AXIS_ROTATE_MINUS_90_QUAT);                
             }
         } else if (rotationValue == AxisRotationValues.NINETY) {
             newFrontFace = topFace;
@@ -215,10 +213,10 @@ public class Block {
             coversBackFace = bottomFaceIsCovering;
             coversTopFace =  backFaceIsCovering;     
             
-            if (null == xAxisRotation) {
-                xAxisRotation = new Quaternion(X_AXIS_ROTATE_90_QUAT);
+            if (null == rotation) {
+                rotation = X_AXIS_ROTATE_90_QUAT;
             } else {
-                xAxisRotation = xAxisRotation.multiply(X_AXIS_ROTATE_90_QUAT);                
+                rotation = rotation.multiply(X_AXIS_ROTATE_90_QUAT);                
             }            
         }
       
@@ -259,10 +257,10 @@ public class Block {
             coversFrontFace = rightFaceIsCovering;
             coversLeftFace = frontFaceIsCovering;
             
-            if (null == yAxisRotation) {
-                yAxisRotation = new Quaternion(Y_AXIS_ROTATE_MINUS_90_QUAT);
+            if (null == rotation) {
+                rotation = Y_AXIS_ROTATE_MINUS_90_QUAT;
             } else {
-                yAxisRotation = yAxisRotation.multiply(Y_AXIS_ROTATE_MINUS_90_QUAT);                
+                rotation = rotation.multiply(Y_AXIS_ROTATE_MINUS_90_QUAT);                
             }            
         } else if (rotationValue == AxisRotationValues.NINETY) {
             newRightFace = frontFace;
@@ -275,10 +273,10 @@ public class Block {
             coversLeftFace = backFaceIsCovering;
             coversBackFace = rightFaceIsCovering;
             
-            if (null == yAxisRotation) {
-                yAxisRotation = new Quaternion(Y_AXIS_ROTATE_90_QUAT);
+            if (null == rotation) {
+                rotation = Y_AXIS_ROTATE_90_QUAT;
             } else {
-                yAxisRotation = yAxisRotation.multiply(Y_AXIS_ROTATE_90_QUAT);                
+                rotation = rotation.multiply(Y_AXIS_ROTATE_90_QUAT);                
             }   
         }
         
@@ -319,10 +317,10 @@ public class Block {
             coversBottomFace = rightFaceIsCovering;
             coversRightFace = topFaceIsCovering;
             
-            if (null == zAxisRotation) {
-                zAxisRotation = new Quaternion(Z_AXIS_ROTATE_MINUS_90_QUAT);
+            if (null == rotation) {
+                rotation = Z_AXIS_ROTATE_MINUS_90_QUAT;
             } else {
-                zAxisRotation = zAxisRotation.multiply(Z_AXIS_ROTATE_MINUS_90_QUAT);                
+                rotation = rotation.multiply(Z_AXIS_ROTATE_MINUS_90_QUAT);                
             }             
         } else if (rotationValue == AxisRotationValues.NINETY) {
             newTopFace = rightFace;
@@ -335,10 +333,10 @@ public class Block {
             coversBottomFace = leftFaceIsCovering;
             coversRightFace = bottomFaceIsCovering; 
             
-            if (null == zAxisRotation) {
-                zAxisRotation = new Quaternion(X_AXIS_ROTATE_90_QUAT);
+            if (null == rotation) {
+                rotation = Z_AXIS_ROTATE_90_QUAT;
             } else {
-                zAxisRotation = zAxisRotation.multiply(X_AXIS_ROTATE_90_QUAT);                
+                rotation = rotation.multiply(Z_AXIS_ROTATE_90_QUAT);                
             }            
         }
         
@@ -389,9 +387,7 @@ public class Block {
     }
     
     private void initInitialRotationQuaternions() {
-        xAxisRotation = null;
-        yAxisRotation = null;
-        zAxisRotation = null;
+        rotation = null;
     }
     
     //</editor-fold>

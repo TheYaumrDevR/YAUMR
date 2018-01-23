@@ -67,11 +67,24 @@ Buyables
 --------
 --------
 
+At Blacksmith
+-------------
+-------------
+-------------
+
 - Stone Hoe: 7G
 Used to till grass or earth blocks. Seeds can only be sown on tilled blocks. Tills one block per use.
 
 - Watering Bucket: 4G
 A bucket made of clay. Used to water field plants to make them grow. Waters one tilled earth block per use.
+
+- Primitive Fishing Pole:
+A primitive fishing pole made of a wood branch. Can be used to catch small sized fish.
+
+At Crop Breeder
+---------------
+---------------
+---------------
 
 - Asparagus Seeds (9 Charges): 10G
 Sow in spring. Takes 13 days to fully grow. Does not regrow.
@@ -100,9 +113,12 @@ Unsorted Notes
 First Version (Alpha 1) will have 4 Islands:
 - Staring Island (no Monsters, Lv 1 soil)
 - Town Island (towns, not editable)
-- Lv 2 soil island with monsters
-- Lv 3 soil island with monsters
-- It will have lvl 3 level cap
+- Lv 1 soil island with lv1 monsters
+- Lv 2 soil island with lv2 monsters
+- Only monsters give exp which levels up character
+- Only monsters at or above character level give exp
+- Each character level gives 3 perk points, and one point batch for HP/Sta/Mag
+- Each perk requires a certain perk tree level
 
 - Using combat skills levels them up
 - Better combat skills become available at certain levels

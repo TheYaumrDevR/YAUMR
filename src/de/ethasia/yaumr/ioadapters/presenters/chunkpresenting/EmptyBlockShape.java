@@ -6,28 +6,31 @@ import de.ethasia.yaumr.core.blocks.Block;
  *
  * @author R
  */
-public class EmptyBlockShape implements BlockShape {
+public class EmptyBlockShape extends BlockShape {
 
     //<editor-fold defaultstate="collapsed" desc="Overrides">
     
     @Override
-    public Float[] getShapeVertices(Block block) {
-        return new Float[0];
+    public void setBlockToCreateDataFrom(Block value) {}
+    
+    @Override
+    public float[] getShapeVertices(int xPositionInChunk, int zPositionInChunk) {
+        return new float[0];
     }
 
     @Override
-    public Integer[] getVertexIndices(Block block) {
-        return new Integer[0];
+    public int[] getVertexIndices(int amountOfAlreadySetupBlocksInChunk) {
+        return new int[0];
     }
 
     @Override
-    public Float[] getNormals(Block block) {
-        return new Float[0];
+    public float[] getNormals() {
+        return new float[0];
     }
 
     @Override
-    public Float[] getUVCoordinates(Block block) {
-        return new Float[0];
+    public float[] getUVCoordinates() {
+        return new float[0];
     }    
     
     //</editor-fold>

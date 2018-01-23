@@ -1,6 +1,5 @@
 package de.ethasia.yaumr.core.tests;
 
-import org.junit.AfterClass;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,12 +24,13 @@ public class IslandTest {
     @Test
     public void testPlaceBlock_placeBlockOnValidPosition_blockIsPresent() {
         BlockPosition placementPosition = new BlockPosition(157, 109, 66);
-        Assert.assertEquals(testCandidate.getBlockAt(placementPosition).getBlockType(), BlockTypes.AIR);
+        Assert.assertNull(testCandidate.getBlockAt(placementPosition));
     
         Block block = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.CASSITERITE);
         testCandidate.placeBlockAt(block, placementPosition);
     
         Assert.assertEquals(testCandidate.getBlockAt(placementPosition), block);
+        Assert.assertEquals(placementPosition.y, block.getYPositionOnParentIsland());
     }
   
     @Test(expected=IllegalArgumentException.class)
@@ -61,6 +61,7 @@ public class IslandTest {
     
         testCandidate.placeBlockAt(block, position);
         Assert.assertEquals(testCandidate.getBlockAt(position).getBlockType(), BlockTypes.GOLD_VEIN);
+        Assert.assertEquals(position.y, block.getYPositionOnParentIsland());
     }
   
     @Test

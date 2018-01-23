@@ -54,7 +54,7 @@ public class DoorPlacementStrategyTest {
         
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneBelow());
         Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
-        assertEquals(BlockTypes.AIR, lowerDoorBlock.getBlockType());
+        assertNull(lowerDoorBlock);
         assertEquals(BlockTypes.CLAY, upperDoorBlock.getBlockType());        
     }
     
@@ -72,7 +72,7 @@ public class DoorPlacementStrategyTest {
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
         Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove());
         assertEquals(BlockTypes.INLAND_WATER, lowerDoorBlock.getBlockType());
-        assertEquals(BlockTypes.AIR, upperDoorBlock.getBlockType());         
+        assertNull(upperDoorBlock);
     }
     
     @Test
@@ -85,7 +85,7 @@ public class DoorPlacementStrategyTest {
         testCandidate.placeBlockOnIslandAt(islandToWorkOn, placementPosition);
         
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
-        assertEquals(BlockTypes.AIR, lowerDoorBlock.getBlockType());
+        assertNull(lowerDoorBlock);
     }
     
     @Test
@@ -99,9 +99,9 @@ public class DoorPlacementStrategyTest {
         
         islandToWorkOn.getBlockAt(placementPosition).getBlockPlacementStrategy().removeBlockFromIslandAt(islandToWorkOn, placementPosition);
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
-        Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove());        
-        assertEquals(BlockTypes.AIR, lowerDoorBlock.getBlockType());
-        assertEquals(BlockTypes.AIR, upperDoorBlock.getBlockType());        
+        Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove());      
+        assertNull(lowerDoorBlock);
+        assertNull(upperDoorBlock);
     }
     
     @Test
@@ -115,9 +115,9 @@ public class DoorPlacementStrategyTest {
         
         islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove()).getBlockPlacementStrategy().removeBlockFromIslandAt(islandToWorkOn, placementPosition.getPositionOneAbove());
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
-        Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove());        
-        assertEquals(BlockTypes.AIR, lowerDoorBlock.getBlockType());
-        assertEquals(BlockTypes.AIR, upperDoorBlock.getBlockType());         
+        Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove());  
+        assertNull(lowerDoorBlock);
+        assertNull(upperDoorBlock);
     }    
     
     @Test
@@ -160,7 +160,7 @@ public class DoorPlacementStrategyTest {
         
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneBelow());
         Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
-        assertEquals(BlockTypes.AIR, lowerDoorBlock.getBlockType());
+        assertNull(lowerDoorBlock);
         assertEquals(BlockTypes.LEAVES, upperDoorBlock.getBlockType());          
     }
     
@@ -178,7 +178,7 @@ public class DoorPlacementStrategyTest {
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
         Block upperDoorBlock = islandToWorkOn.getBlockAt(placementPosition.getPositionOneAbove());
         assertEquals(BlockTypes.OCEAN_WATER, lowerDoorBlock.getBlockType());
-        assertEquals(BlockTypes.AIR, upperDoorBlock.getBlockType());         
+        assertNull(upperDoorBlock);
     }
     
     @Test
@@ -191,6 +191,6 @@ public class DoorPlacementStrategyTest {
         testCandidate.copyBlockToPositionOnIsland(islandToWorkOn, placementPosition);
         
         Block lowerDoorBlock = islandToWorkOn.getBlockAt(placementPosition);
-        assertEquals(BlockTypes.AIR, lowerDoorBlock.getBlockType());        
+        assertNull(lowerDoorBlock);
     }    
 }

@@ -77,6 +77,11 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     public boolean removeBlockAt(BlockPosition position) {
         if (null != island) {
             Block blockToRemove = island.getBlockAt(position);
+            
+            if (null == blockToRemove) {
+                return false;
+            }
+            
             BlockPlacementStrategy blockPlacementStrategy = blockToRemove.getBlockPlacementStrategy();
             
             if (null == blockPlacementStrategy) {
