@@ -254,14 +254,14 @@ public class StandardCubeShapeTest {
         float[] uvCoordinates = testCandidate.getUVCoordinatesForLastCreatedVertices();
         
         assertEquals(32, uvCoordinates.length);
-        assertEquals(uvCoordinatesForBlockType[0], uvCoordinates[8], 0.f);
-        assertEquals(uvCoordinatesForBlockType[1], uvCoordinates[9], 0.f);
-        assertEquals(uvCoordinatesForBlockType[2], uvCoordinates[10], 0.f);
-        assertEquals(uvCoordinatesForBlockType[3], uvCoordinates[11], 0.f);
+        assertEquals(uvCoordinatesForBlockType[8], uvCoordinates[0], 0.f);
+        assertEquals(uvCoordinatesForBlockType[9], uvCoordinates[1], 0.f);
+        assertEquals(uvCoordinatesForBlockType[10], uvCoordinates[2], 0.f);
+        assertEquals(uvCoordinatesForBlockType[11], uvCoordinates[3], 0.f);
     }   
     
     @Test
-    public void testGetUVCoordinatesForLastCreatedVertices_rotatedCoveredBlockIsPresent_correctUVsAreCreated() {
+    public void testGetUVCoordinatesForLastCreatedVertices_rotatedUncoveredBlockIsPresent_correctUVsAreCreated() {
         StandardCubeShape testCandidate = StandardCubeShape.getInstance();
         Block testBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);  
         testBlock.rotateOnAxisX(AxisRotationValues.NINETY);
@@ -280,9 +280,35 @@ public class StandardCubeShapeTest {
         float[] uvCoordinates = testCandidate.getUVCoordinatesForLastCreatedVertices();
         
         assertEquals(48, uvCoordinates.length);
-        assertEquals(uvCoordinatesForBlockType[0], uvCoordinates[8], 0.f);
-        assertEquals(uvCoordinatesForBlockType[1], uvCoordinates[9], 0.f);
-        assertEquals(uvCoordinatesForBlockType[2], uvCoordinates[10], 0.f);
-        assertEquals(uvCoordinatesForBlockType[3], uvCoordinates[11], 0.f);
+        assertEquals(uvCoordinatesForBlockType[8], uvCoordinates[0], 0.f);
+        assertEquals(uvCoordinatesForBlockType[9], uvCoordinates[1], 0.f);
+        assertEquals(uvCoordinatesForBlockType[10], uvCoordinates[2], 0.f);
+        assertEquals(uvCoordinatesForBlockType[11], uvCoordinates[3], 0.f);
     }    
+    
+    @Test
+    public void testGetUVCoordinatesForLastCreatedVertices_rotatedCoveredBlockIsPresent_correctUVsAreCreated() {
+        StandardCubeShape testCandidate = StandardCubeShape.getInstance();
+        Block testBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);  
+        testBlock.rotateOnAxisX(AxisRotationValues.NINETY);
+        testBlock.rotateOnAxisY(AxisRotationValues.MINUS_NINETY);
+        testBlock.rotateOnAxisZ(AxisRotationValues.NINETY);
+        testCandidate.setBlockToCreateDataFrom(testBlock);
+        testCandidate.setBackFaceOfBlockIsCovered(true);
+        testCandidate.setRightFaceOfBlockIsCovered(false);
+        testCandidate.setFrontFaceOfBlockIsCovered(true);
+        testCandidate.setLeftFaceOfBlockIsCovered(false);
+        testCandidate.setTopFaceOfBlockIsCovered(false);
+        testCandidate.setBottomFaceOfBlockIsCovered(false);  
+        float[] uvCoordinatesForBlockType = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(testBlock.getBlockType());
+        
+        testCandidate.getShapeVertices(4, 8); 
+        float[] uvCoordinates = testCandidate.getUVCoordinatesForLastCreatedVertices();
+        
+        assertEquals(32, uvCoordinates.length);
+        assertEquals(uvCoordinatesForBlockType[16], uvCoordinates[0], 0.f);
+        assertEquals(uvCoordinatesForBlockType[17], uvCoordinates[1], 0.f);
+        assertEquals(uvCoordinatesForBlockType[18], uvCoordinates[2], 0.f);
+        assertEquals(uvCoordinatesForBlockType[19], uvCoordinates[3], 0.f);
+    }     
 }
