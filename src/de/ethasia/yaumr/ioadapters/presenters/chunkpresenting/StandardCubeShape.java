@@ -2,6 +2,7 @@ package de.ethasia.yaumr.ioadapters.presenters.chunkpresenting;
 
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockFaceTypes;
+import de.ethasia.yaumr.core.blocks.Quaternion;
 import de.ethasia.yaumr.core.blocks.Vector3;
 
 /**
@@ -27,6 +28,13 @@ public class StandardCubeShape extends BlockShape {
     private Block blockToCreateDataFrom;
     private int chunkXOfBlock;
     private int chunkZOfBlock;
+    
+    private boolean backFaceOfBlockIsCovered;
+    private boolean rightFaceOfBlockIsCovered;
+    private boolean frontFaceOfBlockIsCovered;
+    private boolean leftFaceOfBlockIsCovered;
+    private boolean topFaceOfBlockIsCovered;
+    private boolean bottomFaceOfBlockIsCovered;
         
     //</editor-fold>
     
@@ -42,6 +50,36 @@ public class StandardCubeShape extends BlockShape {
     public void setBlockToCreateDataFrom(Block value) {
         blockToCreateDataFrom = value;
     }
+    
+    @Override
+    public void setBackFaceOfBlockIsCovered(boolean value) {
+        backFaceOfBlockIsCovered = value;
+    }
+    
+    @Override
+    public void setRightFaceOfBlockIsCovered(boolean value) {
+        rightFaceOfBlockIsCovered = value;
+    }
+    
+    @Override
+    public void setFrontFaceOfBlockIsCovered(boolean value) {
+        frontFaceOfBlockIsCovered = value;
+    }
+    
+    @Override
+    public void setLeftFaceOfBlockIsCovered(boolean value) {
+        leftFaceOfBlockIsCovered = value;
+    }
+    
+    @Override
+    public void setTopFaceOfBlockIsCovered(boolean value) {
+        topFaceOfBlockIsCovered = value;
+    }
+    
+    @Override
+    public void setBottomFaceOfBlockIsCovered(boolean value) {
+        bottomFaceOfBlockIsCovered = value;
+    }    
     
     //</editor-fold>
     
@@ -61,10 +99,10 @@ public class StandardCubeShape extends BlockShape {
         }
         
         return lastUsedVertexBuffer;
-    }
+    }    
 
     @Override
-    public int[] getVertexIndices(int amountOfAlreadySetupIndicesInChunk) {
+    public int[] getVertexIndicesForLastCreatedVertices(int amountOfAlreadySetupIndicesInChunk) {
         int lastAmountOfUncoveredFaces = lastUsedVertexBuffer.length / 12; // 4 vectors * 3 vector elements
         int[] indexBuffer = new int[lastAmountOfUncoveredFaces * 6];
         
@@ -72,42 +110,42 @@ public class StandardCubeShape extends BlockShape {
             int indexFaceOffset = 0;
             int alreadyPlacedIndices = 0;
 
-            if (!blockToCreateDataFrom.backFaceIsCovering()) {
+            if (!backFaceOfBlockIsCovered) {
                 setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;
             }
             
-            if (!blockToCreateDataFrom.rightFaceIsCovering()) {
+            if (!rightFaceOfBlockIsCovered) {
                 setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             }
             
-            if (!blockToCreateDataFrom.frontFaceIsCovering()) {
+            if (!frontFaceOfBlockIsCovered) {
                 setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             }
 
-            if (!blockToCreateDataFrom.leftFaceIsCovering()) {
+            if (!leftFaceOfBlockIsCovered) {
                 setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             }   
             
-            if (!blockToCreateDataFrom.topFaceIsCovering()) {
+            if (!topFaceOfBlockIsCovered) {
                 setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             } 
             
-            if (!blockToCreateDataFrom.bottomFaceIsCovering()) {                
+            if (!bottomFaceOfBlockIsCovered) {                
                 setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);
                 
                 alreadyPlacedIndices += 6;
@@ -119,266 +157,130 @@ public class StandardCubeShape extends BlockShape {
     }
 
     @Override
-    public float[] getNormals() {
+    public float[] getNormalsForLastCreatedVertices() {
         int lastAmountOfUncoveredFaces = lastUsedVertexBuffer.length / 12; // 4 vectors * 3 vector elements
         float[] normalsBuffer = new float[lastAmountOfUncoveredFaces * 12];  
         int currentBufferOffset = 0;
         
         if (lastAmountOfUncoveredFaces > 0 && null != blockToCreateDataFrom) {
-            if (null == blockToCreateDataFrom.getCurrentRotation()) {
-                if (!blockToCreateDataFrom.backFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = 0.f;
-                    normalsBuffer[currentBufferOffset + 1] = 0.f;
-                    normalsBuffer[currentBufferOffset + 2] = -1.f;
+            if (!backFaceOfBlockIsCovered) {
+                normalsBuffer[currentBufferOffset] = 0.f;
+                normalsBuffer[currentBufferOffset + 1] = 0.f;
+                normalsBuffer[currentBufferOffset + 2] = -1.f;
                     
-                    normalsBuffer[currentBufferOffset + 3] = 0.f;
-                    normalsBuffer[currentBufferOffset + 4] = 0.f;
-                    normalsBuffer[currentBufferOffset + 5] = -1.f;
+                normalsBuffer[currentBufferOffset + 3] = 0.f;
+                normalsBuffer[currentBufferOffset + 4] = 0.f;
+                normalsBuffer[currentBufferOffset + 5] = -1.f;
                     
-                    normalsBuffer[currentBufferOffset + 6] = 0.f;
-                    normalsBuffer[currentBufferOffset + 7] = 0.f;
-                    normalsBuffer[currentBufferOffset + 8] = -1.f;
+                normalsBuffer[currentBufferOffset + 6] = 0.f;
+                normalsBuffer[currentBufferOffset + 7] = 0.f;
+                normalsBuffer[currentBufferOffset + 8] = -1.f;
                     
-                    normalsBuffer[currentBufferOffset + 9] = 0.f;
-                    normalsBuffer[currentBufferOffset + 10] = 0.f;
-                    normalsBuffer[currentBufferOffset + 11] = -1.f;
+                normalsBuffer[currentBufferOffset + 9] = 0.f;
+                normalsBuffer[currentBufferOffset + 10] = 0.f;
+                normalsBuffer[currentBufferOffset + 11] = -1.f;
                     
-                    currentBufferOffset += 12;
-                }
+                currentBufferOffset += 12;
+            }
                 
-                if (!blockToCreateDataFrom.rightFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = 1.f;
-                    normalsBuffer[currentBufferOffset + 1] = 0.f;
-                    normalsBuffer[currentBufferOffset + 2] = 0.f;
+            if (!rightFaceOfBlockIsCovered) {
+                normalsBuffer[currentBufferOffset] = 1.f;
+                normalsBuffer[currentBufferOffset + 1] = 0.f;
+                normalsBuffer[currentBufferOffset + 2] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 3] = 1.f;
-                    normalsBuffer[currentBufferOffset + 4] = 0.f;
-                    normalsBuffer[currentBufferOffset + 5] = 0.f;
+                normalsBuffer[currentBufferOffset + 3] = 1.f;
+                normalsBuffer[currentBufferOffset + 4] = 0.f;
+                normalsBuffer[currentBufferOffset + 5] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 6] = 1.f;
-                    normalsBuffer[currentBufferOffset + 7] = 0.f;
-                    normalsBuffer[currentBufferOffset + 8] = 0.f;
+                normalsBuffer[currentBufferOffset + 6] = 1.f;
+                normalsBuffer[currentBufferOffset + 7] = 0.f;
+                normalsBuffer[currentBufferOffset + 8] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 9] = 1.f;
-                    normalsBuffer[currentBufferOffset + 10] = 0.f;
-                    normalsBuffer[currentBufferOffset + 11] = 0.f;
+                normalsBuffer[currentBufferOffset + 9] = 1.f;
+                normalsBuffer[currentBufferOffset + 10] = 0.f;
+                normalsBuffer[currentBufferOffset + 11] = 0.f;
                     
-                    currentBufferOffset += 12;                    
-                }
+                currentBufferOffset += 12;                    
+            }
                 
-                if (!blockToCreateDataFrom.frontFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = 0.f;
-                    normalsBuffer[currentBufferOffset + 1] = 0.f;
-                    normalsBuffer[currentBufferOffset + 2] = 1.f;
+            if (!frontFaceOfBlockIsCovered) {
+                normalsBuffer[currentBufferOffset] = 0.f;
+                normalsBuffer[currentBufferOffset + 1] = 0.f;
+                normalsBuffer[currentBufferOffset + 2] = 1.f;
                     
-                    normalsBuffer[currentBufferOffset + 3] = 0.f;
-                    normalsBuffer[currentBufferOffset + 4] = 0.f;
-                    normalsBuffer[currentBufferOffset + 5] = 1.f;
+                normalsBuffer[currentBufferOffset + 3] = 0.f;
+                normalsBuffer[currentBufferOffset + 4] = 0.f;
+                normalsBuffer[currentBufferOffset + 5] = 1.f;
                     
-                    normalsBuffer[currentBufferOffset + 6] = 0.f;
-                    normalsBuffer[currentBufferOffset + 7] = 0.f;
-                    normalsBuffer[currentBufferOffset + 8] = 1.f;
+                normalsBuffer[currentBufferOffset + 6] = 0.f;
+                normalsBuffer[currentBufferOffset + 7] = 0.f;
+                normalsBuffer[currentBufferOffset + 8] = 1.f;
                     
-                    normalsBuffer[currentBufferOffset + 9] = 0.f;
-                    normalsBuffer[currentBufferOffset + 10] = 0.f;
-                    normalsBuffer[currentBufferOffset + 11] = 1.f;
+                normalsBuffer[currentBufferOffset + 9] = 0.f;
+                normalsBuffer[currentBufferOffset + 10] = 0.f;
+                normalsBuffer[currentBufferOffset + 11] = 1.f;
                     
-                    currentBufferOffset += 12;                    
-                }
+                currentBufferOffset += 12;                    
+            }
                 
-                if (!blockToCreateDataFrom.leftFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = -1.f;
-                    normalsBuffer[currentBufferOffset + 1] = 0.f;
-                    normalsBuffer[currentBufferOffset + 2] = 0.f;
+            if (!leftFaceOfBlockIsCovered) {
+                normalsBuffer[currentBufferOffset] = -1.f;
+                normalsBuffer[currentBufferOffset + 1] = 0.f;
+                normalsBuffer[currentBufferOffset + 2] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 3] = -1.f;
-                    normalsBuffer[currentBufferOffset + 4] = 0.f;
-                    normalsBuffer[currentBufferOffset + 5] = 0.f;
+                normalsBuffer[currentBufferOffset + 3] = -1.f;
+                normalsBuffer[currentBufferOffset + 4] = 0.f;
+                normalsBuffer[currentBufferOffset + 5] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 6] = -1.f;
-                    normalsBuffer[currentBufferOffset + 7] = 0.f;
-                    normalsBuffer[currentBufferOffset + 8] = 0.f;
+                normalsBuffer[currentBufferOffset + 6] = -1.f;
+                normalsBuffer[currentBufferOffset + 7] = 0.f;
+                normalsBuffer[currentBufferOffset + 8] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 9] = -1.f;
-                    normalsBuffer[currentBufferOffset + 10] = 0.f;
-                    normalsBuffer[currentBufferOffset + 11] = 0.f;
+                normalsBuffer[currentBufferOffset + 9] = -1.f;
+                normalsBuffer[currentBufferOffset + 10] = 0.f;
+                normalsBuffer[currentBufferOffset + 11] = 0.f;
                     
-                    currentBufferOffset += 12;                     
-                }
+                currentBufferOffset += 12;                     
+            }
                 
-                if (!blockToCreateDataFrom.topFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = 0.f;
-                    normalsBuffer[currentBufferOffset + 1] = 1.f;
-                    normalsBuffer[currentBufferOffset + 2] = 0.f;
+            if (!topFaceOfBlockIsCovered) {
+                normalsBuffer[currentBufferOffset] = 0.f;
+                normalsBuffer[currentBufferOffset + 1] = 1.f;
+                normalsBuffer[currentBufferOffset + 2] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 3] = 0.f;
-                    normalsBuffer[currentBufferOffset + 4] = 1.f;
-                    normalsBuffer[currentBufferOffset + 5] = 0.f;
+                normalsBuffer[currentBufferOffset + 3] = 0.f;
+                normalsBuffer[currentBufferOffset + 4] = 1.f;
+                normalsBuffer[currentBufferOffset + 5] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 6] = 0.f;
-                    normalsBuffer[currentBufferOffset + 7] = 1.f;
-                    normalsBuffer[currentBufferOffset + 8] = 0.f;
+                normalsBuffer[currentBufferOffset + 6] = 0.f;
+                normalsBuffer[currentBufferOffset + 7] = 1.f;
+                normalsBuffer[currentBufferOffset + 8] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 9] = 0.f;
-                    normalsBuffer[currentBufferOffset + 10] = 1.f;
-                    normalsBuffer[currentBufferOffset + 11] = 0.f;
+                normalsBuffer[currentBufferOffset + 9] = 0.f;
+                normalsBuffer[currentBufferOffset + 10] = 1.f;
+                normalsBuffer[currentBufferOffset + 11] = 0.f;
                     
-                    currentBufferOffset += 12;                     
-                }
+                currentBufferOffset += 12;                     
+            }
                 
-                if (!blockToCreateDataFrom.bottomFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = 0.f;
-                    normalsBuffer[currentBufferOffset + 1] = -1.f;
-                    normalsBuffer[currentBufferOffset + 2] = 0.f;
+            if (!bottomFaceOfBlockIsCovered) {
+                normalsBuffer[currentBufferOffset] = 0.f;
+                normalsBuffer[currentBufferOffset + 1] = -1.f;
+                normalsBuffer[currentBufferOffset + 2] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 3] = 0.f;
-                    normalsBuffer[currentBufferOffset + 4] = -1.f;
-                    normalsBuffer[currentBufferOffset + 5] = 0.f;
+                normalsBuffer[currentBufferOffset + 3] = 0.f;
+                normalsBuffer[currentBufferOffset + 4] = -1.f;
+                normalsBuffer[currentBufferOffset + 5] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 6] = 0.f;
-                    normalsBuffer[currentBufferOffset + 7] = -1.f;
-                    normalsBuffer[currentBufferOffset + 8] = 0.f;
+                normalsBuffer[currentBufferOffset + 6] = 0.f;
+                normalsBuffer[currentBufferOffset + 7] = -1.f;
+                normalsBuffer[currentBufferOffset + 8] = 0.f;
                     
-                    normalsBuffer[currentBufferOffset + 9] = 0.f;
-                    normalsBuffer[currentBufferOffset + 10] = -1.f;
-                    normalsBuffer[currentBufferOffset + 11] = 0.f;
+                normalsBuffer[currentBufferOffset + 9] = 0.f;
+                normalsBuffer[currentBufferOffset + 10] = -1.f;
+                normalsBuffer[currentBufferOffset + 11] = 0.f;
                     
-                    currentBufferOffset += 12;                    
-                }
-            } else {
-                Vector3 backFaceNormal = new Vector3(0.f, 0.f, -1.f);
-                Vector3 rightFaceNormal = new Vector3(1.f, 0.f, 0.f);
-                Vector3 frontFaceNormal = new Vector3(0.f, 0.f, 1.f);
-                Vector3 leftFaceNormal = new Vector3(-1.f, 0.f, 0.f);
-                Vector3 topFaceNormal = new Vector3(0.f, 1.f, 0.f);
-                Vector3 bottomFaceNormal = new Vector3(0.f, -1.f, 0.f);
-                
-                rotatePoint(backFaceNormal, blockToCreateDataFrom.getCurrentRotation());
-                rotatePoint(rightFaceNormal, blockToCreateDataFrom.getCurrentRotation());
-                rotatePoint(frontFaceNormal, blockToCreateDataFrom.getCurrentRotation());
-                rotatePoint(leftFaceNormal, blockToCreateDataFrom.getCurrentRotation());
-                rotatePoint(topFaceNormal, blockToCreateDataFrom.getCurrentRotation());
-                rotatePoint(bottomFaceNormal, blockToCreateDataFrom.getCurrentRotation());
-                
-                if (!blockToCreateDataFrom.backFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = backFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 1] = backFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 2] = backFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 3] = backFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 4] = backFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 5] = backFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 6] = backFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 7] = backFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 8] = backFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 9] = backFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 10] = backFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 11] = backFaceNormal.getZ();
-                    
-                    currentBufferOffset += 12;
-                }
-                
-                if (!blockToCreateDataFrom.rightFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = rightFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 1] = rightFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 2] = rightFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 3] = rightFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 4] = rightFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 5] = rightFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 6] = rightFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 7] = backFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 8] = backFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 9] = rightFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 10] = rightFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 11] = rightFaceNormal.getZ();
-                    
-                    currentBufferOffset += 12;                    
-                }
-                
-                if (!blockToCreateDataFrom.frontFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = frontFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 1] = frontFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 2] = frontFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 3] = frontFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 4] = frontFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 5] = frontFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 6] = frontFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 7] = frontFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 8] = frontFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 9] = frontFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 10] = frontFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 11] = frontFaceNormal.getZ();
-                    
-                    currentBufferOffset += 12;                    
-                }
-                
-                if (!blockToCreateDataFrom.leftFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = leftFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 1] = leftFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 2] = leftFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 3] = leftFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 4] = leftFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 5] = leftFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 6] = leftFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 7] = leftFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 8] = leftFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 9] = leftFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 10] = leftFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 11] = leftFaceNormal.getZ();
-                    
-                    currentBufferOffset += 12;                     
-                }
-                
-                if (!blockToCreateDataFrom.topFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = topFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 1] = topFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 2] = topFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 3] = topFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 4] = topFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 5] = topFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 6] = topFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 7] = topFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 8] = topFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 9] = topFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 10] = topFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 11] = topFaceNormal.getZ();
-                    
-                    currentBufferOffset += 12;                     
-                }
-                
-                if (!blockToCreateDataFrom.bottomFaceIsCovering()) {
-                    normalsBuffer[currentBufferOffset] = bottomFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 1] = bottomFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 2] = bottomFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 3] = bottomFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 4] = bottomFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 5] = bottomFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 6] = bottomFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 7] = bottomFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 8] = bottomFaceNormal.getZ();
-                    
-                    normalsBuffer[currentBufferOffset + 9] = bottomFaceNormal.getX();
-                    normalsBuffer[currentBufferOffset + 10] = bottomFaceNormal.getY();
-                    normalsBuffer[currentBufferOffset + 11] = bottomFaceNormal.getZ();
-                    
-                    currentBufferOffset += 12;                    
-                }                
+                currentBufferOffset += 12;                    
             }
         }
         
@@ -386,7 +288,7 @@ public class StandardCubeShape extends BlockShape {
     }
 
     @Override
-    public float[] getUVCoordinates() {
+    public float[] getUVCoordinatesForLastCreatedVertices() {
         int lastAmountOfUncoveredFaces = lastUsedVertexBuffer.length / 12; // 4 vectors * 3 vector elements
         float[] uvBuffer = new float[lastAmountOfUncoveredFaces * 8];  
         int currentBufferOffset = 0;
@@ -394,7 +296,7 @@ public class StandardCubeShape extends BlockShape {
         if (lastAmountOfUncoveredFaces > 0 && null != blockToCreateDataFrom) {
             float[] uvCoordinates = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(blockToCreateDataFrom.getBlockType());
             
-            if (!blockToCreateDataFrom.backFaceIsCovering()) {
+            if (!backFaceOfBlockIsCovered) {
                 uvBuffer[currentBufferOffset + 0] = uvCoordinates[0];
                 uvBuffer[currentBufferOffset + 1] = uvCoordinates[1];
                 uvBuffer[currentBufferOffset + 2] = uvCoordinates[2];
@@ -407,7 +309,7 @@ public class StandardCubeShape extends BlockShape {
                 currentBufferOffset += 8;
             }
             
-            if (!blockToCreateDataFrom.rightFaceIsCovering()) {
+            if (!rightFaceOfBlockIsCovered) {
                 uvBuffer[currentBufferOffset + 0] = uvCoordinates[8];
                 uvBuffer[currentBufferOffset + 1] = uvCoordinates[9];
                 uvBuffer[currentBufferOffset + 2] = uvCoordinates[10];
@@ -420,7 +322,7 @@ public class StandardCubeShape extends BlockShape {
                 currentBufferOffset += 8;
             }
 
-            if (!blockToCreateDataFrom.frontFaceIsCovering()) {
+            if (!frontFaceOfBlockIsCovered) {
                 uvBuffer[currentBufferOffset + 0] = uvCoordinates[16];
                 uvBuffer[currentBufferOffset + 1] = uvCoordinates[17];
                 uvBuffer[currentBufferOffset + 2] = uvCoordinates[18];
@@ -433,7 +335,7 @@ public class StandardCubeShape extends BlockShape {
                 currentBufferOffset += 8;
             }   
             
-            if (!blockToCreateDataFrom.leftFaceIsCovering()) {
+            if (!leftFaceOfBlockIsCovered) {
                 uvBuffer[currentBufferOffset + 0] = uvCoordinates[24];
                 uvBuffer[currentBufferOffset + 1] = uvCoordinates[25];
                 uvBuffer[currentBufferOffset + 2] = uvCoordinates[26];
@@ -446,7 +348,7 @@ public class StandardCubeShape extends BlockShape {
                 currentBufferOffset += 8;
             }
 
-            if (!blockToCreateDataFrom.topFaceIsCovering()) {
+            if (!topFaceOfBlockIsCovered) {
                 uvBuffer[currentBufferOffset + 0] = uvCoordinates[32];
                 uvBuffer[currentBufferOffset + 1] = uvCoordinates[33];
                 uvBuffer[currentBufferOffset + 2] = uvCoordinates[34];
@@ -459,7 +361,7 @@ public class StandardCubeShape extends BlockShape {
                 currentBufferOffset += 8;
             } 
             
-            if (!blockToCreateDataFrom.bottomFaceIsCovering()) {
+            if (!bottomFaceOfBlockIsCovered) {
                 uvBuffer[currentBufferOffset + 0] = uvCoordinates[40];
                 uvBuffer[currentBufferOffset + 1] = uvCoordinates[41];
                 uvBuffer[currentBufferOffset + 2] = uvCoordinates[42];
@@ -512,14 +414,15 @@ public class StandardCubeShape extends BlockShape {
     
     private void rotateCurrentVertices() {
         if (null != blockToCreateDataFrom.getCurrentRotation()) {
-            rotatePoint(v[0], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[1], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[2], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[3], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[4], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[5], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[6], blockToCreateDataFrom.getCurrentRotation());
-            rotatePoint(v[7], blockToCreateDataFrom.getCurrentRotation());
+            Quaternion rotation = blockToCreateDataFrom.getCurrentRotation();
+            v[0].transform(rotation);
+            v[1].transform(rotation);
+            v[2].transform(rotation);
+            v[3].transform(rotation);
+            v[4].transform(rotation);
+            v[5].transform(rotation);
+            v[6].transform(rotation);
+            v[7].transform(rotation);
         }
     }
     
@@ -541,27 +444,27 @@ public class StandardCubeShape extends BlockShape {
         if (amountOfUncoveredFaces > 0 && null != blockToCreateDataFrom) {
             int nextFreeBufferIndex = 0;
             
-            if (!blockToCreateDataFrom.backFaceIsCovering()) {
+            if (!backFaceOfBlockIsCovered) {
                 nextFreeBufferIndex = addVerticesToBufferForFaceType(blockToCreateDataFrom.getBackFace(), nextFreeBufferIndex);
             }
             
-            if (!blockToCreateDataFrom.rightFaceIsCovering()) {
+            if (!rightFaceOfBlockIsCovered) {
                 nextFreeBufferIndex = addVerticesToBufferForFaceType(blockToCreateDataFrom.getRightFace(), nextFreeBufferIndex);
             }
 
-            if (!blockToCreateDataFrom.frontFaceIsCovering()) {
+            if (!frontFaceOfBlockIsCovered) {
                 nextFreeBufferIndex = addVerticesToBufferForFaceType(blockToCreateDataFrom.getFrontFace(), nextFreeBufferIndex);
             } 
             
-            if (!blockToCreateDataFrom.leftFaceIsCovering()) {
+            if (!leftFaceOfBlockIsCovered) {
                 nextFreeBufferIndex = addVerticesToBufferForFaceType(blockToCreateDataFrom.getLeftFace(), nextFreeBufferIndex);
             }   
 
-            if (!blockToCreateDataFrom.topFaceIsCovering()) {
+            if (!topFaceOfBlockIsCovered) {
                 nextFreeBufferIndex = addVerticesToBufferForFaceType(blockToCreateDataFrom.getTopFace(), nextFreeBufferIndex);
             }
             
-            if (!blockToCreateDataFrom.bottomFaceIsCovering()) {
+            if (!bottomFaceOfBlockIsCovered) {
                 addVerticesToBufferForFaceType(blockToCreateDataFrom.getBottomFace(), nextFreeBufferIndex);
             }            
         }
@@ -572,27 +475,27 @@ public class StandardCubeShape extends BlockShape {
         
         // Doing this with a face Iterator would be much cleaner, but Iterators are objects.
         // Thus creating a lot of them is performance heavy.
-        if (blockToCreateDataFrom.backFaceIsCovering()) {
+        if (backFaceOfBlockIsCovered) {
             amountOfUncoveredFaces--;
         }
         
-        if (blockToCreateDataFrom.bottomFaceIsCovering()) {
+        if (bottomFaceOfBlockIsCovered) {
             amountOfUncoveredFaces--;
         }
         
-        if (blockToCreateDataFrom.frontFaceIsCovering()) {
+        if (frontFaceOfBlockIsCovered) {
             amountOfUncoveredFaces--;
         }
         
-        if (blockToCreateDataFrom.leftFaceIsCovering()) {
+        if (leftFaceOfBlockIsCovered) {
             amountOfUncoveredFaces--;
         }
         
-        if (blockToCreateDataFrom.rightFaceIsCovering()) {
+        if (rightFaceOfBlockIsCovered) {
             amountOfUncoveredFaces--;
         }
         
-        if (blockToCreateDataFrom.topFaceIsCovering()) {
+        if (topFaceOfBlockIsCovered) {
             amountOfUncoveredFaces--;
         }     
         

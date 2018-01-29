@@ -109,6 +109,14 @@ public class Island {
         return blocks[position.x][position.y][position.z];
     }
     
+    public Block getBlockAt(int[] position) {
+        if (blockPositionIsOutsideMapBounds(position)) {
+            return null;
+        }
+        
+        return blocks[position[0]][position[1]][position[2]];
+    }
+    
     public boolean checkBlockCanBeSetToPosition(Block toCheck, BlockPosition position) {
         if (blockPositionIsOutsideMapBounds(position)) {
             return false;
@@ -118,15 +126,23 @@ public class Island {
     }
     
     public boolean blockFaceAtPositionIsHidden(BlockFaceTypes faceType, BlockPosition position) {
+        return blockFaceAtPositionIsHidden(faceType, new int[] { position.x, position.y, position.z });
+    }
+    
+    public boolean blockFaceAtPositionIsHidden(BlockFaceTypes faceType, int[] position) {
         throwExceptionForInvalidBlockPosition(position);
+        
+        int positionX = position[0];
+        int positionY = position[1];
+        int positionZ = position[2];
         
         switch(faceType) {
             case FRONT:
-                if (position.z < edgeLengthOfHorizontalPlaneInBlocks - 1) {
-                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
-                            && blocks[position.x][position.y][position.z].frontFaceIsCovering();
-                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y][position.z + 1] != null
-                            && blocks[position.x][position.y][position.z + 1].backFaceIsCovering();
+                if (positionZ < edgeLengthOfHorizontalPlaneInBlocks - 1) {
+                    boolean currentBlockFaceIsCovering = blocks[positionX][positionY][positionZ] != null 
+                            && blocks[positionX][positionY][positionZ].frontFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[positionX][positionY][positionZ + 1] != null
+                            && blocks[positionX][positionY][positionZ + 1].backFaceIsCovering();
                     
                     if (currentBlockFaceIsCovering) {
                         return neighborBlockFaceIsCovering;
@@ -135,11 +151,11 @@ public class Island {
                 
                 return false;
             case BACK:
-                if (position.z > 0) {
-                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
-                            && blocks[position.x][position.y][position.z].backFaceIsCovering();
-                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y][position.z - 1] != null
-                            && blocks[position.x][position.y][position.z - 1].frontFaceIsCovering();                    
+                if (positionZ > 0) {
+                    boolean currentBlockFaceIsCovering = blocks[positionX][positionY][positionZ] != null 
+                            && blocks[positionX][positionY][positionZ].backFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[positionX][positionY][positionZ - 1] != null
+                            && blocks[positionX][positionY][positionZ - 1].frontFaceIsCovering();                    
                     
                     if (currentBlockFaceIsCovering) {
                         return neighborBlockFaceIsCovering;
@@ -148,11 +164,11 @@ public class Island {
                 
                 return false;
             case LEFT:
-                if (position.x > 0) {
-                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
-                            && blocks[position.x][position.y][position.z].leftFaceIsCovering();
-                    boolean neighborBlockFaceIsCovering = blocks[position.x - 1][position.y][position.z] != null
-                            && blocks[position.x - 1][position.y][position.z].rightFaceIsCovering();                     
+                if (positionX > 0) {
+                    boolean currentBlockFaceIsCovering = blocks[positionX][positionY][positionZ] != null 
+                            && blocks[positionX][positionY][positionZ].leftFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[positionX - 1][positionY][positionZ] != null
+                            && blocks[positionX - 1][positionY][positionZ].rightFaceIsCovering();                     
                     
                     if (currentBlockFaceIsCovering) {
                         return neighborBlockFaceIsCovering;
@@ -161,11 +177,11 @@ public class Island {
                 
                 return false;
             case RIGHT:
-                if (position.x < edgeLengthOfHorizontalPlaneInBlocks - 1) {
-                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
-                            && blocks[position.x][position.y][position.z].rightFaceIsCovering();
-                    boolean neighborBlockFaceIsCovering = blocks[position.x + 1][position.y][position.z] != null
-                            && blocks[position.x + 1][position.y][position.z].leftFaceIsCovering();                     
+                if (positionX < edgeLengthOfHorizontalPlaneInBlocks - 1) {
+                    boolean currentBlockFaceIsCovering = blocks[positionX][positionY][positionZ] != null 
+                            && blocks[positionX][positionY][positionZ].rightFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[positionX + 1][positionY][positionZ] != null
+                            && blocks[positionX + 1][positionY][positionZ].leftFaceIsCovering();                     
                     
                     if (currentBlockFaceIsCovering) {
                         return neighborBlockFaceIsCovering;
@@ -174,11 +190,11 @@ public class Island {
                 
                 return false;
             case BOTTOM:
-                if (position.y > 0) {
-                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
-                            && blocks[position.x][position.y][position.z].bottomFaceIsCovering();
-                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y - 1][position.z] != null
-                            && blocks[position.x][position.y - 1][position.z].topFaceIsCovering();                    
+                if (positionY > 0) {
+                    boolean currentBlockFaceIsCovering = blocks[positionX][positionY][positionZ] != null 
+                            && blocks[positionX][positionY][positionZ].bottomFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[positionX][positionY - 1][positionZ] != null
+                            && blocks[positionX][positionY - 1][positionZ].topFaceIsCovering();                    
                     
                     if (currentBlockFaceIsCovering) {
                         return neighborBlockFaceIsCovering;
@@ -187,11 +203,11 @@ public class Island {
                 
                 return false;
             case TOP:
-                if (position.y < HEIGHT_IN_BLOCKS - 1) {
-                    boolean currentBlockFaceIsCovering = blocks[position.x][position.y][position.z] != null 
-                            && blocks[position.x][position.y][position.z].topFaceIsCovering();
-                    boolean neighborBlockFaceIsCovering = blocks[position.x][position.y + 1][position.z] != null
-                            && blocks[position.x][position.y + 1][position.z].bottomFaceIsCovering();                     
+                if (positionY < HEIGHT_IN_BLOCKS - 1) {
+                    boolean currentBlockFaceIsCovering = blocks[positionX][positionY][positionZ] != null 
+                            && blocks[positionX][positionY][positionZ].topFaceIsCovering();
+                    boolean neighborBlockFaceIsCovering = blocks[positionX][positionY + 1][positionZ] != null
+                            && blocks[positionX][positionY + 1][positionZ].bottomFaceIsCovering();                     
                     
                     if (currentBlockFaceIsCovering) {
                         return neighborBlockFaceIsCovering;
@@ -215,15 +231,29 @@ public class Island {
     
     private void throwExceptionForInvalidBlockPosition(BlockPosition position) {
         if (blockPositionIsOutsideMapBounds(position)) {
-            throw new IllegalArgumentException("Cannot place block outside of island bounds.");
+            throw new IllegalArgumentException("Cannot manipulate block position outside of island bounds.");
         }
     }
+    
+    private void throwExceptionForInvalidBlockPosition(int[] position) {
+        if (blockPositionIsOutsideMapBounds(position)) {
+            throw new IllegalArgumentException("Cannot manipulate block position outside of island bounds.");
+        }
+    }    
     
     private boolean blockPositionIsOutsideMapBounds(BlockPosition position) {
         return null == position 
                 || position.x >= edgeLengthOfHorizontalPlaneInBlocks 
                 || position.z >= edgeLengthOfHorizontalPlaneInBlocks 
                 || position.y >= HEIGHT_IN_BLOCKS;
+    }
+    
+    private boolean blockPositionIsOutsideMapBounds(int[] position) {
+        return null == position 
+                || position.length < 3
+                || position[0] >= edgeLengthOfHorizontalPlaneInBlocks 
+                || position[2] >= edgeLengthOfHorizontalPlaneInBlocks 
+                || position[1] >= HEIGHT_IN_BLOCKS;
     }
     
     private boolean blockOnPositionIsDisplacedByBlock(BlockPosition position, BlockTypes blockType) {

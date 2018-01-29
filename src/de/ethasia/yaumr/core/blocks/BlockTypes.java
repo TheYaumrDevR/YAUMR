@@ -495,17 +495,17 @@ public enum BlockTypes {
         
         @Override
         public boolean canRotateAroundAxisX() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisY() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisZ() {
-            return false;
+            return true;
         }    
         
         @Override
@@ -533,17 +533,17 @@ public enum BlockTypes {
         
         @Override
         public boolean canRotateAroundAxisX() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisY() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisZ() {
-            return false;
+            return true;
         }  
         
         @Override
@@ -571,17 +571,17 @@ public enum BlockTypes {
         
         @Override
         public boolean canRotateAroundAxisX() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisY() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisZ() {
-            return false;
+            return true;
         }
 
         @Override
@@ -609,17 +609,17 @@ public enum BlockTypes {
         
         @Override
         public boolean canRotateAroundAxisX() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisY() {
-            return false;
+            return true;
         }
         
         @Override
         public boolean canRotateAroundAxisZ() {
-            return false;
+            return true;
         }
 
         @Override

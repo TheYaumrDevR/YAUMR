@@ -151,5 +151,32 @@ public class Vector3 {
         return this;
     }
     
+    public Vector3 transform(Quaternion rotation) {
+        float num12 = rotation.getX() + rotation.getX();
+        float num = rotation.getZ() + rotation.getZ();
+        float num2 = rotation.getY() + rotation.getY();
+        float num3 = rotation.getZ() * num;
+        float num4 = rotation.getY() * num;
+        float num5 = rotation.getY() * num2;
+        float num6 = rotation.getX() * num;
+        float num7 = rotation.getX() * num2;
+        float num8 = rotation.getX() * num12;
+        float num9 = rotation.getW() * num;
+        float num10 = rotation.getW() * num2;
+        float num11 = rotation.getW() * num12;
+        float num13 = ((x * (num6 - num10)) + (y * (num4 + num11))) 
+                + (z * ((1.f - num8) - num5));
+        float num14 = ((x * (num7 + num9)) + (y * ((1.f - num8) - num3)))
+                + (z * (num4 - num11));
+        float num15 = ((x * ((1.f - num5) - num3)) + (y * (num7 - num9)))
+                + (z * (num6 + num10));
+        
+        x = num15;
+        y = num14;
+        z = num13;
+        
+        return this;
+    }
+    
     //</editor-fold>
 }

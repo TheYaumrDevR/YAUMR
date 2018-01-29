@@ -14,22 +14,40 @@ public class EmptyBlockShape extends BlockShape {
     public void setBlockToCreateDataFrom(Block value) {}
     
     @Override
+    public void setBackFaceOfBlockIsCovered(boolean value) {}
+    
+    @Override
+    public void setRightFaceOfBlockIsCovered(boolean value) {}
+    
+    @Override
+    public void setFrontFaceOfBlockIsCovered(boolean value) {}
+    
+    @Override
+    public void setLeftFaceOfBlockIsCovered(boolean value) {}
+    
+    @Override
+    public void setTopFaceOfBlockIsCovered(boolean value) {}
+    
+    @Override
+    public void setBottomFaceOfBlockIsCovered(boolean value) {}  
+    
+    @Override
     public float[] getShapeVertices(int xPositionInChunk, int zPositionInChunk) {
         return new float[0];
     }
 
     @Override
-    public int[] getVertexIndices(int amountOfAlreadySetupBlocksInChunk) {
+    public int[] getVertexIndicesForLastCreatedVertices(int amountOfAlreadySetupBlocksInChunk) {
         return new int[0];
     }
 
     @Override
-    public float[] getNormals() {
+    public float[] getNormalsForLastCreatedVertices() {
         return new float[0];
     }
 
     @Override
-    public float[] getUVCoordinates() {
+    public float[] getUVCoordinatesForLastCreatedVertices() {
         return new float[0];
     }    
     

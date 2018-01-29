@@ -16,6 +16,26 @@ public final class Quaternion {
     
     //</editor-fold>
     
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    
+    public float getX() {
+        return x;
+    }
+    
+    public float getY() {
+        return y;
+    }
+    
+    public float getZ() {
+        return z;
+    }
+    
+    public float getW() {
+        return w;
+    }
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     
     public Quaternion() {
@@ -85,6 +105,9 @@ public final class Quaternion {
         if (normalizedAxis.getX() == 0 && normalizedAxis.getY() == 0 && normalizedAxis.getZ() == 0) {
             return loadIdentity();
         }
+        
+        // Our vector rotation formular(in Vector3) is for a left handed axis. We work with a right handed axis however.
+        angleRadians = -angleRadians;
         
         float halfAngle = 0.5f * angleRadians;
         float sin = (float)Math.sin(halfAngle);
