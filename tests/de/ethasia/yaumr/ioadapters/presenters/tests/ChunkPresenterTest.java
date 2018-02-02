@@ -302,8 +302,8 @@ public class ChunkPresenterTest {
         
         // The order in which they appear is not deterministic
         if (vertices[0] == 1.5f) { // Left block
-            assertEquals(10.f, vertices[1], 0.001f);
-            assertEquals(1.5f, vertices[2], 0.001f);  
+            assertEquals(10.f, vertices[1], 0.f);
+            assertEquals(1.5f, vertices[2], 0.f);  
             
             assertEquals(0.f, normals[0], 0.001f);
             assertEquals(0.f, normals[1], 0.001f);
@@ -316,8 +316,8 @@ public class ChunkPresenterTest {
             assertEquals(expectedUVLeftBlock[4], uvCoordinates[4], 0.001f);
             assertEquals(expectedUVLeftBlock[5], uvCoordinates[5], 0.001f);            
         } else if (vertices[2] == 1.5f) { // Right block
-            assertEquals(10.f, vertices[1], 0.001f);
-            assertEquals(2.5f, vertices[0], 0.001f); 
+            assertEquals(10.f, vertices[1], 0.f);
+            assertEquals(2.5f, vertices[0], 0.f); 
             
             assertEquals(0.f, normals[0], 0.001f);
             assertEquals(0.f, normals[1], 0.001f);
@@ -330,8 +330,8 @@ public class ChunkPresenterTest {
             assertEquals(expectedUVRightBlock[44], uvCoordinates[4], 0.001f);
             assertEquals(expectedUVRightBlock[45], uvCoordinates[5], 0.001f);               
         } else if (vertices[2] == 2.f) { // Front block
-            assertEquals(10.f, vertices[1], 0.001f);
-            assertEquals(2.5f, vertices[0], 0.001f); 
+            assertEquals(10.f, vertices[1], 0.f);
+            assertEquals(2.5f, vertices[0], 0.f); 
 
             assertEquals(1.f, normals[0], 0.001f); 
             assertEquals(0.f, normals[1], 0.001f);

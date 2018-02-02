@@ -2,7 +2,6 @@ package de.ethasia.yaumr.ioadapters.presenters.chunkpresenting;
 
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockFaceTypes;
-import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.Quaternion;
 import de.ethasia.yaumr.core.blocks.Vector3;
 
@@ -92,8 +91,15 @@ public class StandardCubeShape extends BlockShape {
             chunkXOfBlock = xPositionInChunk;
             chunkZOfBlock = zPositionInChunk;
             initializeCenterAndUntranslatedVertices();
-            rotateCurrentVertices();
+            boolean verticesWereRotated = rotateCurrentVertices();
             translateVertices();
+            
+            if (verticesWereRotated) {
+                for (Vector3 vector : v) {
+                    applyFloatingPointCorrectionsAfterRotation(vector);                
+                }                
+            }
+            
             createVertexBufferWithNotCoveredFaces();            
         } else {
             lastUsedVertexBuffer = new float[0];
@@ -396,7 +402,7 @@ public class StandardCubeShape extends BlockShape {
             0.5f * chunkZOfBlock + 0.25f);        
     }
     
-    private void rotateCurrentVertices() {
+    private boolean rotateCurrentVertices() {
         if (null != blockToCreateDataFrom.getCurrentRotation()) {
             Quaternion rotation = blockToCreateDataFrom.getCurrentRotation();
             v[0].transform(rotation);
@@ -407,7 +413,19 @@ public class StandardCubeShape extends BlockShape {
             v[5].transform(rotation);
             v[6].transform(rotation);
             v[7].transform(rotation);
+            
+            return true;
         }
+        
+        return false;
+    }
+    
+    private void applyFloatingPointCorrectionsAfterRotation(Vector3 rotatedVector) {
+        float newX = 0.5f * Math.round(rotatedVector.getX() / 0.5f);
+        float newY = 0.5f * Math.round(rotatedVector.getY() / 0.5f);
+        float newZ = 0.5f * Math.round(rotatedVector.getZ() / 0.5f);
+        
+        rotatedVector.set(newX, newY, newZ);
     }
     
     private void translateVertices() {

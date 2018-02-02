@@ -77,9 +77,9 @@ public class StandardCubeShapeTest {
         
         assertEquals(72, vertices.length);
         // front face, bottom right position
-        assertEquals(4.f, vertices[0], 0.01f);
-        assertEquals(0.5f, vertices[1], 0.01f);
-        assertEquals(0.5f, vertices[2], 0.01f);
+        assertEquals(4.f, vertices[0], 0.f);
+        assertEquals(0.5f, vertices[1], 0.f);
+        assertEquals(0.5f, vertices[2], 0.f);
     }    
     
     @Test
@@ -101,9 +101,9 @@ public class StandardCubeShapeTest {
         
         assertEquals(48, vertices.length);
         // front face, bottom right position
-        assertEquals(4.f, vertices[0], 0.01f);
-        assertEquals(0.5f, vertices[1], 0.01f);
-        assertEquals(1.f, vertices[2], 0.01f);
+        assertEquals(4.f, vertices[0], 0.f);
+        assertEquals(0.5f, vertices[1], 0.f);
+        assertEquals(1.f, vertices[2], 0.f);
     }    
     
     @Test

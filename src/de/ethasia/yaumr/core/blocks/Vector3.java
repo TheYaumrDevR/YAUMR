@@ -50,10 +50,10 @@ public class Vector3 {
         return z;
     }
     
-    public Vector3 set(Vector3 other) {
-        x = other.x;
-        y = other.y;
-        z = other.z;
+    public Vector3 set(float x, float y, float z) {
+        this.x = x;
+        this.y = y;
+        this.z = z;
         
         return this;
     }
