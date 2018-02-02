@@ -1,9 +1,11 @@
 package de.ethasia.yaumr.ioadapters.presenters;
 
+import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockFaceTypes;
 import de.ethasia.yaumr.interactors.interfaces.ChunkPresenter;
+import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
 import de.ethasia.yaumr.ioadapters.presenters.chunkpresenting.BlockShape;
 import de.ethasia.yaumr.ioadapters.presenters.chunkpresenting.BlockTypeToBlockShapeMapper;
 import de.ethasia.yaumr.ioadapters.presenters.chunkpresenting.Vector2Int;
@@ -64,6 +66,7 @@ public class ChunkPresenterImpl implements ChunkPresenter {
     @Override
     public void presentChunksForChangedPositions(Island island) {   
         currentlyRenderedIsland = island;
+        ChunkRenderer chunkRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(ChunkRenderer.class);
         
         for (Vector2Int chunkPositionToBeRendered : changedChunkCoordinates) {
             int zStart = chunkPositionToBeRendered.getY() * CHUNK_EDGE_LENGTH_IN_BLOCKS;
@@ -79,25 +82,29 @@ public class ChunkPresenterImpl implements ChunkPresenter {
             
             for (int i = 0; i < Island.HEIGHT_IN_BLOCKS; i++) {
                 for (int j = zStart; j < zBound; j++) {
-                    blockChunkZ++;
-                    
                     for (int k = xStart; k < xBound; k++) {
-                        int[] positionOfRenderedBlock = {k, i, j};
+                        int[] positionOfRenderedBlockLocalAndGlobal = {k, i, j, blockChunkX, blockChunkZ};
                         
-                        Block blockToBeRendered = island.getBlockAt(positionOfRenderedBlock);
-                        blockChunkX++;
+                        Block blockToBeRendered = island.getBlockAt(positionOfRenderedBlockLocalAndGlobal);
                         
                         if (null != blockToBeRendered) {
-                            blocksToBeRendered.put(blockToBeRendered, positionOfRenderedBlock);
+                            blocksToBeRendered.put(blockToBeRendered, positionOfRenderedBlockLocalAndGlobal);
                         }
+                        
+                        blockChunkX++;
                     }
+                    
+                    blockChunkZ++;
+                    blockChunkX = 0;
                 }
+                
+                blockChunkZ = 0;
             }
           
-            VisualChunkData renderData = createRenderDataForBlocks(blockChunkX, blockChunkZ);
+            VisualChunkData renderData = createRenderDataForBlocks();
             blocksToBeRendered.clear();
             
-            // Pass render data to renderer;
+            chunkRenderer.renderChunk(renderData);
         }
         
         changedChunkCoordinates.clear();
@@ -107,8 +114,8 @@ public class ChunkPresenterImpl implements ChunkPresenter {
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
     
-    private VisualChunkData createRenderDataForBlocks(int blockChunkX, int blockChunkZ) {
-        int amountOfAlreadyCreatedIndicesForChunk = 0;
+    private VisualChunkData createRenderDataForBlocks() {
+        int indexBlockOffset = 0;
         VisualChunkData renderData = new VisualChunkData();
         renderData.setUpWithNumberOfBlocksInChunk(blocksToBeRendered.size());
         
@@ -124,15 +131,14 @@ public class ChunkPresenterImpl implements ChunkPresenter {
             blockShape.setLeftFaceOfBlockIsCovered(currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.LEFT, blockPosition));
             blockShape.setTopFaceOfBlockIsCovered(currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.TOP, blockPosition));
             blockShape.setBottomFaceOfBlockIsCovered(currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.BOTTOM, blockPosition));
-            
-            int[] indices = blockShape.getVertexIndicesForLastCreatedVertices(amountOfAlreadyCreatedIndicesForChunk);
-            
-            renderData.addVerticesToTemporaryBuffer(blockShape.getShapeVertices(blockChunkX, blockChunkZ));
+                        
+            renderData.addVerticesToTemporaryBuffer(blockShape.getShapeVertices(blockPosition[3], blockPosition[4]));
+            int[] indices = blockShape.getVertexIndicesForLastCreatedVertices(indexBlockOffset);
             renderData.addIndicesToTemporaryBuffer(indices);
             renderData.addNormalsToTemporaryBuffer(blockShape.getNormalsForLastCreatedVertices());
             renderData.addUVCoordinatesToTemporaryBuffer(blockShape.getUVCoordinatesForLastCreatedVertices());
             
-            amountOfAlreadyCreatedIndicesForChunk += indices.length;
+            indexBlockOffset += blockShape.getHighestIndexNumberForCurrentBlock();
         }
         
         renderData.buildChunkData();

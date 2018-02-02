@@ -2,6 +2,7 @@ package de.ethasia.yaumr.ioadapters.presenters.chunkpresenting;
 
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockFaceTypes;
+import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.Quaternion;
 import de.ethasia.yaumr.core.blocks.Vector3;
 
@@ -102,7 +103,7 @@ public class StandardCubeShape extends BlockShape {
     }    
 
     @Override
-    public int[] getVertexIndicesForLastCreatedVertices(int amountOfAlreadySetupIndicesInChunk) {
+    public int[] getVertexIndicesForLastCreatedVertices(int indexBlockOffset) {
         int lastAmountOfUncoveredFaces = lastUsedVertexBuffer.length / 12; // 4 vectors * 3 vector elements
         int[] indexBuffer = new int[lastAmountOfUncoveredFaces * 6];
         
@@ -111,42 +112,42 @@ public class StandardCubeShape extends BlockShape {
             int alreadyPlacedIndices = 0;
 
             if (!backFaceOfBlockIsCovered) {
-                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);
+                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, indexBlockOffset);
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;
             }
             
             if (!rightFaceOfBlockIsCovered) {
-                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
+                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, indexBlockOffset);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             }
             
             if (!frontFaceOfBlockIsCovered) {
-                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
+                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, indexBlockOffset);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             }
 
             if (!leftFaceOfBlockIsCovered) {
-                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
+                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, indexBlockOffset);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             }   
             
             if (!topFaceOfBlockIsCovered) {
-                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);                
+                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, indexBlockOffset);                
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
             } 
             
             if (!bottomFaceOfBlockIsCovered) {                
-                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, amountOfAlreadySetupIndicesInChunk);
+                setIndicesToIndexBuffer(indexBuffer, alreadyPlacedIndices, indexFaceOffset, indexBlockOffset);
                 
                 alreadyPlacedIndices += 6;
                 indexFaceOffset += 4;                
@@ -154,6 +155,37 @@ public class StandardCubeShape extends BlockShape {
         }
         
         return indexBuffer;
+    }
+    
+    @Override
+    public int getHighestIndexNumberForCurrentBlock() {
+        int highestIndexNumber = 0;
+        
+        if (!backFaceOfBlockIsCovered) {
+            highestIndexNumber += 4;
+        }    
+        
+        if (!rightFaceOfBlockIsCovered) {
+            highestIndexNumber += 4;
+        }
+
+        if (!frontFaceOfBlockIsCovered) {
+            highestIndexNumber += 4;
+        }
+
+        if (!leftFaceOfBlockIsCovered) {
+            highestIndexNumber += 4;
+        }  
+        
+        if (!topFaceOfBlockIsCovered) {
+            highestIndexNumber += 4;
+        }
+
+        if (!bottomFaceOfBlockIsCovered) {
+            highestIndexNumber += 4;
+        }        
+        
+        return highestIndexNumber;
     }
 
     @Override
@@ -297,80 +329,32 @@ public class StandardCubeShape extends BlockShape {
             float[] uvCoordinates = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(blockToCreateDataFrom.getBlockType());
             
             if (!backFaceOfBlockIsCovered) {
-                uvBuffer[currentBufferOffset + 0] = uvCoordinates[0];
-                uvBuffer[currentBufferOffset + 1] = uvCoordinates[1];
-                uvBuffer[currentBufferOffset + 2] = uvCoordinates[2];
-                uvBuffer[currentBufferOffset + 3] = uvCoordinates[3];
-                uvBuffer[currentBufferOffset + 4] = uvCoordinates[4];
-                uvBuffer[currentBufferOffset + 5] = uvCoordinates[5];
-                uvBuffer[currentBufferOffset + 6] = uvCoordinates[6];
-                uvBuffer[currentBufferOffset + 7] = uvCoordinates[7];
-                
+                addUVCoordinatesToNextFreeIndexBasedOnFaceType(uvBuffer, currentBufferOffset, blockToCreateDataFrom.getBackFace(), uvCoordinates);                
                 currentBufferOffset += 8;
             }
             
             if (!rightFaceOfBlockIsCovered) {
-                uvBuffer[currentBufferOffset + 0] = uvCoordinates[8];
-                uvBuffer[currentBufferOffset + 1] = uvCoordinates[9];
-                uvBuffer[currentBufferOffset + 2] = uvCoordinates[10];
-                uvBuffer[currentBufferOffset + 3] = uvCoordinates[11];
-                uvBuffer[currentBufferOffset + 4] = uvCoordinates[12];
-                uvBuffer[currentBufferOffset + 5] = uvCoordinates[13];
-                uvBuffer[currentBufferOffset + 6] = uvCoordinates[14];
-                uvBuffer[currentBufferOffset + 7] = uvCoordinates[15];
-                
+                addUVCoordinatesToNextFreeIndexBasedOnFaceType(uvBuffer, currentBufferOffset, blockToCreateDataFrom.getRightFace(), uvCoordinates);                
                 currentBufferOffset += 8;
             }
 
             if (!frontFaceOfBlockIsCovered) {
-                uvBuffer[currentBufferOffset + 0] = uvCoordinates[16];
-                uvBuffer[currentBufferOffset + 1] = uvCoordinates[17];
-                uvBuffer[currentBufferOffset + 2] = uvCoordinates[18];
-                uvBuffer[currentBufferOffset + 3] = uvCoordinates[19];
-                uvBuffer[currentBufferOffset + 4] = uvCoordinates[20];
-                uvBuffer[currentBufferOffset + 5] = uvCoordinates[21];
-                uvBuffer[currentBufferOffset + 6] = uvCoordinates[22];
-                uvBuffer[currentBufferOffset + 7] = uvCoordinates[23];
-                
+                addUVCoordinatesToNextFreeIndexBasedOnFaceType(uvBuffer, currentBufferOffset, blockToCreateDataFrom.getFrontFace(), uvCoordinates);                
                 currentBufferOffset += 8;
             }   
             
             if (!leftFaceOfBlockIsCovered) {
-                uvBuffer[currentBufferOffset + 0] = uvCoordinates[24];
-                uvBuffer[currentBufferOffset + 1] = uvCoordinates[25];
-                uvBuffer[currentBufferOffset + 2] = uvCoordinates[26];
-                uvBuffer[currentBufferOffset + 3] = uvCoordinates[27];
-                uvBuffer[currentBufferOffset + 4] = uvCoordinates[28];
-                uvBuffer[currentBufferOffset + 5] = uvCoordinates[29];
-                uvBuffer[currentBufferOffset + 6] = uvCoordinates[30];
-                uvBuffer[currentBufferOffset + 7] = uvCoordinates[31];
-                
+                addUVCoordinatesToNextFreeIndexBasedOnFaceType(uvBuffer, currentBufferOffset, blockToCreateDataFrom.getLeftFace(), uvCoordinates);                
                 currentBufferOffset += 8;
             }
 
             if (!topFaceOfBlockIsCovered) {
-                uvBuffer[currentBufferOffset + 0] = uvCoordinates[32];
-                uvBuffer[currentBufferOffset + 1] = uvCoordinates[33];
-                uvBuffer[currentBufferOffset + 2] = uvCoordinates[34];
-                uvBuffer[currentBufferOffset + 3] = uvCoordinates[35];
-                uvBuffer[currentBufferOffset + 4] = uvCoordinates[36];
-                uvBuffer[currentBufferOffset + 5] = uvCoordinates[37];
-                uvBuffer[currentBufferOffset + 6] = uvCoordinates[38];
-                uvBuffer[currentBufferOffset + 7] = uvCoordinates[39];
-                
+                addUVCoordinatesToNextFreeIndexBasedOnFaceType(uvBuffer, currentBufferOffset, blockToCreateDataFrom.getTopFace(), uvCoordinates);                
                 currentBufferOffset += 8;
             } 
             
             if (!bottomFaceOfBlockIsCovered) {
-                uvBuffer[currentBufferOffset + 0] = uvCoordinates[40];
-                uvBuffer[currentBufferOffset + 1] = uvCoordinates[41];
-                uvBuffer[currentBufferOffset + 2] = uvCoordinates[42];
-                uvBuffer[currentBufferOffset + 3] = uvCoordinates[43];
-                uvBuffer[currentBufferOffset + 4] = uvCoordinates[44];
-                uvBuffer[currentBufferOffset + 5] = uvCoordinates[45];
-                uvBuffer[currentBufferOffset + 6] = uvCoordinates[46];
-                uvBuffer[currentBufferOffset + 7] = uvCoordinates[47];
-                
+                addUVCoordinatesToNextFreeIndexBasedOnFaceType(uvBuffer, currentBufferOffset, blockToCreateDataFrom.getBottomFace(), uvCoordinates);                
                 currentBufferOffset += 8;
             }            
         }        
@@ -622,13 +606,78 @@ public class StandardCubeShape extends BlockShape {
         return nextFreeBufferIndex + 12;
     }
     
-    private void setIndicesToIndexBuffer(int[] indexBuffer, int alreadyPlacedIndices, int indexFaceOffset, int amountOfAlreadySetupIndicesInChunk) {
-        indexBuffer[alreadyPlacedIndices] = 2 + indexFaceOffset + amountOfAlreadySetupIndicesInChunk;
-        indexBuffer[alreadyPlacedIndices + 1] = 1 + indexFaceOffset + amountOfAlreadySetupIndicesInChunk;
-        indexBuffer[alreadyPlacedIndices + 2] = 0 + indexFaceOffset + amountOfAlreadySetupIndicesInChunk;
-        indexBuffer[alreadyPlacedIndices + 3] = 3 + indexFaceOffset + amountOfAlreadySetupIndicesInChunk;
-        indexBuffer[alreadyPlacedIndices + 4] = 2 + indexFaceOffset + amountOfAlreadySetupIndicesInChunk;
-        indexBuffer[alreadyPlacedIndices + 5] = 0 + indexFaceOffset + amountOfAlreadySetupIndicesInChunk;        
+    private void setIndicesToIndexBuffer(int[] indexBuffer, int alreadyPlacedIndices, int indexFaceOffset, int indexBlockOffset) {
+        indexBuffer[alreadyPlacedIndices] = 2 + indexFaceOffset + indexBlockOffset;
+        indexBuffer[alreadyPlacedIndices + 1] = 1 + indexFaceOffset + indexBlockOffset;
+        indexBuffer[alreadyPlacedIndices + 2] = 0 + indexFaceOffset + indexBlockOffset;
+        indexBuffer[alreadyPlacedIndices + 3] = 3 + indexFaceOffset + indexBlockOffset;
+        indexBuffer[alreadyPlacedIndices + 4] = 2 + indexFaceOffset + indexBlockOffset;
+        indexBuffer[alreadyPlacedIndices + 5] = 0 + indexFaceOffset + indexBlockOffset;        
+    }
+    
+    private void addUVCoordinatesToNextFreeIndexBasedOnFaceType(float[] uvBuffer, int nextFreeBufferIndex, BlockFaceTypes face, float[] wholeBlockUVData) {
+        switch (face) {
+            case BACK:
+                uvBuffer[nextFreeBufferIndex + 0] = wholeBlockUVData[0];
+                uvBuffer[nextFreeBufferIndex + 1] = wholeBlockUVData[1];
+                uvBuffer[nextFreeBufferIndex + 2] = wholeBlockUVData[2];
+                uvBuffer[nextFreeBufferIndex + 3] = wholeBlockUVData[3];
+                uvBuffer[nextFreeBufferIndex + 4] = wholeBlockUVData[4];
+                uvBuffer[nextFreeBufferIndex + 5] = wholeBlockUVData[5];
+                uvBuffer[nextFreeBufferIndex + 6] = wholeBlockUVData[6];
+                uvBuffer[nextFreeBufferIndex + 7] = wholeBlockUVData[7];                
+                break;
+            case RIGHT:
+                uvBuffer[nextFreeBufferIndex + 0] = wholeBlockUVData[8];
+                uvBuffer[nextFreeBufferIndex + 1] = wholeBlockUVData[9];
+                uvBuffer[nextFreeBufferIndex + 2] = wholeBlockUVData[10];
+                uvBuffer[nextFreeBufferIndex + 3] = wholeBlockUVData[11];
+                uvBuffer[nextFreeBufferIndex + 4] = wholeBlockUVData[12];
+                uvBuffer[nextFreeBufferIndex + 5] = wholeBlockUVData[13];
+                uvBuffer[nextFreeBufferIndex + 6] = wholeBlockUVData[14];
+                uvBuffer[nextFreeBufferIndex + 7] = wholeBlockUVData[15];                 
+                break;
+            case FRONT:
+                uvBuffer[nextFreeBufferIndex + 0] = wholeBlockUVData[16];
+                uvBuffer[nextFreeBufferIndex + 1] = wholeBlockUVData[17];
+                uvBuffer[nextFreeBufferIndex + 2] = wholeBlockUVData[18];
+                uvBuffer[nextFreeBufferIndex + 3] = wholeBlockUVData[19];
+                uvBuffer[nextFreeBufferIndex + 4] = wholeBlockUVData[20];
+                uvBuffer[nextFreeBufferIndex + 5] = wholeBlockUVData[21];
+                uvBuffer[nextFreeBufferIndex + 6] = wholeBlockUVData[22];
+                uvBuffer[nextFreeBufferIndex + 7] = wholeBlockUVData[23];                 
+                break;
+            case LEFT:
+                uvBuffer[nextFreeBufferIndex + 0] = wholeBlockUVData[24];
+                uvBuffer[nextFreeBufferIndex + 1] = wholeBlockUVData[25];
+                uvBuffer[nextFreeBufferIndex + 2] = wholeBlockUVData[26];
+                uvBuffer[nextFreeBufferIndex + 3] = wholeBlockUVData[27];
+                uvBuffer[nextFreeBufferIndex + 4] = wholeBlockUVData[28];
+                uvBuffer[nextFreeBufferIndex + 5] = wholeBlockUVData[29];
+                uvBuffer[nextFreeBufferIndex + 6] = wholeBlockUVData[30];
+                uvBuffer[nextFreeBufferIndex + 7] = wholeBlockUVData[31];                 
+                break;
+            case TOP:
+                uvBuffer[nextFreeBufferIndex + 0] = wholeBlockUVData[32];
+                uvBuffer[nextFreeBufferIndex + 1] = wholeBlockUVData[33];
+                uvBuffer[nextFreeBufferIndex + 2] = wholeBlockUVData[34];
+                uvBuffer[nextFreeBufferIndex + 3] = wholeBlockUVData[35];
+                uvBuffer[nextFreeBufferIndex + 4] = wholeBlockUVData[36];
+                uvBuffer[nextFreeBufferIndex + 5] = wholeBlockUVData[37];
+                uvBuffer[nextFreeBufferIndex + 6] = wholeBlockUVData[38];
+                uvBuffer[nextFreeBufferIndex + 7] = wholeBlockUVData[39];                 
+                break;
+            case BOTTOM:
+                uvBuffer[nextFreeBufferIndex + 0] = wholeBlockUVData[40];
+                uvBuffer[nextFreeBufferIndex + 1] = wholeBlockUVData[41];
+                uvBuffer[nextFreeBufferIndex + 2] = wholeBlockUVData[42];
+                uvBuffer[nextFreeBufferIndex + 3] = wholeBlockUVData[43];
+                uvBuffer[nextFreeBufferIndex + 4] = wholeBlockUVData[44];
+                uvBuffer[nextFreeBufferIndex + 5] = wholeBlockUVData[45];
+                uvBuffer[nextFreeBufferIndex + 6] = wholeBlockUVData[46];
+                uvBuffer[nextFreeBufferIndex + 7] = wholeBlockUVData[47];                 
+                break;
+        }
     }
     
     //</editor-fold>

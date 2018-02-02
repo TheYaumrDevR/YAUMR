@@ -35,6 +35,11 @@ public class EmptyBlockShape extends BlockShape {
     public float[] getShapeVertices(int xPositionInChunk, int zPositionInChunk) {
         return new float[0];
     }
+    
+    @Override
+    public int getHighestIndexNumberForCurrentBlock() {
+        return 0;
+    }
 
     @Override
     public int[] getVertexIndicesForLastCreatedVertices(int amountOfAlreadySetupBlocksInChunk) {

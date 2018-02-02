@@ -19,6 +19,7 @@ public abstract class BlockShape {
     public abstract void setBottomFaceOfBlockIsCovered(boolean value);
     
     public abstract float[] getShapeVertices(int xPositionInChunk, int yPositionInChunk);
+    public abstract int getHighestIndexNumberForCurrentBlock();
     public abstract int[] getVertexIndicesForLastCreatedVertices(int amountOfAlreadySetupBlocksInChunk);
     public abstract float[] getNormalsForLastCreatedVertices();
     public abstract float[] getUVCoordinatesForLastCreatedVertices();

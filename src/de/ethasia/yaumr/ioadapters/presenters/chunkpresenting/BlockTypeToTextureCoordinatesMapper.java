@@ -193,45 +193,33 @@ public class BlockTypeToTextureCoordinatesMapper {
                     0.5625f, 0.03125f, 0.5625f, 0.015625f, 0.625f, 0.015625f, 0.625f, 0.03125f // Bottom
                 };
             case WALNUT_STAIRS:
-                break;
             case BIRCH_STAIRS:
-                break;
             case OAK_STAIRS:
-                break;
             case ASH_STAIRS:
-                break;
             case WALNUT_ROOF:
-                break;
             case OAK_ROOF:
-                break;
             case ASH_ROOF:
-                break;
             case BIRCH_ROOF:
-                break;
             case STRAW_ROOF:
-                break;
             case WALNUT_DOOR:
-                break;
             case OAK_DOOR:
-                break;
             case ASH_DOOR:
-                break;
             case BIRCH_DOOR:
-                break;
             case COPPER_VEIN:
-                break;
             case CASSITERITE:
-                break;
             case IRON_ORE:
-                break;
             case SILVER_VEIN:
-                break;
             case GOLD_VEIN:
-                break;
             case OCEAN_WATER:
-                break;
             case INLAND_WATER:
-                break;
+                return new float[] {
+                    0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f,
+                    0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f,
+                    0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f,
+                    0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f,
+                    0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f,
+                    0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f
+                };
         }
         
         throw new UnsupportedOperationException("UV coordinates for block type " + blockType + " not found. Please add them.");
