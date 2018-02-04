@@ -7,6 +7,30 @@ import de.ethasia.yaumr.core.blocks.Block;
  * @author R
  */
 public class EmptyBlockShape extends BlockShape {
+    
+    //<editor-fold defaultstate="collapsed" desc="Fields">
+    
+    private static EmptyBlockShape instance;
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    
+    private EmptyBlockShape() {}
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Methods">
+    
+    public static EmptyBlockShape getInstance() {
+        if (null == instance) {
+            instance = new EmptyBlockShape();
+        }
+        
+        return instance;
+    }
+    
+    //</editor-fold>
 
     //<editor-fold defaultstate="collapsed" desc="Overrides">
     

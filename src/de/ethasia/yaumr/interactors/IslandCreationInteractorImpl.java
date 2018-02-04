@@ -20,7 +20,7 @@ public class IslandCreationInteractorImpl implements IslandCreationInteractor {
     public void createNewIslandWithRegisteredSingletonFacadeInstance(int edgeLengthInBlocks) {
         if (edgeLengthInBlocks < 1) {
             IslandInitializationStateErrorMessagePresenter errorMessagePresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandInitializationStateErrorMessagePresenter.class);
-            errorMessagePresenter.showErrorMessage("Cannot create an island with not dimensions.");
+            errorMessagePresenter.showErrorMessage("Cannot create an island with no dimensions.");
             return;
         } else if (edgeLengthInBlocks < 8) {
             IslandInitializationStateWarningMessagesPresenter warningMessagePresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandInitializationStateWarningMessagesPresenter.class);

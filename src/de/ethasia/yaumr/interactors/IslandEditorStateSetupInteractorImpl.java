@@ -7,6 +7,7 @@ import de.ethasia.yaumr.core.BlockRemovalTerraformingTool;
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
+import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateSetupInteractor;
 import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
 
@@ -22,7 +23,9 @@ public class IslandEditorStateSetupInteractorImpl implements IslandEditorStateSe
     public void setupInventoryInteractorsForIslandEditorState() {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
         TerraformingToolsInteractor toolsSelector = dependencyResolver.getImplementationInstance(TerraformingToolsInteractor.class);
+        IslandManipulationFacade islandManipulationFacade = dependencyResolver.getSingletonInstance(IslandManipulationFacade.class);
         toolsSelector.resetToDimensions(1, 25);
+        toolsSelector.setIslandManipulationFacade(islandManipulationFacade);
         
         Block earthBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);
         Block bedrockBlock = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BEDROCK);

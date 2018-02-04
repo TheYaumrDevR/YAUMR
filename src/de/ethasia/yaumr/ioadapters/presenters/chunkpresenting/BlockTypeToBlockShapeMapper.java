@@ -69,6 +69,8 @@ public class BlockTypeToBlockShapeMapper {
                 break;
             case INLAND_WATER:
                 break;
+            case AIR:
+                return EmptyBlockShape.getInstance();
         }
         
         throw new UnsupportedOperationException("BlockShape for block type " + blockType + " not found. Please add it.");        

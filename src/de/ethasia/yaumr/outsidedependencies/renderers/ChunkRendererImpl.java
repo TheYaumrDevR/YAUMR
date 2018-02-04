@@ -84,7 +84,7 @@ public class ChunkRendererImpl implements ChunkRenderer, RootNodeProvider {
         material.setFloat("AlphaDiscardThreshold", 0.9961f);
         geometry.setMaterial(material);
         
-        geometry.setLocalTranslation(chunkData.getX() * ChunkPresenterImpl.CHUNK_EDGE_LENGTH_IN_BLOCKS, 0, chunkData.getZ() * ChunkPresenterImpl.CHUNK_EDGE_LENGTH_IN_BLOCKS);
+        geometry.setLocalTranslation(chunkData.getX() * ChunkPresenterImpl.CHUNK_EDGE_LENGTH_IN_BLOCKS * 0.5f, 0, chunkData.getZ() * ChunkPresenterImpl.CHUNK_EDGE_LENGTH_IN_BLOCKS * 0.5f);
         
         return geometry;
     } 

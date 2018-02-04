@@ -3,8 +3,10 @@ package de.ethasia.yaumr.outsidedependencies.views;
 import com.jme3.app.Application;
 import com.jme3.app.state.AppStateManager;
 import com.jme3.input.KeyInput;
+import com.jme3.input.MouseInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.input.controls.MouseButtonTrigger;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
@@ -13,6 +15,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.debug.WireBox;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
@@ -91,6 +94,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
                         case TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME:
                             break;
                         case EXECUTE_PRIMARY_ACTION_EVENT_NAME:
+                            executePrimaryAction(isPressed);
                             break;
                         default:
                             break;
@@ -117,8 +121,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     @Override
     public void update(float tpf) {
         if (null != blockInteractionIndicatorPresenter) {
-            Camera camera = YaumrGame.getInstance().getCamera();  
-            Vector3f pointingPoint = camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));
+            Vector3f pointingPoint = getCursorPointingLocation();
             blockInteractionIndicatorPresenter.presentPointingIndicator(pointingPoint.x, pointingPoint.y, pointingPoint.z);            
         }
     }
@@ -290,13 +293,16 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_SEVENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_7));
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_EIGHTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_8));
         YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_NINTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_9));
-        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_0));        
+        YaumrGame.getInstance().getInputManager().addMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION, new KeyTrigger(KeyInput.KEY_0));  
+        
+        YaumrGame.getInstance().getInputManager().addMapping(EXECUTE_PRIMARY_ACTION_EVENT_NAME, new MouseButtonTrigger(MouseInput.BUTTON_LEFT));
         
         YaumrGame.getInstance().getInputManager().addListener(keyEventHandler, 
                 new String[] {
                     TOGGLE_MAIN_MENU_ACTION_NAME, 
                     TOGGLE_HELP_TEXT_ACTION_NAME,
                     TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME,
+                    EXECUTE_PRIMARY_ACTION_EVENT_NAME,
                     QuickSelectionBarControl.SELECT_FIRST_ITEM_KEYACTION, 
                     QuickSelectionBarControl.SELECT_SECOND_ITEM_KEYACTION, 
                     QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION, 
@@ -314,6 +320,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_MAIN_MENU_ACTION_NAME);
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_HELP_TEXT_ACTION_NAME);
         YaumrGame.getInstance().getInputManager().deleteMapping(TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME);
+        YaumrGame.getInstance().getInputManager().deleteMapping(EXECUTE_PRIMARY_ACTION_EVENT_NAME);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_FIRST_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_SECOND_ITEM_KEYACTION);
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_THIRD_ITEM_KEYACTION);
@@ -338,6 +345,29 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         if (toggleKeyIsPressed) {
             windowsInteractor.toggleHelpMenu();
         }
+    }
+    
+    private void executePrimaryAction(boolean isPressed) {
+        if (null != terraformingToolsSelector && isPressed) {
+            Vector3f cursorPointingLocation = getCursorPointingLocation();
+            IslandManipulationFacade islandManipulationFacade = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandManipulationFacade.class);
+            BlockPosition blockPointingPosition = islandManipulationFacade.getBlockPositionOnCurrentIslandForInteractionVector(cursorPointingLocation.x, cursorPointingLocation.y, cursorPointingLocation.z);  
+            
+            if (null != blockPointingPosition) {
+                float blockXPoint = 0.25f + blockPointingPosition.x * 0.5f;
+                float blockYPoint = 0.25f + blockPointingPosition.y * 0.5f;
+                float blockZPoint = 0.25f + blockPointingPosition.z * 0.5f;
+                
+                InteractionVector interactionPosition = new InteractionVector(blockXPoint, blockYPoint, blockZPoint);                
+                
+                terraformingToolsSelector.executeActionOfCurrentlySelectedTool(interactionPosition);                
+            }
+        }
+    }
+    
+    private Vector3f getCursorPointingLocation() {
+        Camera camera = YaumrGame.getInstance().getCamera();  
+        return camera.getLocation().add(camera.getDirection().normalize().mult(2.0f));        
     }
     
     private Geometry createBlockPointingIndicator() {
