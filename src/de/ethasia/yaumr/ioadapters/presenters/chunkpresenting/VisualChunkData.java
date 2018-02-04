@@ -52,6 +52,19 @@ public class VisualChunkData {
         return allUVCoordinatesFlattened;
     }    
     
+    public void setPosition(int x, int z) {
+        chunkX = x;
+        chunkZ = z;
+    }
+
+    public int getX() {
+        return chunkX;
+    }
+    
+    public int getZ() {
+        return chunkZ;
+    }
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">

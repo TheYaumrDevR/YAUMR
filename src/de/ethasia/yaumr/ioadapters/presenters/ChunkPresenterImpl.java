@@ -23,7 +23,7 @@ public class ChunkPresenterImpl implements ChunkPresenter {
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
-    private static final int CHUNK_EDGE_LENGTH_IN_BLOCKS = 16;
+    public static final int CHUNK_EDGE_LENGTH_IN_BLOCKS = 16;
     
     //</editor-fold>
     
@@ -102,6 +102,7 @@ public class ChunkPresenterImpl implements ChunkPresenter {
             }
           
             VisualChunkData renderData = createRenderDataForBlocks();
+            renderData.setPosition(chunkPositionToBeRendered.getX(), chunkPositionToBeRendered.getY());
             blocksToBeRendered.clear();
             
             chunkRenderer.renderChunk(renderData);

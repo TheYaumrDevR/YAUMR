@@ -28,6 +28,8 @@ import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBar
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
 import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
+import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
+import de.ethasia.yaumr.outsidedependencies.renderers.RootNodeProvider;
 
 /**
  *
@@ -153,12 +155,15 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         
         if (null != toolsSelectionGrid) {
             toolsSelectionGrid.hideInventoryGrid();
-        }        
+        }       
+        
+        initRenderers();
     }
 
     @Override
     public void onEndScreen() {
         YaumrGame.getInstance().getClassInstanceContainer().removeSingletonInstance(IslandEditorState.class);
+        removeRenderers();
         detachKeys();
     }   
     
@@ -343,6 +348,24 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         geometry.setMaterial(material);
         
         return geometry;
+    }
+    
+    private void initRenderers() {
+        ChunkRenderer chunkRenderer = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(ChunkRenderer.class);
+        YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(ChunkRenderer.class, chunkRenderer);
+
+        if (chunkRenderer instanceof RootNodeProvider) {
+            YaumrGame.getInstance().getRootNode().attachChild(((RootNodeProvider)chunkRenderer).getRootNode());
+        }
+    }
+    
+    private void removeRenderers() {
+        ChunkRenderer chunkRenderer = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(ChunkRenderer.class);
+        YaumrGame.getInstance().getClassInstanceContainer().removeSingletonInstance(ChunkRenderer.class); 
+        
+        if (chunkRenderer instanceof RootNodeProvider) {
+            YaumrGame.getInstance().getRootNode().detachChild(((RootNodeProvider)chunkRenderer).getRootNode());
+        }
     }
     
     //</editor-fold>
