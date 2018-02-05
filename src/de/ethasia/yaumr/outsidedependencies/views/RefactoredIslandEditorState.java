@@ -15,7 +15,6 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.debug.WireBox;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
-import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
@@ -31,6 +30,7 @@ import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBar
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
 import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
+import de.ethasia.yaumr.interactors.interfaces.TimedUpdateInteractor;
 import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
 import de.ethasia.yaumr.outsidedependencies.renderers.RootNodeProvider;
 
@@ -70,6 +70,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private IslandEditorStateMainInteractor windowsInteractor;
     private IslandEditorStateSetupInteractor setupInteractor;
     private TerraformingToolsInteractor terraformingToolsSelector;
+    private TimedUpdateInteractor timedUpdateInteractor;
     private BlockInteractionIndicatorPresenter blockInteractionIndicatorPresenter;
     
     //</editor-fold>
@@ -124,6 +125,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
             Vector3f pointingPoint = getCursorPointingLocation();
             blockInteractionIndicatorPresenter.presentPointingIndicator(pointingPoint.x, pointingPoint.y, pointingPoint.z);            
         }
+        
+        if (null != timedUpdateInteractor) {
+            timedUpdateInteractor.tick(tpf);
+        }
     }
     
     @Override
@@ -161,12 +166,14 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         }       
         
         initRenderers();
+        timedUpdateInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(TimedUpdateInteractor.class);
     }
 
     @Override
     public void onEndScreen() {
         YaumrGame.getInstance().getClassInstanceContainer().removeSingletonInstance(IslandEditorState.class);
         removeRenderers();
+        timedUpdateInteractor = null;
         detachKeys();
     }   
     
@@ -349,18 +356,13 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     private void executePrimaryAction(boolean isPressed) {
         if (null != terraformingToolsSelector && isPressed) {
-            Vector3f cursorPointingLocation = getCursorPointingLocation();
-            IslandManipulationFacade islandManipulationFacade = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandManipulationFacade.class);
-            BlockPosition blockPointingPosition = islandManipulationFacade.getBlockPositionOnCurrentIslandForInteractionVector(cursorPointingLocation.x, cursorPointingLocation.y, cursorPointingLocation.z);  
-            
-            if (null != blockPointingPosition) {
-                float blockXPoint = 0.25f + blockPointingPosition.x * 0.5f;
-                float blockYPoint = 0.25f + blockPointingPosition.y * 0.5f;
-                float blockZPoint = 0.25f + blockPointingPosition.z * 0.5f;
+            if (null != blockInteractionIndicator) {
+                float x = blockInteractionIndicator.getLocalTranslation().x;
+                float y = blockInteractionIndicator.getLocalTranslation().y;
+                float z = blockInteractionIndicator.getLocalTranslation().z;
+                InteractionVector interactionPosition = new InteractionVector(x, y, z);  
                 
-                InteractionVector interactionPosition = new InteractionVector(blockXPoint, blockYPoint, blockZPoint);                
-                
-                terraformingToolsSelector.executeActionOfCurrentlySelectedTool(interactionPosition);                
+                terraformingToolsSelector.executeActionOfCurrentlySelectedTool(interactionPosition);
             }
         }
     }
