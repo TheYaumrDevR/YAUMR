@@ -4,6 +4,7 @@ import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.interactors.InteractionVector;
+import java.util.List;
 
 /**
  * Represents a facade which provides interface methods to place and remove blocks from the current Island. 
@@ -38,7 +39,7 @@ public interface IslandManipulationFacade {
     
     public boolean copyBlockTo(Block blockToCopy, BlockPosition position);  
     
-    public void tick(long timeSinceLastTickInMS);
+    public List<BlockPosition> tick(long timeSinceLastTickInMS);
     
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector);
     

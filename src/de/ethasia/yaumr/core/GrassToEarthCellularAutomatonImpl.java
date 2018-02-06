@@ -23,6 +23,15 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     private long accumulatedTimeSinceLastUpdateInMS;
+    private final List<BlockPosition> updatedBlockPositionsSinceLastTick;
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    
+    public GrassToEarthCellularAutomatonImpl() {
+        updatedBlockPositionsSinceLastTick = new LinkedList<>();
+    }
     
     //</editor-fold>
 
@@ -31,6 +40,7 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
     @Override
     protected void updateIslandState(long timeSinceLastTickInMS) {
         accumulatedTimeSinceLastUpdateInMS += timeSinceLastTickInMS;
+        updatedBlockPositionsSinceLastTick.clear();
         
         while (accumulatedTimeSinceLastUpdateInMS >= TIME_PER_UPDATE_IN_MILLIS) {
             List<BlockPosition> copyOfBlockPositionsToCheck = new LinkedList<>(blockPositionsToCheck);
@@ -41,6 +51,11 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
             }
         }
     }
+    
+    @Override
+    public List<BlockPosition> getUpdatedPositionsSinceLastTick() {
+        return updatedBlockPositionsSinceLastTick;
+    }    
     
     //</editor-fold>    
     
@@ -54,13 +69,15 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
                 Block blockBelow = islandToUpdate.getBlockAt(affectedBlockPosition);
                 
                 if (null != blockBelow) {
-                    updateBlockStateIfNecessary(blockAbove, blockBelow);
+                    if (updateBlockStateIfNecessary(blockAbove, blockBelow)) {
+                        updatedBlockPositionsSinceLastTick.add(affectedBlockPosition);
+                    }
                 }
             }
         }                   
     }
     
-    private void updateBlockStateIfNecessary(Block blockAbove, Block blockBelow) {
+    private boolean updateBlockStateIfNecessary(Block blockAbove, Block blockBelow) {
         if (blockAbove.bottomFaceIsCovering()) {
             if (blockBelow.isAffectedByAutomatonType(getAutomatonName())) {
                 if (blockBelow.getBlockType() != BlockTypes.EARTH_PLOWED_WATERED) {
@@ -68,8 +85,12 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
                 } else {
                     blockBelow.resetBlockToType(BlockTypes.EARTH_WATERED);
                 }
+                
+                return true;
             }            
         }
+        
+        return false;
     }
     
     @Override

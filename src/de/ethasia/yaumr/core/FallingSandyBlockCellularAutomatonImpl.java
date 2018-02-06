@@ -20,6 +20,15 @@ public class FallingSandyBlockCellularAutomatonImpl extends BlockCellularAutomat
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     private float accumulatedTimeSinceLastUpdateInMS;
+    private final List<BlockPosition> updatedBlockPositionsSinceLastTick;
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    
+    public FallingSandyBlockCellularAutomatonImpl() {
+        updatedBlockPositionsSinceLastTick = new LinkedList<>();
+    }
     
     //</editor-fold>
     
@@ -28,6 +37,7 @@ public class FallingSandyBlockCellularAutomatonImpl extends BlockCellularAutomat
     @Override
     protected void updateIslandState(long timeSinceLastTickInMS) {
         accumulatedTimeSinceLastUpdateInMS += timeSinceLastTickInMS;
+        updatedBlockPositionsSinceLastTick.clear();
         
         while (accumulatedTimeSinceLastUpdateInMS >= TIME_PER_UPDATE_IN_MILLIS) {
             List<BlockPosition> copyOfBlockPositionsToCheck = new LinkedList<>(blockPositionsToCheck);
@@ -44,6 +54,11 @@ public class FallingSandyBlockCellularAutomatonImpl extends BlockCellularAutomat
         if (null != positionOneBelow) {
             updateBlockBelowIfNecessary(positionToCheck, positionOneBelow);
         } 
+    }
+    
+    @Override
+    public List<BlockPosition> getUpdatedPositionsSinceLastTick() {
+        return updatedBlockPositionsSinceLastTick;
     }
 
     @Override
@@ -67,8 +82,13 @@ public class FallingSandyBlockCellularAutomatonImpl extends BlockCellularAutomat
             if (belowBlockIsDisplaced) {
                 if (islandToUpdate.getBlockAt(positionToCheck).getBlockType().displacesDisplacableBlock()) {
                     Block fallingBlock = islandToUpdate.getBlockAt(positionToCheck);
-                    islandManipulationFacade.copyBlockTo(fallingBlock, positionBelow);
-                    islandManipulationFacade.removeBlockAt(positionToCheck);
+                    if (islandManipulationFacade.copyBlockTo(fallingBlock, positionBelow)) {
+                        updatedBlockPositionsSinceLastTick.add(positionBelow);
+                    }
+                    
+                    if (islandManipulationFacade.removeBlockAt(positionToCheck)) {
+                        updatedBlockPositionsSinceLastTick.add(positionToCheck);
+                    }
                 }
             }
         }

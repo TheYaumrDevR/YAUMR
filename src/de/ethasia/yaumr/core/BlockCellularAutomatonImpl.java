@@ -36,6 +36,8 @@ public abstract class BlockCellularAutomatonImpl implements BlockCellularAutomat
         islandManipulationFacade = value;
     }
     
+    public abstract List<BlockPosition> getUpdatedPositionsSinceLastTick();
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">

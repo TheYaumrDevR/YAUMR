@@ -7,6 +7,7 @@ import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.blocks.BlockPlacementStrategy;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
+import java.util.List;
 
 /**
  * Represents a facade which provides interface methods to place and remove blocks from the current Island. 
@@ -130,11 +131,18 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     }   
     
     @Override
-    public void tick(long timeSinceLastTickInMS) {
+    public List<BlockPosition> tick(long timeSinceLastTickInMS) {
         if (null != island) {
             grassToEarthUpdater.tick(timeSinceLastTickInMS);
             fallingSandHandler.tick(timeSinceLastTickInMS);
+            
+            List<BlockPosition> updatedBlocks = grassToEarthUpdater.getUpdatedPositionsSinceLastTick();
+            updatedBlocks.addAll(fallingSandHandler.getUpdatedPositionsSinceLastTick());
+            
+            return updatedBlocks;
         }
+        
+        return null;
     }
     
     @Override
