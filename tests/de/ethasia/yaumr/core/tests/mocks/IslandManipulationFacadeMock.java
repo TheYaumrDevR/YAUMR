@@ -8,6 +8,8 @@ import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.tests.helpers.ClassMock;
+import java.util.LinkedList;
+import java.util.List;
 
 public class IslandManipulationFacadeMock extends ClassMock implements IslandManipulationFacade {
     
@@ -89,7 +91,7 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     }
   
     @Override
-    public void tick(long timeSinceLastTickInMS) {}
+    public List<BlockPosition> tick(long timeSinceLastTickInMS) { return new LinkedList<>(); }
 
     @Override
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector) {
