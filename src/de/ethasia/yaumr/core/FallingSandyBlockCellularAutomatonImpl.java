@@ -43,9 +43,10 @@ public class FallingSandyBlockCellularAutomatonImpl extends BlockCellularAutomat
             List<BlockPosition> copyOfBlockPositionsToCheck = new LinkedList<>(blockPositionsToCheck);
             
             for (BlockPosition positionToCheck : copyOfBlockPositionsToCheck) {
-                advanceUnstableBlocks(positionToCheck);
-                accumulatedTimeSinceLastUpdateInMS -= TIME_PER_UPDATE_IN_MILLIS;                
+                advanceUnstableBlocks(positionToCheck);                
             }
+            
+            accumulatedTimeSinceLastUpdateInMS -= TIME_PER_UPDATE_IN_MILLIS;
         }
     }
     

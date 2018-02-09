@@ -56,6 +56,22 @@ public class ChunkPresenterImpl implements ChunkPresenter {
             int chunkX = (int)Math.floor((float)x / (float)CHUNK_EDGE_LENGTH_IN_BLOCKS);
             int chunkZ = (int)Math.floor((float)z / (float)CHUNK_EDGE_LENGTH_IN_BLOCKS);
             
+            if (x + 1 - chunkX * CHUNK_EDGE_LENGTH_IN_BLOCKS == 16) {
+                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX + 1, chunkZ);
+                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
+            } else if (x == chunkX * CHUNK_EDGE_LENGTH_IN_BLOCKS && x != 0) {
+                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX - 1, chunkZ);
+                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
+            }
+            
+            if (z + 1 - chunkZ * CHUNK_EDGE_LENGTH_IN_BLOCKS == 16) {
+                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX, chunkZ + 1);
+                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
+            } else if (z == chunkZ * CHUNK_EDGE_LENGTH_IN_BLOCKS && z != 0) {
+                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX, chunkZ - 1);
+                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
+            }            
+            
             Vector2Int changedChunkCoordinate = new Vector2Int(chunkX, chunkZ);
             changedChunkCoordinates.add(changedChunkCoordinate);
         } else {

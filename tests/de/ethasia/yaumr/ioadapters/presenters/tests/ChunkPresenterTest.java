@@ -362,4 +362,36 @@ public class ChunkPresenterTest {
         
         assertEquals(55, indices[81]);
     }    
+    
+    @Test
+    public void testPresentChunksForChangedPositions_blockAtEdgeOfChunkIsRemoved_neighborChunkIsUpdated() {       
+        ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
+        IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
+        islandManipulationFacade.setIsland(testIsland);
+        
+        Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
+        Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);
+        islandManipulationFacade.copyBlockTo(testBlockOne, new BlockPosition(15, 20, 3));
+        islandManipulationFacade.copyBlockTo(testBlockTwo, new BlockPosition(16, 20, 3));
+        
+        testCandidate.setChangedPosition(new int[] {15, 20, 3});
+        testCandidate.setChangedPosition(new int[] {16, 20, 3});
+        
+        testCandidate.presentChunksForChangedPositions(testIsland);
+        
+        islandManipulationFacade.removeBlockAt(new BlockPosition(15, 20, 3));
+        testCandidate.setChangedPosition(new int[] {15, 20, 3});
+        testCandidate.presentChunksForChangedPositions(testIsland);
+        
+        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
+        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
+        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
+        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();
+                
+        assertEquals(4, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
+        assertEquals(72, vertices.length);
+        assertEquals(36, indices.length);
+        assertEquals(72, normals.length);
+        assertEquals(48, uvCoordinates.length);
+    }
 }
