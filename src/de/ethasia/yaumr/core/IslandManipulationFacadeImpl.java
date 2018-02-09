@@ -22,6 +22,7 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     private Island island;
     private GrassToEarthCellularAutomatonImpl grassToEarthUpdater;
     private FallingSandyBlockCellularAutomatonImpl fallingSandHandler;
+    private EarthBlockTypesDailyUpdateCellularAutomaton uncoveredEarthBlocksUpdater;
     
     //</editor-fold>
     
@@ -34,11 +35,14 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
         grassToEarthUpdater = dependencyResolver.getImplementationInstance(GrassToEarthCellularAutomatonImpl.class);
         fallingSandHandler = dependencyResolver.getImplementationInstance(FallingSandyBlockCellularAutomatonImpl.class);
+        uncoveredEarthBlocksUpdater = dependencyResolver.getImplementationInstance(EarthBlockTypesDailyUpdateCellularAutomaton.class);
         
         grassToEarthUpdater.setIslandToUpdate(island);
         grassToEarthUpdater.setIslandManipulationFacade(this);
         fallingSandHandler.setIslandToUpdate(island);
         fallingSandHandler.setIslandManipulationFacade(this);
+        uncoveredEarthBlocksUpdater.setIslandToUpdate(island);
+        uncoveredEarthBlocksUpdater.setIslandManipulationFacade(this);
     }
     
     @Override
@@ -56,15 +60,13 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
             BlockPlacementStrategy blockPlacementStrategy = block.getBlockPlacementStrategy();
             if (null == blockPlacementStrategy) {
                 if (island.placeBlockAt(block, position)) {
-                    grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);   
+                    setChangedPositionForCellularAutomatons(position);
                     
                     return true;
                 }
             } else {
                 if (blockPlacementStrategy.placeBlockOnIslandAt(island, position)) {
-                    grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);   
+                    setChangedPositionForCellularAutomatons(position);
                     
                     return true;
                 }                
@@ -87,15 +89,13 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
             
             if (null == blockPlacementStrategy) {
                 if (island.removeBlockAt(position)) {
-                    grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);
+                    setChangedPositionForCellularAutomatons(position);
                     
                     return true;
                 }                
             } else {
                 if (blockPlacementStrategy.removeBlockFromIslandAt(island, position)) {
-                    grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);
+                    setChangedPositionForCellularAutomatons(position);
                     
                     return true;
                 }                  
@@ -112,15 +112,13 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
             
             if (null == blockPlacementStrategy) {
                 if (island.copyBlockTo(blockToCopy, position)) {
-                    grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);
+                    setChangedPositionForCellularAutomatons(position);
                     
                     return true;
                 }                
             } else {
                 if (blockPlacementStrategy.copyBlockToPositionOnIsland(island, position)) {
-                    grassToEarthUpdater.setChangedPosition(position);
-                    fallingSandHandler.setChangedPosition(position);
+                    setChangedPositionForCellularAutomatons(position);
                     
                     return true;
                 }
@@ -128,7 +126,7 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
         }
         
         return false;
-    }   
+    } 
     
     @Override
     public List<BlockPosition> tick(long timeSinceLastTickInMS) {
@@ -139,6 +137,18 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
             List<BlockPosition> updatedBlocks = grassToEarthUpdater.getUpdatedPositionsSinceLastTick();
             updatedBlocks.addAll(fallingSandHandler.getUpdatedPositionsSinceLastTick());
             
+            return updatedBlocks;
+        }
+        
+        return null;
+    }
+    
+    @Override
+    public List<BlockPosition> performDailyUpdates() {
+        if (null != island) {
+            uncoveredEarthBlocksUpdater.tick(0);
+            
+            List<BlockPosition> updatedBlocks = uncoveredEarthBlocksUpdater.getUpdatedPositionsSinceLastTick();            
             return updatedBlocks;
         }
         
@@ -178,6 +188,16 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
         
         return 0;
     }    
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    private void setChangedPositionForCellularAutomatons(BlockPosition position) {
+        grassToEarthUpdater.setChangedPosition(position);
+        fallingSandHandler.setChangedPosition(position);
+        uncoveredEarthBlocksUpdater.setChangedPosition(position);        
+    }
     
     //</editor-fold>
 }

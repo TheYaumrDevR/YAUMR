@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.core.tests.mocks;
 
+import de.ethasia.yaumr.core.EarthBlockTypesDailyUpdateCellularAutomaton;
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.FallingSandyBlockCellularAutomatonImpl;
@@ -16,6 +17,7 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     private Island islandToChange;
     private GrassToEarthCellularAutomatonImpl grassToEarthAutomaton;
     private FallingSandyBlockCellularAutomatonImpl fallingBlocksHandler;
+    private EarthBlockTypesDailyUpdateCellularAutomaton earthToGrassAutomaton;
   
     public void setGrassToEarthCA(GrassToEarthCellularAutomatonImpl value) {
         grassToEarthAutomaton = value;
@@ -25,6 +27,11 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     public void setFallingBlockHandler(FallingSandyBlockCellularAutomatonImpl value) {
         fallingBlocksHandler = value;
         fallingBlocksHandler.setIslandManipulationFacade(this);
+    }
+    
+    public void setEarthBlocksDailyUpdateCA(EarthBlockTypesDailyUpdateCellularAutomaton value) {
+        earthToGrassAutomaton = value;
+        earthToGrassAutomaton.setIslandManipulationFacade(this);        
     }
   
     @Override
@@ -42,6 +49,10 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
       
             if (null != fallingBlocksHandler) {
                 fallingBlocksHandler.setChangedPosition(position);
+            }
+            
+            if (null != earthToGrassAutomaton) {
+                earthToGrassAutomaton.setChangedPosition(position);
             }
             
             return true;
@@ -64,6 +75,10 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
                 fallingBlocksHandler.setChangedPosition(position);
             }
             
+            if (null != earthToGrassAutomaton) {
+                earthToGrassAutomaton.setChangedPosition(position);
+            }            
+            
             return true;
         }
         
@@ -84,6 +99,10 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
                 fallingBlocksHandler.setChangedPosition(position);
             }
             
+            if (null != earthToGrassAutomaton) {
+                earthToGrassAutomaton.setChangedPosition(position);
+            }            
+            
             return true;
         }
         
@@ -92,6 +111,9 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
   
     @Override
     public List<BlockPosition> tick(long timeSinceLastTickInMS) { return new LinkedList<>(); }
+    
+    @Override
+    public List<BlockPosition> performDailyUpdates() { return new LinkedList<>(); }
 
     @Override
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector) {

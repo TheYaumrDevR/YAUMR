@@ -6,10 +6,11 @@ import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.FallingSandyBlockCellularAutomatonImpl;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.tests.mocks.IslandManipulationFacadeMock;
+import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
+
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 
 public class FallingSandyBlockCellularAutomatonTest {
     

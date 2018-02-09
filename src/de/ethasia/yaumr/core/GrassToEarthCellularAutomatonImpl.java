@@ -47,8 +47,9 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
             
             for (BlockPosition positionToCheck : copyOfBlockPositionsToCheck) {
                 handleBlockUpdate(positionToCheck);
-                accumulatedTimeSinceLastUpdateInMS -= TIME_PER_UPDATE_IN_MILLIS;                
             }
+            
+            accumulatedTimeSinceLastUpdateInMS -= TIME_PER_UPDATE_IN_MILLIS;                            
         }
     }
     
@@ -71,6 +72,7 @@ public class GrassToEarthCellularAutomatonImpl extends BlockCellularAutomatonImp
                 if (null != blockBelow) {
                     if (updateBlockStateIfNecessary(blockAbove, blockBelow)) {
                         updatedBlockPositionsSinceLastTick.add(affectedBlockPosition);
+                        islandManipulationFacade.copyBlockTo(blockBelow, affectedBlockPosition);
                     }
                 }
             }

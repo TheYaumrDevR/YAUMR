@@ -51,7 +51,7 @@ public class Island {
     public boolean placeBlockAt(Block block, BlockPosition position) {
         throwExceptionForInvalidBlockPosition(position);
         
-        if (blockOnPositionIsDisplacedByBlock(position, block.getBlockType())) {
+        if (blockOnPositionIsDisplacedByBlock(position, block)) {
             blocks[position.x][position.y][position.z] = block;
             block.setYPositionOnParentIsland(position.y);
             return true;
@@ -80,7 +80,7 @@ public class Island {
     public boolean copyBlockTo(Block blockToCopy, BlockPosition position) {
         throwExceptionForInvalidBlockPosition(position);
         
-        if (blockOnPositionIsDisplacedByBlock(position, blockToCopy.getBlockType())) {
+        if (blockOnPositionIsDisplacedByBlock(position, blockToCopy)) {
             Block currentBlock = blocks[position.x][position.y][position.z];
             BlockTypes currentBlockType = null == currentBlock ? BlockTypes.AIR : currentBlock.getBlockType();
             if (!SimpleBlockFactory.blockTypesAreOfSameKind(currentBlockType, blockToCopy.getBlockType())) {
@@ -122,7 +122,7 @@ public class Island {
             return false;
         }
         
-        return blockOnPositionIsDisplacedByBlock(position, toCheck.getBlockType());
+        return blockOnPositionIsDisplacedByBlock(position, toCheck);
     }
     
     public boolean blockFaceAtPositionIsHidden(BlockFaceTypes faceType, BlockPosition position) {
@@ -256,9 +256,12 @@ public class Island {
                 || position[1] >= HEIGHT_IN_BLOCKS;
     }
     
-    private boolean blockOnPositionIsDisplacedByBlock(BlockPosition position, BlockTypes blockType) {
+    private boolean blockOnPositionIsDisplacedByBlock(BlockPosition position, Block block) {
+        BlockTypes blockType = block.getBlockType();
+        
         return (null == blocks[position.x][position.y][position.z] 
-                || blocks[position.x][position.y][position.z].getBlockType() == BlockTypes.AIR) 
+                || blocks[position.x][position.y][position.z].getBlockType() == BlockTypes.AIR
+                || block == blocks[position.x][position.y][position.z]) 
                 || blocks[position.x][position.y][position.z].getBlockType().isDisplaced()
                 && blockType.displacesDisplacableBlock();
     }

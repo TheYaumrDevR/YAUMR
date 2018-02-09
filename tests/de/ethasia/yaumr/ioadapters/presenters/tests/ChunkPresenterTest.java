@@ -2,6 +2,7 @@ package de.ethasia.yaumr.ioadapters.presenters.tests;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.core.EarthBlockTypesDailyUpdateCellularAutomaton;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.IslandManipulationFacadeImpl;
 import de.ethasia.yaumr.core.blocks.AxisRotationValues;
@@ -10,6 +11,11 @@ import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutomatonMock;
+import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateErrorMessagePresenter;
+import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
+import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateErrorMessagePresenterMock;
+import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateWarningMessagesPresenterMock;
 import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
 import de.ethasia.yaumr.ioadapters.presenters.ChunkPresenterImpl;
 import de.ethasia.yaumr.ioadapters.presenters.chunkpresenting.BlockTypeToTextureCoordinatesMapper;
@@ -39,6 +45,13 @@ public class ChunkPresenterTest {
         usedChunkRendererMock = new ChunkRendererMock();
         dependencyResolver.removeSingletonInstance(ChunkRenderer.class);
         dependencyResolver.registerSingletonInstance(ChunkRenderer.class, usedChunkRendererMock); 
+        
+        dependencyResolver.removeRegisteredImplementation(IslandInitializationStateErrorMessagePresenter.class);
+        dependencyResolver.removeRegisteredImplementation(IslandInitializationStateWarningMessagesPresenter.class);
+        dependencyResolver.removeRegisteredImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class);
+        dependencyResolver.registerImplementation(IslandInitializationStateErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
+        dependencyResolver.registerImplementation(IslandInitializationStateWarningMessagesPresenter.class, IslandInitializationStateWarningMessagesPresenterMock.class);
+        dependencyResolver.registerImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class, EarthBlockTypesDailyUpdateCellularAutomatonMock.class); 
     }
     
     @Before

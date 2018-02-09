@@ -57,6 +57,7 @@ public class BlockPlacementTerraformingTool extends TerraformingTool {
         
         if (null != blockToPlace) {
             if (islandManipulationFacade.copyBlockTo(blockToPlace, position)) {
+                islandManipulationFacade.performDailyUpdates();
                 changedBlocks.add(position);
             }
         }

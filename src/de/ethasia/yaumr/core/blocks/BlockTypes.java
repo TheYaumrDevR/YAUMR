@@ -85,7 +85,11 @@ public enum BlockTypes {
 
         @Override
         public Map<String, Boolean> getAffectingAutomatonNames() {
-            return getEmptyAffectingAutomatonNames();
+            Map<String, Boolean> result = new HashMap<>();
+            
+            result.put("earthBlocksDailyUpdate", Boolean.TRUE);
+            
+            return result;
         }
     },
     
@@ -126,6 +130,7 @@ public enum BlockTypes {
             Map<String, Boolean> result = new HashMap<>();
             
             result.put("grassPlowedEarthToEarth", Boolean.TRUE);
+            result.put("earthBlocksDailyUpdate", Boolean.TRUE);
             
             return result;
         }        
@@ -165,7 +170,11 @@ public enum BlockTypes {
 
         @Override
         public Map<String, Boolean> getAffectingAutomatonNames() {
-            return getEmptyAffectingAutomatonNames();
+            Map<String, Boolean> result = new HashMap<>();
+            
+            result.put("earthBlocksDailyUpdate", Boolean.TRUE);
+            
+            return result;
         }        
     },
     
@@ -206,9 +215,10 @@ public enum BlockTypes {
             Map<String, Boolean> result = new HashMap<>();
             
             result.put("grassPlowedEarthToEarth", Boolean.TRUE);
+            result.put("earthBlocksDailyUpdate", Boolean.TRUE);
             
             return result;
-        }        
+        }       
     },
     
     EARTH_SEEDED {
@@ -283,7 +293,11 @@ public enum BlockTypes {
         
         @Override
         public Map<String, Boolean> getAffectingAutomatonNames() {
-            return getEmptyAffectingAutomatonNames();
+            Map<String, Boolean> result = new HashMap<>();
+            
+            result.put("earthBlocksDailyUpdate", Boolean.TRUE);
+            
+            return result;
         }
     },
     

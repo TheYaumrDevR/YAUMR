@@ -25,7 +25,7 @@ public class Block {
     
     protected int yOnParentIsland;
     
-    // These are versors (unit quaternions) representing the current rotation around the axes. 
+    // This is a versor (unit quaternions) representing the current rotation around the axes. 
     // Blocks can only be rotated in 90 degree steps.
     private Quaternion rotation;
     

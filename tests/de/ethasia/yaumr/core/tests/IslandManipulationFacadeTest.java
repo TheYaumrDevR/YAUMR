@@ -2,6 +2,7 @@ package de.ethasia.yaumr.core.tests;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.core.EarthBlockTypesDailyUpdateCellularAutomaton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import org.junit.BeforeClass;
@@ -15,6 +16,7 @@ import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.IslandManipulationFacadeImpl;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutomatonMock;
 import de.ethasia.yaumr.core.tests.mocks.FallingSandyBlockCellularAutomatonMock;
 import de.ethasia.yaumr.core.tests.mocks.GrassToEarthCellularAutomatonMock;
 import de.ethasia.yaumr.interactors.InteractionVector;
@@ -33,8 +35,10 @@ public class IslandManipulationFacadeTest {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
         dependencyResolver.removeRegisteredImplementation(FallingSandyBlockCellularAutomatonImpl.class);
         dependencyResolver.removeRegisteredImplementation(GrassToEarthCellularAutomatonImpl.class);
+        dependencyResolver.removeRegisteredImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class);
         dependencyResolver.registerImplementation(FallingSandyBlockCellularAutomatonImpl.class, FallingSandyBlockCellularAutomatonMock.class);
         dependencyResolver.registerImplementation(GrassToEarthCellularAutomatonImpl.class, GrassToEarthCellularAutomatonMock.class);
+        dependencyResolver.registerImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class, EarthBlockTypesDailyUpdateCellularAutomatonMock.class);
         
         islandToManipulate = new Island(256);
     }
@@ -51,10 +55,12 @@ public class IslandManipulationFacadeTest {
         assertEquals(BlockTypes.BEDROCK, islandToManipulate.getBlockAt(position).getBlockType());
         assertEquals(1, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertEquals(1, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
+        assertEquals(1, EarthBlockTypesDailyUpdateCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertTrue(blockPlaced);
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();
+        EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();
     }
   
     @Test
@@ -70,10 +76,12 @@ public class IslandManipulationFacadeTest {
         assertEquals(BlockTypes.AIR, islandToManipulate.getBlockAt(position).getBlockType());
         assertEquals(2, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertEquals(2, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
+        assertEquals(2, EarthBlockTypesDailyUpdateCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertTrue(blockRemoved);
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
-        GrassToEarthCellularAutomatonMock.resetMethodCallCounts();    
+        GrassToEarthCellularAutomatonMock.resetMethodCallCounts(); 
+        EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();
     }
   
     @Test
@@ -88,10 +96,12 @@ public class IslandManipulationFacadeTest {
         assertEquals(BlockTypes.BIRCH_ROOF, islandToManipulate.getBlockAt(position).getBlockType());
         assertEquals(1, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
         assertEquals(1, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));
+        assertEquals(1, EarthBlockTypesDailyUpdateCellularAutomatonMock.getCallCounterForMethodName("setChangedPosition"));        
         assertTrue(blockCopied);
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();    
+        EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();
     }
   
     @Test
@@ -103,9 +113,11 @@ public class IslandManipulationFacadeTest {
         
         assertEquals(1, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("tick"));
         assertEquals(1, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        assertEquals(0, EarthBlockTypesDailyUpdateCellularAutomatonMock.getCallCounterForMethodName("tick"));
         
         FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
-        GrassToEarthCellularAutomatonMock.resetMethodCallCounts();      
+        GrassToEarthCellularAutomatonMock.resetMethodCallCounts();     
+        EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();
     }
     
     @Test
@@ -129,5 +141,36 @@ public class IslandManipulationFacadeTest {
         BlockPosition result = testCandidate.getBlockPositionOnCurrentIslandForInteractionVector(interactionVector);
         
         assertNull(result);
-    }    
+    }   
+    
+    @Test
+    public void testPerformDailyUpdates_islandIsPresent_tickIsCalledOnDailyUpdaters() {
+        IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
+        testCandidate.setIsland(islandToManipulate);
+
+        testCandidate.performDailyUpdates();
+        
+        assertEquals(0, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        assertEquals(0, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        assertEquals(1, EarthBlockTypesDailyUpdateCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        
+        FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
+        GrassToEarthCellularAutomatonMock.resetMethodCallCounts();     
+        EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();        
+    }
+    
+    @Test
+    public void testPerformDailyUpdates_noIslandIsPresent_noTickIsCalled() {
+        IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
+
+        testCandidate.performDailyUpdates();
+        
+        assertEquals(0, FallingSandyBlockCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        assertEquals(0, GrassToEarthCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        assertEquals(0, EarthBlockTypesDailyUpdateCellularAutomatonMock.getCallCounterForMethodName("tick"));
+        
+        FallingSandyBlockCellularAutomatonMock.resetMethodCallCounts();
+        GrassToEarthCellularAutomatonMock.resetMethodCallCounts();     
+        EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();          
+    }
 }

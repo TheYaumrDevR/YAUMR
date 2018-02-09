@@ -38,8 +38,10 @@ public interface IslandManipulationFacade {
     public boolean removeBlockAt(BlockPosition position);
     
     public boolean copyBlockTo(Block blockToCopy, BlockPosition position);  
-    
+        
     public List<BlockPosition> tick(long timeSinceLastTickInMS);
+    
+    public List<BlockPosition> performDailyUpdates();
     
     public BlockPosition getBlockPositionOnCurrentIslandForInteractionVector(InteractionVector vector);
     

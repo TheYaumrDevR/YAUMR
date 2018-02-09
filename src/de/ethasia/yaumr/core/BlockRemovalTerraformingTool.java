@@ -30,6 +30,7 @@ public class BlockRemovalTerraformingTool extends TerraformingTool {
         List<BlockPosition> changedBlockPositions = new LinkedList<>();
         
         if (islandManipulationFacade.removeBlockAt(position)) {
+            islandManipulationFacade.performDailyUpdates();
             changedBlockPositions.add(position);
         }
         

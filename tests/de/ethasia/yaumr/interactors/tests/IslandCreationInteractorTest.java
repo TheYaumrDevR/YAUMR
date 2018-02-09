@@ -2,7 +2,9 @@ package de.ethasia.yaumr.interactors.tests;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.core.EarthBlockTypesDailyUpdateCellularAutomaton;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
+import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutomatonMock;
 import de.ethasia.yaumr.interactors.IslandCreationInteractorImpl;
 import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateErrorMessagePresenter;
 import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
@@ -23,8 +25,10 @@ public class IslandCreationInteractorTest {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
         dependencyResolver.removeRegisteredImplementation(IslandInitializationStateErrorMessagePresenter.class);
         dependencyResolver.removeRegisteredImplementation(IslandInitializationStateWarningMessagesPresenter.class);
+        dependencyResolver.removeRegisteredImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class);
         dependencyResolver.registerImplementation(IslandInitializationStateErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
         dependencyResolver.registerImplementation(IslandInitializationStateWarningMessagesPresenter.class, IslandInitializationStateWarningMessagesPresenterMock.class);
+        dependencyResolver.registerImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class, EarthBlockTypesDailyUpdateCellularAutomatonMock.class);        
     }
 
     @Test
