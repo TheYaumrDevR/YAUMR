@@ -71,7 +71,7 @@ public class BlockPosition {
     
     @Override
     public int hashCode() {
-        return x + y + z;
+        return x + y * 512 + z * 262144;
     }
     
     //</editor-fold>

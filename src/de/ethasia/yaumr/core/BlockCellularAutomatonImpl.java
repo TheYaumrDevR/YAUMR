@@ -3,9 +3,10 @@ package de.ethasia.yaumr.core;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
-import java.util.LinkedList;
 import java.util.List;
 import de.ethasia.yaumr.core.interfaces.BlockCellularAutomaton;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Represents a cellular automaton which updates an Island based on the Blocks in it.
@@ -18,7 +19,7 @@ public abstract class BlockCellularAutomatonImpl implements BlockCellularAutomat
     
     protected Island islandToUpdate;
     protected IslandManipulationFacade islandManipulationFacade;
-    protected List<BlockPosition> blockPositionsToCheck;
+    protected Set<BlockPosition> blockPositionsToCheck;
     
     //</editor-fold>
     
@@ -27,7 +28,7 @@ public abstract class BlockCellularAutomatonImpl implements BlockCellularAutomat
     @Override
     public BlockCellularAutomatonImpl setIslandToUpdate(Island value) {
         islandToUpdate = value;
-        blockPositionsToCheck = new LinkedList<>();
+        blockPositionsToCheck = new HashSet<>();
         return this;
     }
     
