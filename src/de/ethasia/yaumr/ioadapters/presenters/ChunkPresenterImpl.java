@@ -104,7 +104,9 @@ public class ChunkPresenterImpl implements ChunkPresenter {
                         Block blockToBeRendered = island.getBlockAt(positionOfRenderedBlockLocalAndGlobal);
                         
                         if (null != blockToBeRendered) {
-                            blocksToBeRendered.put(blockToBeRendered, positionOfRenderedBlockLocalAndGlobal);
+                            if (!allFacesOfBlockAreCovered(positionOfRenderedBlockLocalAndGlobal)) {
+                                blocksToBeRendered.put(blockToBeRendered, positionOfRenderedBlockLocalAndGlobal);
+                            }
                         }
                         
                         blockChunkX++;
@@ -130,6 +132,15 @@ public class ChunkPresenterImpl implements ChunkPresenter {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    private boolean allFacesOfBlockAreCovered(int[] blockPosition) {
+        return currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.BACK, blockPosition)
+                && currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.RIGHT, blockPosition)
+                && currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.FRONT, blockPosition)
+                && currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.LEFT, blockPosition)
+                && currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.TOP, blockPosition)
+                && currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.BOTTOM, blockPosition);
+    }
     
     private VisualChunkData createRenderDataForBlocks() {
         int indexBlockOffset = 0;
