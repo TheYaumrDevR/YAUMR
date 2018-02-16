@@ -9,7 +9,7 @@ import java.util.Map;
  * @author R
  */
 public enum BlockTypes {
-    GRASSY_EARTH {
+    GRASSY_EARTH(0) {
 
         @Override
         public boolean isDisplaced() {
@@ -51,7 +51,7 @@ public enum BlockTypes {
         }        
     },
     
-    EARTH {
+    EARTH(1) {
 
         @Override
         public boolean isDisplaced() {
@@ -93,7 +93,7 @@ public enum BlockTypes {
         }
     },
     
-    EARTH_PLOWED {
+    EARTH_PLOWED(2) {
 
         @Override
         public boolean isDisplaced() {
@@ -136,7 +136,7 @@ public enum BlockTypes {
         }        
     },
     
-    EARTH_WATERED {
+    EARTH_WATERED(3) {
 
         @Override
         public boolean isDisplaced() {
@@ -178,7 +178,7 @@ public enum BlockTypes {
         }        
     },
     
-    EARTH_PLOWED_WATERED {
+    EARTH_PLOWED_WATERED(4) {
 
         @Override
         public boolean isDisplaced() {
@@ -221,7 +221,7 @@ public enum BlockTypes {
         }       
     },
     
-    EARTH_SEEDED {
+    EARTH_SEEDED(5) {
 
         @Override
         public boolean isDisplaced() {
@@ -259,7 +259,7 @@ public enum BlockTypes {
         }        
     },
     
-    EARTH_SEEDED_WATERED {
+    EARTH_SEEDED_WATERED(6) {
 
         @Override
         public boolean isDisplaced() {
@@ -301,7 +301,7 @@ public enum BlockTypes {
         }
     },
     
-    CLAY {
+    CLAY(7) {
 
         @Override
         public boolean isDisplaced() {
@@ -339,7 +339,7 @@ public enum BlockTypes {
         }        
     },
     
-    ROCK {
+    ROCK(8) {
 
         @Override
         public boolean isDisplaced() {
@@ -377,7 +377,7 @@ public enum BlockTypes {
         }        
     },
     
-    SAND {
+    SAND(9) {
 
         @Override
         public boolean isDisplaced() {
@@ -419,7 +419,7 @@ public enum BlockTypes {
         }        
     },
     
-    BEDROCK {
+    BEDROCK(10) {
 
         @Override
         public boolean isDisplaced() {
@@ -457,7 +457,7 @@ public enum BlockTypes {
         }        
     },
     
-    LEAVES {
+    LEAVES(11) {
 
         @Override
         public boolean isDisplaced() {
@@ -495,7 +495,7 @@ public enum BlockTypes {
         }        
     },
     
-    WALNUT_TRUNK {
+    WALNUT_TRUNK(12) {
 
         @Override
         public boolean isDisplaced() {
@@ -533,7 +533,7 @@ public enum BlockTypes {
         }        
     },
     
-    OAK_TRUNK {
+    OAK_TRUNK(13) {
 
         @Override
         public boolean isDisplaced() {
@@ -571,7 +571,7 @@ public enum BlockTypes {
         }        
     },
     
-    ASH_TRUNK {
+    ASH_TRUNK(14) {
 
         @Override
         public boolean isDisplaced() {
@@ -609,7 +609,7 @@ public enum BlockTypes {
         }        
     },
     
-    BIRCH_TRUNK {
+    BIRCH_TRUNK(15) {
 
         @Override
         public boolean isDisplaced() {
@@ -647,7 +647,7 @@ public enum BlockTypes {
         }        
     },
     
-    WALNUT_PLANKS {
+    WALNUT_PLANKS(16) {
 
         @Override
         public boolean isDisplaced() {
@@ -685,7 +685,7 @@ public enum BlockTypes {
         }        
     },
     
-    OAK_PLANKS {
+    OAK_PLANKS(17) {
 
         @Override
         public boolean isDisplaced() {
@@ -723,7 +723,7 @@ public enum BlockTypes {
         }        
     },
     
-    ASH_PLANKS {
+    ASH_PLANKS(18) {
 
         @Override
         public boolean isDisplaced() {
@@ -761,7 +761,7 @@ public enum BlockTypes {
         }        
     },
     
-    BIRCH_PLANKS {
+    BIRCH_PLANKS(19) {
 
         @Override
         public boolean isDisplaced() {
@@ -799,7 +799,7 @@ public enum BlockTypes {
         }        
     },
     
-    WALNUT_STAIRS {
+    WALNUT_STAIRS(20) {
 
         @Override
         public boolean isDisplaced() {
@@ -837,7 +837,7 @@ public enum BlockTypes {
         }        
     },
     
-    OAK_STAIRS {
+    OAK_STAIRS(21) {
 
         @Override
         public boolean isDisplaced() {
@@ -875,7 +875,7 @@ public enum BlockTypes {
         }        
     },
     
-    ASH_STAIRS {
+    ASH_STAIRS(22) {
 
         @Override
         public boolean isDisplaced() {
@@ -913,7 +913,7 @@ public enum BlockTypes {
         }        
     },
     
-    BIRCH_STAIRS {
+    BIRCH_STAIRS(23) {
 
         @Override
         public boolean isDisplaced() {
@@ -951,7 +951,7 @@ public enum BlockTypes {
         }        
     },
     
-    WALNUT_ROOF {
+    WALNUT_ROOF(24) {
 
         @Override
         public boolean isDisplaced() {
@@ -989,7 +989,7 @@ public enum BlockTypes {
         }        
     },
     
-    OAK_ROOF {
+    OAK_ROOF(25) {
 
         @Override
         public boolean isDisplaced() {
@@ -1027,7 +1027,7 @@ public enum BlockTypes {
         }        
     },
     
-    ASH_ROOF {
+    ASH_ROOF(26) {
 
         @Override
         public boolean isDisplaced() {
@@ -1065,7 +1065,7 @@ public enum BlockTypes {
         }        
     },
     
-    BIRCH_ROOF {
+    BIRCH_ROOF(27) {
 
         @Override
         public boolean isDisplaced() {
@@ -1103,7 +1103,7 @@ public enum BlockTypes {
         }        
     },
     
-    STRAW_ROOF {
+    STRAW_ROOF(28) {
 
         @Override
         public boolean isDisplaced() {
@@ -1141,7 +1141,7 @@ public enum BlockTypes {
         }        
     },
     
-    WALNUT_DOOR {
+    WALNUT_DOOR(29) {
 
         @Override
         public boolean isDisplaced() {
@@ -1179,7 +1179,7 @@ public enum BlockTypes {
         }        
     },
     
-    OAK_DOOR {
+    OAK_DOOR(30) {
 
         @Override
         public boolean isDisplaced() {
@@ -1217,7 +1217,7 @@ public enum BlockTypes {
         }        
     },
     
-    ASH_DOOR {
+    ASH_DOOR(31) {
 
         @Override
         public boolean isDisplaced() {
@@ -1255,7 +1255,7 @@ public enum BlockTypes {
         }        
     },
     
-    BIRCH_DOOR {
+    BIRCH_DOOR(32) {
 
         @Override
         public boolean isDisplaced() {
@@ -1293,7 +1293,7 @@ public enum BlockTypes {
         }        
     },
     
-    COPPER_VEIN {
+    COPPER_VEIN(33) {
 
         @Override
         public boolean isDisplaced() {
@@ -1331,7 +1331,7 @@ public enum BlockTypes {
         }        
     },
     
-    CASSITERITE {
+    CASSITERITE(34) {
 
         @Override
         public boolean isDisplaced() {
@@ -1369,7 +1369,7 @@ public enum BlockTypes {
         }        
     },
     
-    IRON_ORE {
+    IRON_ORE(35) {
 
         @Override
         public boolean isDisplaced() {
@@ -1407,7 +1407,7 @@ public enum BlockTypes {
         }        
     },
     
-    SILVER_VEIN {
+    SILVER_VEIN(36) {
 
         @Override
         public boolean isDisplaced() {
@@ -1445,7 +1445,7 @@ public enum BlockTypes {
         }        
     },
     
-    GOLD_VEIN {
+    GOLD_VEIN(37) {
         
         @Override
         public boolean isDisplaced() {
@@ -1483,7 +1483,7 @@ public enum BlockTypes {
         }        
     },
     
-    OCEAN_WATER { // This has an infinite volume and spreads into all gaps until it fills up to the sea level.
+    OCEAN_WATER(38) { // This has an infinite volume and spreads into all gaps until it fills up to the sea level.
         
         @Override
         public boolean isDisplaced() {
@@ -1521,7 +1521,7 @@ public enum BlockTypes {
         }
     },
     
-    INLAND_WATER { // Non-infinite water. It spreads until it has no volume left.
+    INLAND_WATER(39) { // Non-infinite water. It spreads until it has no volume left.
         
         @Override
         public boolean isDisplaced() {
@@ -1559,7 +1559,7 @@ public enum BlockTypes {
         }
     },
     
-    AIR {
+    AIR(40) {
         
         @Override
         public boolean isDisplaced() {
@@ -1596,6 +1596,14 @@ public enum BlockTypes {
             return getEmptyAffectingAutomatonNames();
         }        
     };
+    
+    private final int value;
+    private BlockTypes(int value) {
+        this.value = value;
+    }
+    public int getValue() {
+        return value;
+    }
     
     public abstract boolean isDisplaced();
     public abstract boolean displacesDisplacableBlock();

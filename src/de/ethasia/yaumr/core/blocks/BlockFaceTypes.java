@@ -6,10 +6,19 @@ package de.ethasia.yaumr.core.blocks;
  * @author R
  */
 public enum BlockFaceTypes {
-    LEFT,       // Negative x
-    RIGHT,      // Positive x
-    FRONT,      // Positive z
-    BACK,       // Negative z
-    TOP,        // Positive y  
-    BOTTOM;     // Negative y
+    LEFT(0),       // Negative x
+    RIGHT(1),      // Positive x
+    FRONT(2),      // Positive z
+    BACK(3),       // Negative z
+    TOP(4),        // Positive y  
+    BOTTOM(5);     // Negative y
+    
+    private final int value;
+    private BlockFaceTypes(int value) {
+        this.value = value;
+    }
+    
+    public int getValue() {
+        return value;
+    }
 }
