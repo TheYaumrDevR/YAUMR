@@ -7,12 +7,15 @@ package de.ethasia.yaumr.interactors.interfaces;
  * @author R
  */
 public interface IslandCreationInteractor {
-    
+
     /**
      * Creates a new island with the corresponding IslandManipulationFacade instance to manipulate it.
      * If edgeLengthInBlocks is small a warning is displayed.
      * 
-     * @param edgeLengthInBlocks 
+     * @param userInput The input the user set when creating an Island. 
+     * @return True if the creation is successful.
      */
-    public void createNewIslandWithRegisteredSingletonFacadeInstance(int edgeLengthInBlocks);
+    public boolean createNewIslandWithRegisteredSingletonFacadeInstance(String userInput);
+    
+    public boolean createNewIslandWithFacadeInstanceWithoutUserConfirmationChecks(String userInput);
 }

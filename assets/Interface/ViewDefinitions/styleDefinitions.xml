@@ -5,6 +5,10 @@
     	<style id="normal-sized-text-font">
         	<attributes font="Interface/Fonts/MSUIGothic.fnt" color="#ffffffff"/>
     	</style>
+        
+    	<style id="normal-sized-text-font-orange">
+        	<attributes font="Interface/Fonts/MSUIGothic.fnt" color="#dc6100ff"/>
+    	</style>        
 
 	<!-- YAUMR Fonts -->
 
@@ -26,9 +30,9 @@
         	</effect>
     	</style>
 
-    	<!-- +++++++++++++++++++++++++++++++++++++ -->
+    	<!-- +++++++++++++++++++++++++ -->
     	<!-- style for the button text -->
-    	<!-- +++++++++++++++++++++++++++++++++++++ -->
+    	<!-- +++++++++++++++++++++++++ -->
     	<style id="yaumr-button#text" base="normal-sized-text-font">
         	<attributes align="center" valign="center" textHAlign="center" textVAlign="center" visibleToMouse="false"/>
         	<effect>

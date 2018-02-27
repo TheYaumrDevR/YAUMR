@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.ioadapters.gateways.filesystem;
 
+import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.blocks.Block;
 import java.nio.ByteBuffer;
@@ -31,17 +32,9 @@ public class IslandSerializer {
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
     public void addByteBlocksForIslandMetadata(IslandMetaData islandMetaData) {
-        byte[] islandNameByteBlock = islandMetaData.getIslandName().getBytes();
-        byteBlocks.add(islandNameByteBlock);
-        currentByteBlockCount += islandNameByteBlock.length;
-        
-        byte[] guidByteBlock = convertUUIDToBytes(islandMetaData.getIslandGUID());
-        byteBlocks.add(guidByteBlock);
-        currentByteBlockCount += guidByteBlock.length;
-        
         byte[] edgeLengthByte = new byte[]{(byte)(islandMetaData.getIslandEdgeLengthInBlocks() & 0xFF)};
         byteBlocks.add(edgeLengthByte);
-        currentByteBlockCount += edgeLengthByte.length;
+        currentByteBlockCount += edgeLengthByte.length;    
     }
     
     public void addByteBlocksForIslandBlockData(Island island) {

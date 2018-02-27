@@ -17,7 +17,8 @@ public class YaumrGame extends SimpleApplication {
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
-    private static final String GAME_NAME = "YAUMR Alpha 0.1";
+    public static final String GAME_NAME_BASE = "YAUMR";
+    private static final String GAME_NAME_WITH_VERSION = "YAUMR Alpha 0.1";
     
     //</editor-fold>
     
@@ -43,7 +44,7 @@ public class YaumrGame extends SimpleApplication {
         gameInstance.setShowSettings(false);
         
         AppSettings gameSettings = new AppSettings(true);
-        gameSettings.setTitle(YaumrGame.GAME_NAME);
+        gameSettings.setTitle(YaumrGame.GAME_NAME_WITH_VERSION);
         gameSettings.setResolution(1280, 720);
         
         gameInstance.setSettings(gameSettings);        

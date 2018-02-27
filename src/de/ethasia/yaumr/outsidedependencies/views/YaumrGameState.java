@@ -43,7 +43,7 @@ public abstract class YaumrGameState extends AbstractAppState implements ScreenC
      * @return The name of the Nifty screen on which the GUI lies.
      */
     protected abstract String getNiftyScreenName();
-    
+            
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Implementations">

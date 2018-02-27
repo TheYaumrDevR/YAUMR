@@ -66,7 +66,7 @@ public class GameEntryStateImpl extends YaumrGameState implements GameEntryState
     @Override
     public void quitGame() {
         System.exit(0);
-    }    
+    }      
     
     //</editor-fold>
 }

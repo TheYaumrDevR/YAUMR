@@ -35,29 +35,31 @@ public class IslandCreationInteractorTest {
     public void testCreateNewIslandWithRegisteredSingletonFacadeInstance_dimensionIsInvalid_showsError() {
         IslandCreationInteractorImpl testCandidate = new IslandCreationInteractorImpl();
         
-        testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance(0);
+        boolean result = testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance("0");
         
         int calledShowErrorMethodCount = IslandInitializationStateErrorMessagePresenterMock.getCallCounterForMethodName("showErrorMessage");
         IslandInitializationStateErrorMessagePresenterMock.resetMethodCallCounts();
         assertEquals(1, calledShowErrorMethodCount);
+        assertFalse(result);
     }
     
     @Test
     public void testCreateNewIslandWithRegisteredSingletonFacadeInstance_dimensionIsSmall_showsWarning() {
         IslandCreationInteractorImpl testCandidate = new IslandCreationInteractorImpl();
         
-        testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance(7);
+        boolean result = testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance("7");
         
         int calledShowConfirmationWarningMethodCount = IslandInitializationStateWarningMessagesPresenterMock.getCallCounterForMethodName("showConfirmationWarning");
         IslandInitializationStateWarningMessagesPresenterMock.resetMethodCallCounts();
         assertEquals(1, calledShowConfirmationWarningMethodCount);    
+        assertFalse(result);
     } 
     
     @Test
     public void testCreateNewIslandWithRegisteredSingletonFacadeInstance_dimensionIsValid_IslandManipulationFacadeIsCreated() {
         IslandCreationInteractorImpl testCandidate = new IslandCreationInteractorImpl();
         
-        testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance(8);   
+        boolean result = testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance("8");   
         
         int calledShowConfirmationWarningMethodCount = IslandInitializationStateWarningMessagesPresenterMock.getCallCounterForMethodName("showNonConfirmationWarning");
         int calledShowErrorMethodCount = IslandInitializationStateErrorMessagePresenterMock.getCallCounterForMethodName("showErrorMessage");
@@ -67,5 +69,38 @@ public class IslandCreationInteractorTest {
         assertEquals(0, calledShowConfirmationWarningMethodCount);
         assertEquals(0, calledShowErrorMethodCount);
         assertNotNull(islandManipulationFacade);
-    }      
+        assertTrue(result);
+    } 
+    
+    @Test
+    public void testCreateNewIslandWithRegisteredSingletonFacadeInstance_userInputIsInvalid_showsError() {
+        IslandCreationInteractorImpl testCandidate = new IslandCreationInteractorImpl();
+        boolean result = testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance("abc");
+        
+        int calledShowConfirmationWarningMethodCount = IslandInitializationStateWarningMessagesPresenterMock.getCallCounterForMethodName("showNonConfirmationWarning");
+        int calledShowErrorMethodCount = IslandInitializationStateErrorMessagePresenterMock.getCallCounterForMethodName("showErrorMessage");
+
+        IslandInitializationStateErrorMessagePresenterMock.resetMethodCallCounts();
+        IslandInitializationStateWarningMessagesPresenterMock.resetMethodCallCounts();
+        
+        assertEquals(0, calledShowConfirmationWarningMethodCount);
+        assertEquals(1, calledShowErrorMethodCount);
+        assertFalse(result);
+    }
+    
+    @Test
+    public void testCreateNewIslandWithRegisteredSingletonFacadeInstance_islandIsTooLarge_showsError() {
+        IslandCreationInteractorImpl testCandidate = new IslandCreationInteractorImpl();
+        boolean result = testCandidate.createNewIslandWithRegisteredSingletonFacadeInstance("645");
+        
+        int calledShowConfirmationWarningMethodCount = IslandInitializationStateWarningMessagesPresenterMock.getCallCounterForMethodName("showNonConfirmationWarning");
+        int calledShowErrorMethodCount = IslandInitializationStateErrorMessagePresenterMock.getCallCounterForMethodName("showErrorMessage");
+
+        IslandInitializationStateErrorMessagePresenterMock.resetMethodCallCounts();
+        IslandInitializationStateWarningMessagesPresenterMock.resetMethodCallCounts();
+        
+        assertEquals(0, calledShowConfirmationWarningMethodCount);
+        assertEquals(1, calledShowErrorMethodCount);
+        assertFalse(result);
+    }    
 }

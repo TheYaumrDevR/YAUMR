@@ -1,4 +1,4 @@
-package de.ethasia.yaumr.ioadapters.gateways.filesystem;
+package de.ethasia.yaumr.interactors;
 
 import java.util.UUID;
 
@@ -41,6 +41,32 @@ public class IslandMetaData {
     
     public int getIslandEdgeLengthInBlocks() {
         return islandEdgeLengthInBlocks;
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Overrides">
+    
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof IslandMetaData) {
+            return equals((IslandMetaData)o);
+        }
+        
+        return false;
+    }
+    
+    @Override
+    public int hashCode() {
+        return islandGUID.hashCode();
+    }
+    
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Helper Methods">
+    
+    private boolean equals(IslandMetaData other) {
+        return islandGUID.equals(other.islandGUID);
     }
     
     //</editor-fold>

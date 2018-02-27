@@ -259,7 +259,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         if (null != quickSelectionBar) {
             quickSelectionBar.setItemDisplayData(displayData);
         }
-    }
+    }     
     
     //</editor-fold>
     

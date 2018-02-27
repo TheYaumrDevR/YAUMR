@@ -51,7 +51,7 @@ public class WorldEditorBaseMenuStateImpl extends YaumrGameState implements Worl
     @Override
     public void gotoPreviousState() {
         YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(GameEntryState.class).startDisplaying();        
-    }    
+    }      
     
     //</editor-fold>    
 }
