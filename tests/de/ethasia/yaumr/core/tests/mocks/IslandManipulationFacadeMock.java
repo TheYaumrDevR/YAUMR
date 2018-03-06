@@ -11,6 +11,7 @@ import de.ethasia.yaumr.interactors.InteractionVector;
 import de.ethasia.yaumr.tests.helpers.ClassMock;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 public class IslandManipulationFacadeMock extends ClassMock implements IslandManipulationFacade {
     
@@ -35,8 +36,13 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     }
   
     @Override
-    public void setIsland(Island value) {
+    public void setNewlyCreatedIsland(Island value) {
         islandToChange = value;
+    }
+    
+    @Override
+    public void setLoadedIsland(Island islandToChange, String name, UUID islandGUID) {
+        this.islandToChange = islandToChange;
     }
   
     @Override
@@ -143,5 +149,15 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     @Override
     public Island getIsland() {
         return islandToChange;
+    }
+    
+    @Override
+    public UUID getIslandGUID() {
+        return UUID.randomUUID();
+    }
+
+    @Override
+    public boolean isCreatingNewIsland() {
+        return true;
     }
 }

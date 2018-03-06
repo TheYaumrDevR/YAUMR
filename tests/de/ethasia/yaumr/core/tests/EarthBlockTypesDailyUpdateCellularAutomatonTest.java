@@ -31,7 +31,7 @@ public class EarthBlockTypesDailyUpdateCellularAutomatonTest {
     public static void setUpClass() {
         updatedIsland = new Island(256);
         islandManipulationFacade = new IslandManipulationFacadeMock();
-        islandManipulationFacade.setIsland(updatedIsland);
+        islandManipulationFacade.setNewlyCreatedIsland(updatedIsland);
     }
     
     @Test

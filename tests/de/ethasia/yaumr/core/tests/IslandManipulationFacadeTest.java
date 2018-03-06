@@ -46,7 +46,7 @@ public class IslandManipulationFacadeTest {
     @Test
     public void testPlaceBlockAt_allSubInterfacesAreCalled() {
         IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
-        testCandidate.setIsland(islandToManipulate);
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
         
         BlockPosition position = new BlockPosition(91, 119, 223);
         Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BEDROCK);
@@ -66,7 +66,7 @@ public class IslandManipulationFacadeTest {
     @Test
     public void testRemoveBlockAt_allSubInterfacesAreCalled() {
         IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
-        testCandidate.setIsland(islandToManipulate);
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
         
         BlockPosition position = new BlockPosition(152, 9, 169);
         Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_PLANKS);
@@ -87,7 +87,7 @@ public class IslandManipulationFacadeTest {
     @Test
     public void testCopyBlockTo_allSubInterfacesAreCalled() {
         IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
-        testCandidate.setIsland(islandToManipulate);
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
         
         BlockPosition position = new BlockPosition(167, 122, 179);
         Block blockToPlace = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_ROOF);
@@ -107,7 +107,7 @@ public class IslandManipulationFacadeTest {
     @Test
     public void testTick_allSubInterfacesAreCalled() {
         IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
-        testCandidate.setIsland(islandToManipulate);
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
         
         testCandidate.tick(1000);
         
@@ -123,7 +123,7 @@ public class IslandManipulationFacadeTest {
     @Test
     public void testGetBlockPositionOnCurrentIslandForInteractionVector_facadeIsSetup_validPositionIsReturned() {
         IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
-        testCandidate.setIsland(islandToManipulate);
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
         InteractionVector interactionVector = new InteractionVector(5.6f, 3.2f, 7.9f);
         
         BlockPosition result = testCandidate.getBlockPositionOnCurrentIslandForInteractionVector(interactionVector);
@@ -146,7 +146,7 @@ public class IslandManipulationFacadeTest {
     @Test
     public void testPerformDailyUpdates_islandIsPresent_tickIsCalledOnDailyUpdaters() {
         IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
-        testCandidate.setIsland(islandToManipulate);
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
 
         testCandidate.performDailyUpdates();
         

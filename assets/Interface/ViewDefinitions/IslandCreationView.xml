@@ -3,55 +3,103 @@
 <!-- This is the view the game is in when the user creates an island -->
 
 <nifty>
-	<useStyles filename="nifty-default-styles.xml" />
-	<useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
-	<useControls filename="nifty-default-controls.xml" />
-	<useControls filename="Interface/ViewDefinitions/controlDefinitions.xml" />
+    <useStyles filename="nifty-default-styles.xml" />
+    <useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+    <useControls filename="Interface/ViewDefinitions/controlDefinitions.xml" />
 
-	<screen id="islandCreationGUI" controller="de.ethasia.yaumr.outsidedependencies.views.RefactoredIslandEditorState">
-		<layer id="#crosshairLayer" backgroundColor="#00000000" childLayout="center">
-			<image filename="Interface/ImagesGUI/Crosshair/Crosshair.png" align="center" valign="center" />
-		</layer>
+    <screen id="islandCreationGUI" controller="de.ethasia.yaumr.outsidedependencies.views.RefactoredIslandEditorState">
+	<layer id="#crosshairLayer" backgroundColor="#00000000" childLayout="center">
+            <image filename="Interface/ImagesGUI/Crosshair/Crosshair.png" align="center" valign="center" />
+	</layer>
 
-		<layer id="#bottomQuickSelectionBarLayer" backgroundColor="#00000000" childLayout="center">
-			<control name="quickSelectionBar" id="#bottomQuickSelectionBar" align="center" valign="bottom"/>
-		</layer>
+	<layer id="#bottomQuickSelectionBarLayer" backgroundColor="#00000000" childLayout="center">
+            <control name="quickSelectionBar" id="#bottomQuickSelectionBar" align="center" valign="bottom"/>
+	</layer>
 
-		<layer id="#inventoryGridLayer" backgroundColor="#00000000" childLayout="center">
-			<control name="inventoryGrid" id="#itemSelectionGrid"/>
-		</layer>
+	<layer id="#inventoryGridLayer" backgroundColor="#00000000" childLayout="center">
+            <control name="inventoryGrid" id="#itemSelectionGrid"/>
+	</layer>
 
-		<layer id="#mainMenuLayer" backgroundColor="#00000000" childLayout="center">
-			<panel id="#mainMenu" height="149px" width="250px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
-				<panel id="#mainMenuButtons" childLayout="vertical" x="0" y="17" width="100%" height="115px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-                			<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="24px" />
-					<control name="button" id="#helpButton" width="226px" style="yaumr-button" label="Show Hints" align="center">
-						<interact onClick="showHelpPanel()"/>
-                			</control>
-					<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
-                			<control name="button" id="#leaveButton" width="226px" style="yaumr-button" label="Leave World Editor" align="center">
-						<interact onClick="gotoGameEntryState()"/>
-                			</control>
-                			<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
-                			<control name="button" id="#quitButton" width="226px" style="yaumr-button" label="Quit Game" align="center">
-						<interact onClick="quitGame()"/>
-                			</control>
-				</panel>
-				<panel id="#mainMenuTitle" childLayout="center" width="200px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-					<text id="#mainMenuTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Main Menu" width="100%" textHAlign="center"/>
-				</panel>
-			</panel>
-		</layer>
+	<layer id="#mainMenuLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#mainMenu" height="177px" width="250px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
+                <panel id="#mainMenuButtons" childLayout="vertical" x="0" y="17" width="100%" height="143px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="24px" />
+                    <control name="button" id="#helpButton" width="226px" style="yaumr-button" label="Show Hints" align="center">
+                        <interact onClick="showHelpPanel()"/>
+                    </control>
+                    <panel backgroundColor="#00000000" width="100%" height="5px"/>
+                    <control name="button" id="#saveButton" width="226px" style="yaumr-button" label="Save Island" align="center">
+                        <interact onClick="showSaveGameDialog()"/>
+                    </control>
+                    <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
+                    <control name="button" id="#leaveButton" width="226px" style="yaumr-button" label="Leave World Editor" align="center">
+                        <interact onClick="gotoGameEntryState()"/>
+                    </control>
+                    <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
+                    <control name="button" id="#quitButton" width="226px" style="yaumr-button" label="Quit Game" align="center">
+                        <interact onClick="quitGame()"/>
+                    </control>
+                </panel>
+                <panel id="#mainMenuTitle" childLayout="center" width="200px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <text id="#mainMenuTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Main Menu" width="100%" textHAlign="center"/>
+                </panel>
+            </panel>
+	</layer>
 
-		<layer id="#helpTextLayer" backgroundColor="#00000000" childLayout="center">
-			<panel id="#helpPanel" height="159px" width="520px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
-				<panel id="#helpTextPanel" childLayout="center" x="0" y="17" width="100%" height="125px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-					<control name="label" id="#helpText" style="normal-sized-text-font" width="95%" align="center" textHAlign="left" text="You can create and modify islands which can be used to construct game worlds here.&#10;&#10;Following features are available in this editor.&#10;Press H to bring up and hide this help text.&#10;Press I to bring up the block selection menu.&#10;Press G to bring up the random generation and island reset menu."/>
-				</panel>
-				<panel id="#helpTextTitle" childLayout="center" width="200px" height="34px" x="155" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-					<text id="#helpTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Help" width="100%" textHAlign="center"/>
-				</panel>
-			</panel>
-		</layer>
-	</screen>
+	<layer id="#helpTextLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#helpPanel" height="159px" width="520px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
+                <panel id="#helpTextPanel" childLayout="center" x="0" y="17" width="100%" height="125px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <control name="label" id="#helpText" style="normal-sized-text-font" width="95%" align="center" textHAlign="left" text="You can create and modify islands which can be used to construct game worlds here.&#10;&#10;Following features are available in this editor.&#10;Press H to bring up and hide this help text.&#10;Press I to bring up the block selection menu.&#10;Press G to bring up the random generation and island reset menu."/>
+		</panel>
+		<panel id="#helpTextTitle" childLayout="center" width="200px" height="34px" x="155" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <text id="#helpTitleText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Help" width="100%" textHAlign="center"/>
+		</panel>
+            </panel>
+	</layer>
+        
+        <layer id="#saveIslandDialogLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#saveIslandDialogWindow" height="100px" width="274px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
+                <panel id="#saveDialogWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="91px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <panel height="23" backgroundColor="#00000000"/>
+                    <panel childLayout="horizontal" width="95%" align="center" backgroundColor="#00000000">
+                        <text id="#islandNameText" valign="center" font="Interface/Fonts/MSUIGothic.fnt" color="#dc6100ff" text="Island name:"/>
+                        <panel width="6" backgroundColor="#00000000"/>
+                        <control id="#islandNameInput" name="textfield" maxLength="40"/>
+                    </panel>
+                    <panel height="6" backgroundColor="#00000000"/>
+                    <panel childLayout="horizontal" height="*" width="95%" align="center" backgroundColor="#00000000">
+                        <control id="#saveConfirmButton" name="button" style="yaumr-button" label="Save">
+                            <interact onClick="saveIsland()"/>
+                        </control>
+                        <panel width="*" backgroundColor="#00000000"/>
+                        <control id="#saveCancelButton" name="button" style="yaumr-button" label="Cancel">
+                            <interact onClick="hideSaveGameDialog()"/>
+                        </control>                            
+                    </panel>
+                </panel>
+                <panel id="#saveIslandWindowHeader" childLayout="center" width="150px" height="34px" x="31" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <text id="#saveIslandWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Save Island" width="100%" textHAlign="center"/>
+                </panel>
+            </panel>
+        </layer>    
+        
+        <layer id="#errorMessageLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#errorMessageWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">
+                <panel id="#errorMessageWindow" height="110px" width="250px" childLayout="absolute" backgroundColor="#00000000" >
+                    <panel id="#errorMessageWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="76px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <panel height="23" backgroundColor="#00000000"/>
+                        <control id="#errorMessageText" name="label" style="normal-sized-text-font-orange" align="center"/>
+                        <panel height="6" backgroundColor="#00000000"/>
+                        <control name="button" style="yaumr-button" label="Ok" align="center">
+                            <interact onClick="onErrorMessageConfirmed()"/>
+                        </control>
+                    </panel>
+                    <panel id="#errorMessageWindowHeader" childLayout="center" width="100px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <text id="#errorMessageWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Error" width="100%" textHAlign="center"/>
+                    </panel>
+                </panel> 
+            </panel>               
+        </layer>                 
+    </screen>
 </nifty>

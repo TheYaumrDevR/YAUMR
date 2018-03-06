@@ -6,9 +6,7 @@ import de.ethasia.yaumr.core.blocks.Block;
 import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
-import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.ioadapters.gateways.filesystem.IslandSerializer;
-import java.util.UUID;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
@@ -82,21 +80,4 @@ public class IslandSerializerTest {
         
         assertEquals(0, result.length);
     }    
-    
-    @Test
-    public void testAddByteBlocksForIslandMetadata_metaDataIsPassed_correctBytesAreReturned() {
-        IslandSerializer testCandidate = new IslandSerializer();
-        IslandMetaData islandMetaData = new IslandMetaData();
-        islandMetaData.setIslandEdgeLengthInBlocks(4);
-        islandMetaData.setIslandName("Test");
-        islandMetaData.setIslandGUID(UUID.randomUUID());
-        
-        testCandidate.addByteBlocksForIslandMetadata(islandMetaData);
-
-        byte[] result = testCandidate.getByteBufferForAddedData();  
-        int islandNameByteLength = islandMetaData.getIslandName().getBytes().length;
-        
-        assertEquals(1, result.length);
-        assertEquals(islandMetaData.getIslandEdgeLengthInBlocks() & 0xFF, result[0]);
-    }
 }

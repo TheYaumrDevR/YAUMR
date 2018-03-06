@@ -5,6 +5,7 @@ import de.ethasia.yaumr.core.blocks.BlockPosition;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.interactors.InteractionVector;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a facade which provides interface methods to place and remove blocks from the current Island. 
@@ -16,18 +17,24 @@ public interface IslandManipulationFacade {
     
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     
-    public void setIsland(Island islandToChange);
+    public void setNewlyCreatedIsland(Island islandToChange);
+    
+    public void setLoadedIsland(Island islandToChange, String name, UUID islandGUID);
     
     /**
      * Retrieves the Island this Facade works on. Do not use it to edit the Island
      * directly. The Island is retrieved so that its data can be passed to renderers.
-     * The cleaner way would be to creates copies of the necessary Block data and pass it to the renderers.
+     * The cleaner way would be to create copies of the necessary Block data and pass it to the renderers.
      * But object creation is a runtime costly operation compared to primitive operations.
      * Especially with the amount of Blocks present on an Island.
      * 
      * @return 
      */
     public Island getIsland();
+    
+    public boolean isCreatingNewIsland();
+    
+    public UUID getIslandGUID();
     
     //</editor-fold>
     

@@ -3,6 +3,7 @@ package de.ethasia.yaumr.base;
 import com.jme3.app.SimpleApplication;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
+import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithErrorMessages;
 
 import de.ethasia.yaumr.outsidedependencies.views.YaumrGameState;
 import de.ethasia.yaumr.ioadapters.interfaces.GameEntryState;
@@ -111,11 +112,19 @@ public class YaumrGame extends SimpleApplication {
      * @param newGameState The new state of the game.
      */
     public void setGameState(YaumrGameState newGameState) {
-        if (null != currentGameState)
+        if (null != currentGameState) {
             stateManager.detach(currentGameState);
+        }
         
         stateManager.attach(newGameState);
         currentGameState = newGameState;
+        
+        ClassInstanceContainer dependencyResolver = getClassInstanceContainer();
+        dependencyResolver.removeSingletonInstance(AppStateWithErrorMessages.class);
+        
+        if (newGameState instanceof AppStateWithErrorMessages) {
+            dependencyResolver.registerSingletonInstance(AppStateWithErrorMessages.class, (AppStateWithErrorMessages)newGameState);
+        }
     }    
     
     //</editor-fold>

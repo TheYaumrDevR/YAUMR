@@ -12,7 +12,6 @@ import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutomatonMock;
-import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateErrorMessagePresenter;
 import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
 import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateErrorMessagePresenterMock;
 import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateWarningMessagesPresenterMock;
@@ -25,6 +24,7 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
 
 /**
  *
@@ -46,10 +46,10 @@ public class ChunkPresenterTest {
         dependencyResolver.removeSingletonInstance(ChunkRenderer.class);
         dependencyResolver.registerSingletonInstance(ChunkRenderer.class, usedChunkRendererMock); 
         
-        dependencyResolver.removeRegisteredImplementation(IslandInitializationStateErrorMessagePresenter.class);
+        dependencyResolver.removeRegisteredImplementation(ErrorMessagePresenter.class);
         dependencyResolver.removeRegisteredImplementation(IslandInitializationStateWarningMessagesPresenter.class);
         dependencyResolver.removeRegisteredImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class);
-        dependencyResolver.registerImplementation(IslandInitializationStateErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
+        dependencyResolver.registerImplementation(ErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
         dependencyResolver.registerImplementation(IslandInitializationStateWarningMessagesPresenter.class, IslandInitializationStateWarningMessagesPresenterMock.class);
         dependencyResolver.registerImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class, EarthBlockTypesDailyUpdateCellularAutomatonMock.class); 
     }
@@ -64,7 +64,7 @@ public class ChunkPresenterTest {
     public void testPresentChunksForChangedPositions_unrotatedStandardCubesArePlacedInLShape_correctDataIsPassedToChunkRenderer() {        
         ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
         IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
-        islandManipulationFacade.setIsland(testIsland);
+        islandManipulationFacade.setNewlyCreatedIsland(testIsland);
         
         Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.CLAY);
         Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.COPPER_VEIN);
@@ -147,7 +147,7 @@ public class ChunkPresenterTest {
     public void testPresentChunksForChangedPositions_unrotatedStandardCubesArePlacedIn3x3x3Shape_correctDataIsPassedToChunkRenderer() {        
         ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
         IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
-        islandManipulationFacade.setIsland(testIsland);
+        islandManipulationFacade.setNewlyCreatedIsland(testIsland);
         
         Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
         Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.SAND);
@@ -230,7 +230,7 @@ public class ChunkPresenterTest {
     public void testPresentChunksForChangedPositions_twoBlocksArePlacedOnTwoNeighboringChunks_correctDataIsPassedToChunkRenderer() {        
         ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
         IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
-        islandManipulationFacade.setIsland(testIsland);
+        islandManipulationFacade.setNewlyCreatedIsland(testIsland);
         
         Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GRASSY_EARTH);
         Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);
@@ -279,7 +279,7 @@ public class ChunkPresenterTest {
     public void testPresentChunksForChangedPositions_rotatedStandardCubesArePlacedInLShape_correctDataIsPassedToChunkRenderer() {        
         ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
         IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
-        islandManipulationFacade.setIsland(testIsland);
+        islandManipulationFacade.setNewlyCreatedIsland(testIsland);
         
         Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.CLAY);
         Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ASH_TRUNK);
@@ -367,7 +367,7 @@ public class ChunkPresenterTest {
     public void testPresentChunksForChangedPositions_blockAtEdgeOfChunkIsRemoved_neighborChunkIsUpdated() {       
         ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
         IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
-        islandManipulationFacade.setIsland(testIsland);
+        islandManipulationFacade.setNewlyCreatedIsland(testIsland);
         
         Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK);
         Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH);

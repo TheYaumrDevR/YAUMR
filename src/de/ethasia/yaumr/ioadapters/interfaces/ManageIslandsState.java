@@ -13,6 +13,5 @@ public interface ManageIslandsState extends DisplayableGameState {
     public void editSelectedIsland();
     public void deleteSelectedIsland();
     public void goToPreviousState();
-    public void showErrorMessage(String message);
     public void showConfirmationWarningMessage(String message, ConfirmationActionTypes actionType);
 }

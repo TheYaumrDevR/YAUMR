@@ -24,6 +24,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateMainInteractor;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateSetupInteractor;
+import de.ethasia.yaumr.interactors.interfaces.SaveIslandInteractor;
 import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.ioadapters.interfaces.BlockInteractionIndicatorPresenter;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.QuickSelectionBarControl;
@@ -33,6 +34,7 @@ import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
 import de.ethasia.yaumr.interactors.interfaces.TimedUpdateInteractor;
 import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
 import de.ethasia.yaumr.outsidedependencies.renderers.RootNodeProvider;
+import de.lessvoid.nifty.controls.TextField;
 
 /**
  *
@@ -46,6 +48,8 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private static final String HELP_PANEL_NAME = "#helpPanel";
     private static final String BOTTOM_QUICKSELECTION_BAR_NAME = "#bottomQuickSelectionBar";  
     private static final String TOOLGRID_NAME = "#itemSelectionGrid";
+    private static final String SAVE_ISLAND_WINDOW_NAME = "#saveIslandDialogWindow";
+    private static final String ISLAND_NAME_TEXTFIELD_NAME = "#islandNameInput";
     
     private static final String TOGGLE_MAIN_MENU_ACTION_NAME = "toggleMainMenu";
     private static final String TOGGLE_HELP_TEXT_ACTION_NAME = "toggleHelp";
@@ -53,7 +57,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private static final String SELECT_QUICKBAR_ITEM_ACTION_NAME = "selectItem";
     private static final String EXECUTE_PRIMARY_ACTION_EVENT_NAME = "executePrimaryAction";    
     
-    private static final String BLOCK_INTERACTION_INDICATOR_NAME = "BlockInteractionIndicator";
+    private static final String BLOCK_INTERACTION_INDICATOR_NAME = "BlockInteractionIndicator";  
     
     //</editor-fold>
     
@@ -63,6 +67,8 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         
     private Element mainMenu;
     private Element helpPanel;
+    private Element saveIslandWindow;
+    private TextField islandNameTextField;
     private Geometry blockInteractionIndicator;
     private QuickSelectionBar quickSelectionBar;
     private InventoryGrid toolsSelectionGrid;
@@ -71,7 +77,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private IslandEditorStateSetupInteractor setupInteractor;
     private TerraformingToolsInteractor terraformingToolsSelector;
     private TimedUpdateInteractor timedUpdateInteractor;
-    private BlockInteractionIndicatorPresenter blockInteractionIndicatorPresenter;
+    private BlockInteractionIndicatorPresenter blockInteractionIndicatorPresenter;  
+    
+    private boolean mainMenuInputIsBlocked;
+    private boolean saveIslandNameWindowIsBlocked;
     
     //</editor-fold>
     
@@ -146,10 +155,13 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         windowsInteractor = dependencyResolver.getImplementationInstance(IslandEditorStateMainInteractor.class);
         setupInteractor = dependencyResolver.getImplementationInstance(IslandEditorStateSetupInteractor.class);
         blockInteractionIndicatorPresenter = dependencyResolver.getImplementationInstance(BlockInteractionIndicatorPresenter.class);
+        
         mainMenu = screen.findElementById(MAIN_MENU_PANEL_NAME);
         helpPanel = screen.findElementById(HELP_PANEL_NAME);
+        saveIslandWindow = screen.findElementById(SAVE_ISLAND_WINDOW_NAME);
         quickSelectionBar = screen.findNiftyControl(BOTTOM_QUICKSELECTION_BAR_NAME, QuickSelectionBar.class);    
         toolsSelectionGrid = screen.findNiftyControl(TOOLGRID_NAME, InventoryGrid.class);
+        islandNameTextField = screen.findNiftyControl(ISLAND_NAME_TEXTFIELD_NAME, TextField.class);       
         
         setupInteractor.setupInventoryInteractorsForIslandEditorState();
         terraformingToolsSelector = dependencyResolver.getSingletonInstance(TerraformingToolsInteractor.class);
@@ -201,17 +213,20 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     @Override
     public void showHelpPanel() {
-        if (null != helpPanel) {
+        if (null != helpPanel && !mainMenuInputIsBlocked) {
             helpPanel.show();
         }
     }
 
     @Override
     public void showTerraformingToolbox() {
-    }
+    }    
     
     @Override
     public void hideAllVisibleGUIItems() {
+        mainMenuInputIsBlocked = false;
+        saveIslandNameWindowIsBlocked = false;
+        
         if (null != mainMenu) {
             mainMenu.hide();
         }
@@ -219,6 +234,14 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         if (null != helpPanel) {
             helpPanel.hide();
         }  
+        
+        if (null != saveIslandWindow) {
+            saveIslandWindow.hide();
+        }
+        
+        if (null != errorMessagePanel) {
+            errorMessagePanel.hide();
+        }
     }
     
     @Override
@@ -266,11 +289,15 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     //<editor-fold defaultstate="collapsed" desc="UI Callbacks">
     
     public void gotoGameEntryState() {
-        YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(GameEntryState.class).startDisplaying();        
+        if (!mainMenuInputIsBlocked) {
+            YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(GameEntryState.class).startDisplaying();                    
+        }
     }
 
     public void quitGame() {
-        System.exit(0);        
+        if (!mainMenuInputIsBlocked) {
+            System.exit(0);
+        }               
     }    
     
     public void selectQuickbarItem(String uiEventName, boolean keyIsPressed) {
@@ -280,6 +307,48 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
                 terraformingToolsSelector.setSelectedToolIndex(itemIndex);
             }
         }
+    }
+    
+    public void showSaveGameDialog() {
+        if (null != saveIslandWindow && !mainMenuInputIsBlocked) {
+            saveIslandWindow.show();
+            mainMenuInputIsBlocked = true;
+        }
+    }
+    
+    public void hideSaveGameDialog() {
+        mainMenuInputIsBlocked = false;
+        if (null != saveIslandWindow && !saveIslandNameWindowIsBlocked) {
+            saveIslandWindow.hide();
+        }
+    }    
+    
+    public void saveIsland() {
+        if (null != islandNameTextField && !saveIslandNameWindowIsBlocked) {
+            ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+            SaveIslandInteractor saveIslandInteractor = dependencyResolver.getImplementationInstance(SaveIslandInteractor.class);
+            if (null != saveIslandInteractor) {
+                saveIslandWindow.hide();
+                String islandName = islandNameTextField.getRealText();     
+                saveIslandInteractor.saveIslandFromCurrentManipulationFacade(islandName);
+            }
+        }
+    }
+    
+    @Override
+    public void showErrorMessage(String message) {
+        if (errorMessageWindowElementsArePresent()) {
+            mainMenuInputIsBlocked = false;
+            saveIslandNameWindowIsBlocked = false;            
+        }
+    }
+    
+    public void onErrorMessageConfirmed() {
+        saveIslandNameWindowIsBlocked = false;
+        
+        if (null != errorMessagePanel) {
+            errorMessagePanel.hide();
+        }         
     }
     
     //</editor-fold>
@@ -398,7 +467,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         if (chunkRenderer instanceof RootNodeProvider) {
             YaumrGame.getInstance().getRootNode().detachChild(((RootNodeProvider)chunkRenderer).getRootNode());
         }
-    }
+    }  
     
     //</editor-fold>
 }

@@ -72,6 +72,7 @@
                                 <control name="button" style="yaumr-button" label="Ok">
                                     <interact onClick="onWarningMessageConfirmed()"/>
                                 </control>   
+                                <panel width="6" backgroundColor="#00000000"/>
                                 <control name="button" style="yaumr-button" label="Cancel">
                                     <interact onClick="onWarningMessageDeclined()"/>
                                 </control>                                                              

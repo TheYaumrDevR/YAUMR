@@ -1,12 +1,10 @@
 package de.ethasia.yaumr.ioadapters.gateways.filesystem;
 
-import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.core.blocks.Block;
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  *
@@ -30,12 +28,6 @@ public class IslandSerializer {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
-    
-    public void addByteBlocksForIslandMetadata(IslandMetaData islandMetaData) {
-        byte[] edgeLengthByte = new byte[]{(byte)(islandMetaData.getIslandEdgeLengthInBlocks() & 0xFF)};
-        byteBlocks.add(edgeLengthByte);
-        currentByteBlockCount += edgeLengthByte.length;    
-    }
     
     public void addByteBlocksForIslandBlockData(Island island) {
         int sameBlockRepeatCount = 1;
@@ -88,26 +80,6 @@ public class IslandSerializer {
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Helper Methods">
-    
-    private byte[] convertUUIDToBytes(UUID toConvert) {
-        byte[] result = new byte[Long.BYTES * 2];
-        long leastSignificantBits = toConvert.getLeastSignificantBits();
-        long mostSignificantBits = toConvert.getMostSignificantBits();
-        
-        for (int i = 0; i < Long.BYTES - 1; i++) {
-            byte oneByte = (byte)(leastSignificantBits & 0xFF); 
-            leastSignificantBits >>= 1;
-            result[i] = oneByte;
-        }
-        
-        for (int i = Long.BYTES; i < Long.BYTES * 2 - 1; i++) {
-            byte oneByte = (byte)(mostSignificantBits & 0xFF); 
-            mostSignificantBits >>= 1;
-            result[i] = oneByte;
-        }        
-        
-        return result;
-    }
     
     private boolean currentBlockAndPreviousBlockAreEqual(Block currentBlock, Block previousBlock) {
         if (currentBlock == null && previousBlock != null) {

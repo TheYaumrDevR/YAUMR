@@ -8,6 +8,7 @@ import de.ethasia.yaumr.core.blocks.BlockPlacementStrategy;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.InteractionVector;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents a facade which provides interface methods to place and remove blocks from the current Island. 
@@ -19,6 +20,11 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
+    private UUID islandGUID;
+    private String islandName;
+    
+    private boolean isCreatingNewIsland;
+    
     private Island island;
     private GrassToEarthCellularAutomatonImpl grassToEarthUpdater;
     private FallingSandyBlockCellularAutomatonImpl fallingSandHandler;
@@ -29,26 +35,36 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     
     @Override
-    public void setIsland(Island islandToChange) {
-        island = islandToChange;
+    public void setNewlyCreatedIsland(Island islandToChange) {
+        islandGUID = UUID.randomUUID();
+        isCreatingNewIsland = false;
         
-        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
-        grassToEarthUpdater = dependencyResolver.getImplementationInstance(GrassToEarthCellularAutomatonImpl.class);
-        fallingSandHandler = dependencyResolver.getImplementationInstance(FallingSandyBlockCellularAutomatonImpl.class);
-        uncoveredEarthBlocksUpdater = dependencyResolver.getImplementationInstance(EarthBlockTypesDailyUpdateCellularAutomaton.class);
+        setupRelevantObjects(islandToChange);
+    }
+    
+    @Override
+    public void setLoadedIsland(Island islandToChange, String name, UUID islandGUID) {
+        this.islandGUID = islandGUID;
+        islandName = name;
+        isCreatingNewIsland = true;
         
-        grassToEarthUpdater.setIslandToUpdate(island);
-        grassToEarthUpdater.setIslandManipulationFacade(this);
-        fallingSandHandler.setIslandToUpdate(island);
-        fallingSandHandler.setIslandManipulationFacade(this);
-        uncoveredEarthBlocksUpdater.setIslandToUpdate(island);
-        uncoveredEarthBlocksUpdater.setIslandManipulationFacade(this);
+        setupRelevantObjects(islandToChange);     
     }
     
     @Override
     public Island getIsland() {
         return island;
     }    
+    
+    @Override
+    public boolean isCreatingNewIsland() {
+        return isCreatingNewIsland;
+    }
+    
+    @Override
+    public UUID getIslandGUID() {
+        return islandGUID;
+    }
     
     //</editor-fold>
     
@@ -199,6 +215,22 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
         uncoveredEarthBlocksUpdater.setChangedPosition(position);        
     }
     
+    private void setupRelevantObjects(Island islandToChange) {
+        island = islandToChange;
+        
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        grassToEarthUpdater = dependencyResolver.getImplementationInstance(GrassToEarthCellularAutomatonImpl.class);
+        fallingSandHandler = dependencyResolver.getImplementationInstance(FallingSandyBlockCellularAutomatonImpl.class);
+        uncoveredEarthBlocksUpdater = dependencyResolver.getImplementationInstance(EarthBlockTypesDailyUpdateCellularAutomaton.class);
+        
+        grassToEarthUpdater.setIslandToUpdate(island);
+        grassToEarthUpdater.setIslandManipulationFacade(this);
+        fallingSandHandler.setIslandToUpdate(island);
+        fallingSandHandler.setIslandManipulationFacade(this);
+        uncoveredEarthBlocksUpdater.setIslandToUpdate(island);
+        uncoveredEarthBlocksUpdater.setIslandManipulationFacade(this);           
+    }
+    
     //</editor-fold>
 }
- 
+  

@@ -22,7 +22,7 @@ public class BlockRemovalTerraformingToolTest {
         BlockRemovalTerraformingTool testCandidate = new BlockRemovalTerraformingTool();
         IslandManipulationFacadeMock.resetMethodCallCounts();
         IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeMock();
-        islandManipulationFacade.setIsland(new Island(2));
+        islandManipulationFacade.setNewlyCreatedIsland(new Island(2));
         islandManipulationFacade.placeBlockAt(SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.ROCK), new BlockPosition(0, 0, 0));
         
         List<BlockPosition> changedPositions = testCandidate.interactWithIsland(islandManipulationFacade, new BlockPosition(0, 0, 0));

@@ -5,7 +5,7 @@ package de.ethasia.yaumr.interactors.interfaces;
  * 
  * @author R
  */
-public interface IslandInitializationStateErrorMessagePresenter {
+public interface ErrorMessagePresenter {
     
     public void showErrorMessage(String errorMessage);
 }

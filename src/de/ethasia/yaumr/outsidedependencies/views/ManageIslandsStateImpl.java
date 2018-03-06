@@ -25,11 +25,6 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     
     private static final String CREATION_CONFIRMATION_PANEL_NAME = "#confirmationWindow";
     private static final String ISLAND_SIZE_TEXTFIELD_NAME = "#islandSizeInput";
-    private static final String ERROR_MESSAGE_WINDOW_CONTAINER_NAME = "#errorMessageWindowContainer";
-    private static final String ERROR_MESSAGE_WINDOW_NAME = "#errorMessageWindow";
-    private static final String ERROR_MESSAGE_BODY_PANEL_NAME = "#errorMessageWindowBody";
-    private static final String ERROR_MESSAGE_HEADER_PANEL_NAME = "#errorMessageWindowHeader";
-    private static final String ERROR_MESSAGE_TEXT_NAME = "#errorMessageText";
     private static final String WARNING_MESSAGE_WINDOW_NAME = "#warningMessageWindow";
     private static final String WARNING_MESSAGE_TEXT_NAME = "#warningMessageText";
     private static final String WARNING_MESSAGE_WINDOW_CONTAINER_NAME = "#warningMessageWindowContainer";
@@ -42,12 +37,6 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     
     private Element creationConfirmationPanel;
     private TextField islandSizeTextField;
-    
-    private Element errorMessageWindowContainer;
-    private Element errorMessagePanel;
-    private Element errorMessageBodyPanel;
-    private Element errorMessageHeaderPanel;
-    private Label errorMessageText;
     
     private Element warningMessageWindowContainer;
     private Element warningMessagePanel;
@@ -79,12 +68,6 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
         
         creationConfirmationPanel = screen.findElementById(CREATION_CONFIRMATION_PANEL_NAME);
         islandSizeTextField = screen.findNiftyControl(ISLAND_SIZE_TEXTFIELD_NAME, TextField.class);
-        
-        errorMessageWindowContainer = screen.findElementById(ERROR_MESSAGE_WINDOW_CONTAINER_NAME);
-        errorMessagePanel = screen.findElementById(ERROR_MESSAGE_WINDOW_NAME);
-        errorMessageBodyPanel = screen.findElementById(ERROR_MESSAGE_BODY_PANEL_NAME);
-        errorMessageHeaderPanel = screen.findElementById(ERROR_MESSAGE_HEADER_PANEL_NAME);
-        errorMessageText = screen.findNiftyControl(ERROR_MESSAGE_TEXT_NAME, Label.class);
         
         warningMessageWindowContainer = screen.findElementById(WARNING_MESSAGE_WINDOW_CONTAINER_NAME);
         warningMessagePanel = screen.findElementById(WARNING_MESSAGE_WINDOW_NAME);
@@ -156,31 +139,6 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     public void showErrorMessage(String message) {
         if (errorMessageWindowElementsArePresent()) {
             islandSizeInputIsBlocked = true;
-                      
-            TextRenderer textWidthMeasurer = new TextRenderer(nifty);
-            textWidthMeasurer.setFont(nifty.createFont("Interface/Fonts/MSUIGothic.fnt"));
-            textWidthMeasurer.setText(message);
-            
-            int windowXOffset = (errorMessageWindowContainer.getWidth() - textWidthMeasurer.getTextWidth()) / 2;
-            errorMessagePanel.setConstraintX(new SizeValue(windowXOffset, SizeValueType.Pixel));
-            
-            int windowYOffset = (errorMessageWindowContainer.getHeight() - errorMessagePanel.getHeight()) / 2;
-            errorMessagePanel.setConstraintY(new SizeValue(windowYOffset, SizeValueType.Pixel));            
-            
-            errorMessageWindowContainer.layoutElements();
-            
-            errorMessageText.setText(message);
-            
-            errorMessagePanel.setWidth(textWidthMeasurer.getTextWidth() + 20);
-            errorMessageBodyPanel.setWidth(textWidthMeasurer.getTextWidth() + 20);
-            
-            int headerPanelOffset = (errorMessageBodyPanel.getWidth() - errorMessageHeaderPanel.getWidth()) / 2;
-            errorMessageHeaderPanel.setConstraintX(new SizeValue(headerPanelOffset, SizeValueType.Pixel));              
-            
-            errorMessageBodyPanel.layoutElements();
-            errorMessagePanel.layoutElements();
-            
-            errorMessagePanel.show();
         }
     }
 
@@ -265,14 +223,6 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
-    
-    private boolean errorMessageWindowElementsArePresent() {
-        return null != errorMessageText 
-                && null != errorMessagePanel
-                && null != errorMessageBodyPanel
-                && null != errorMessageHeaderPanel
-                && null != errorMessageWindowContainer;
-    }
     
     private boolean warningMessageWindowElementsArePresent() {
         return null != warningMessageText

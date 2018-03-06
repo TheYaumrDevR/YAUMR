@@ -7,7 +7,7 @@ import org.junit.Test;
  *
  * @author R
  */
-public class IslanfFilesystemRepositoryTest {
+public class IslandFilesystemRepositoryTest {
     
     @Test
     public void testGetMetadataOfAllAvailableIslands_mockDataProviderIsPresent_MetadataIsCorrectlyRetrieved() {

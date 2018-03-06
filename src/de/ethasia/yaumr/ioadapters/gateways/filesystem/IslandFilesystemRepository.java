@@ -1,8 +1,10 @@
 package de.ethasia.yaumr.ioadapters.gateways.filesystem;
 
+import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.interactors.IslandMetaData;
+import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
 import de.ethasia.yaumr.interactors.interfaces.IslandRepository;
 import de.ethasia.yaumr.ioadapters.gateways.interfaces.FileRepository;
 
@@ -57,7 +59,7 @@ public class IslandFilesystemRepository implements IslandRepository {
             try {
                 Files.createDirectory(CREATED_APP_DATA_DIRECTORY_PATH);
             } catch (IOException ex) {
-                
+                showErrorMessage("Could not create application data directory, reason: " + ex.getMessage());
             }
         }
         
@@ -65,7 +67,7 @@ public class IslandFilesystemRepository implements IslandRepository {
             try {
                 Files.createDirectory(ISLAND_FILES_BASE_PATH);
             } catch (IOException ex) {
-                
+                showErrorMessage("Could not create island data directory, reason: " + ex.getMessage());                
             }
         }
     }
@@ -108,7 +110,6 @@ public class IslandFilesystemRepository implements IslandRepository {
     @Override
     public void createNewIsland(Island island, IslandMetaData islandMetaData) {
         IslandSerializer serializer = new IslandSerializer();
-        serializer.addByteBlocksForIslandMetadata(islandMetaData);
         serializer.addByteBlocksForIslandBlockData(island);
         
         Map<String, ByteBuffer> islandMetadataForFileAttributes = new HashMap<>();
@@ -123,9 +124,11 @@ public class IslandFilesystemRepository implements IslandRepository {
             fileRepository.createFile(savePath);
             fileRepository.writeCustomFileAttributesToFile(savePath, islandMetadataForFileAttributes);
             fileRepository.writeContentToFile(savePath, serializedData);
-        } catch (IOException | FileExistsException ex) {
-            // Show error window
-        }        
+        } catch (IOException ex) {
+            showErrorMessage("Could not save island, reason: " + ex.getMessage());
+        } catch (FileExistsException ex) {
+            showErrorMessage("Could not save island, because " + savePath.toString() + " already exists.");
+        }
     }
 
     @Override
@@ -190,6 +193,12 @@ public class IslandFilesystemRepository implements IslandRepository {
         }
         
         return filePath;
+    }
+    
+    private static void showErrorMessage(String message) {
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        ErrorMessagePresenter errorMessagePresenter = dependencyResolver.getImplementationInstance(ErrorMessagePresenter.class);
+        errorMessagePresenter.showErrorMessage(message);         
     }
     
     //</editor-fold>

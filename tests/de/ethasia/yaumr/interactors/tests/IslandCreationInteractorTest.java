@@ -6,13 +6,13 @@ import de.ethasia.yaumr.core.EarthBlockTypesDailyUpdateCellularAutomaton;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutomatonMock;
 import de.ethasia.yaumr.interactors.IslandCreationInteractorImpl;
-import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateErrorMessagePresenter;
 import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
 import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateErrorMessagePresenterMock;
 import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateWarningMessagesPresenterMock;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
 
 /**
  *
@@ -23,10 +23,10 @@ public class IslandCreationInteractorTest {
     @BeforeClass
     public static void setUpClass() {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
-        dependencyResolver.removeRegisteredImplementation(IslandInitializationStateErrorMessagePresenter.class);
+        dependencyResolver.removeRegisteredImplementation(ErrorMessagePresenter.class);
         dependencyResolver.removeRegisteredImplementation(IslandInitializationStateWarningMessagesPresenter.class);
         dependencyResolver.removeRegisteredImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class);
-        dependencyResolver.registerImplementation(IslandInitializationStateErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
+        dependencyResolver.registerImplementation(ErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
         dependencyResolver.registerImplementation(IslandInitializationStateWarningMessagesPresenter.class, IslandInitializationStateWarningMessagesPresenterMock.class);
         dependencyResolver.registerImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class, EarthBlockTypesDailyUpdateCellularAutomatonMock.class);        
     }
