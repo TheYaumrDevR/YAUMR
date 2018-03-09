@@ -74,6 +74,7 @@ public class IslandFilesystemRepository implements IslandRepository {
     
     public IslandFilesystemRepository() {
         oldIslandGUIDToFilePath = new HashMap<>();
+        fileRepository = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(FileRepository.class);
     }
     
     //</editor-fold>

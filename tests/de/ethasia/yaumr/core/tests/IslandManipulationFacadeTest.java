@@ -5,6 +5,8 @@ import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.EarthBlockTypesDailyUpdateCellularAutomaton;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import de.ethasia.yaumr.core.blocks.Block;
@@ -20,7 +22,7 @@ import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutom
 import de.ethasia.yaumr.core.tests.mocks.FallingSandyBlockCellularAutomatonMock;
 import de.ethasia.yaumr.core.tests.mocks.GrassToEarthCellularAutomatonMock;
 import de.ethasia.yaumr.interactors.InteractionVector;
-import static org.junit.Assert.assertTrue;
+import java.util.UUID;
 
 public class IslandManipulationFacadeTest {
     
@@ -173,4 +175,22 @@ public class IslandManipulationFacadeTest {
         GrassToEarthCellularAutomatonMock.resetMethodCallCounts();     
         EarthBlockTypesDailyUpdateCellularAutomatonMock.resetMethodCallCounts();          
     }
+    
+    @Test
+    public void testSetNewlyCreatedIsland_newCreationFlagIsSet() {
+        IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
+
+        testCandidate.setNewlyCreatedIsland(islandToManipulate);
+
+        assertTrue(testCandidate.isCreatingNewIsland());
+    }
+    
+    @Test
+    public void testSetLoadedIsland_newCreationFlagIsNotSet() {
+        IslandManipulationFacade testCandidate = new IslandManipulationFacadeImpl();
+
+        testCandidate.setLoadedIsland(islandToManipulate, "foo", UUID.randomUUID());
+
+        assertFalse(testCandidate.isCreatingNewIsland());
+    }    
 }

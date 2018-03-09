@@ -328,7 +328,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
             ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
             SaveIslandInteractor saveIslandInteractor = dependencyResolver.getImplementationInstance(SaveIslandInteractor.class);
             if (null != saveIslandInteractor) {
-                saveIslandWindow.hide();
+                hideSaveGameDialog();
                 String islandName = islandNameTextField.getRealText();     
                 saveIslandInteractor.saveIslandFromCurrentManipulationFacade(islandName);
             }

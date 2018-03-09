@@ -37,7 +37,7 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     @Override
     public void setNewlyCreatedIsland(Island islandToChange) {
         islandGUID = UUID.randomUUID();
-        isCreatingNewIsland = false;
+        isCreatingNewIsland = true;
         
         setupRelevantObjects(islandToChange);
     }
@@ -46,7 +46,7 @@ public class IslandManipulationFacadeImpl implements IslandManipulationFacade {
     public void setLoadedIsland(Island islandToChange, String name, UUID islandGUID) {
         this.islandGUID = islandGUID;
         islandName = name;
-        isCreatingNewIsland = true;
+        isCreatingNewIsland = false;
         
         setupRelevantObjects(islandToChange);     
     }

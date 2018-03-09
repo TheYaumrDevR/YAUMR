@@ -1,7 +1,9 @@
 package de.ethasia.yaumr.outsidedependencies.views;
 
 import de.ethasia.yaumr.base.YaumrGame;
+import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.interactors.interfaces.IslandCreationInteractor;
+import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithIslandList;
 import de.ethasia.yaumr.ioadapters.interfaces.ConfirmationActionTypes;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.ethasia.yaumr.ioadapters.interfaces.ManageIslandsState;
@@ -14,12 +16,13 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
 import de.lessvoid.nifty.tools.SizeValueType;
+import java.util.stream.Stream;
 
 /**
  *
  * @author R
  */
-public class ManageIslandsStateImpl extends YaumrGameState implements ManageIslandsState {
+public class ManageIslandsStateImpl extends YaumrGameState implements ManageIslandsState, AppStateWithIslandList {
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
@@ -153,7 +156,11 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     public void startDisplaying() {
         YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(ManageIslandsState.class, this);
         YaumrGame.getInstance().setGameState(this);
-    }       
+    }
+    
+    @Override
+    public void showIslandList(Stream<IslandMetaData> islandList) {
+    }    
     
     //</editor-fold>    
     
