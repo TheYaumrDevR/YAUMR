@@ -19,7 +19,9 @@ import de.ethasia.yaumr.ioadapters.presenters.IslandInitializationStateWarningMe
 import de.ethasia.yaumr.ioadapters.presenters.TerraformingToolsQuickbarPresenterImpl;
 import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
 import de.ethasia.yaumr.interactors.interfaces.IslandListPresenter;
+import de.ethasia.yaumr.interactors.interfaces.NoticePresenter;
 import de.ethasia.yaumr.ioadapters.presenters.IslandListPresenterImpl;
+import de.ethasia.yaumr.ioadapters.presenters.NoticePresenterImpl;
 
 /**
  *
@@ -40,5 +42,6 @@ public class IOAdaptersLayerResolutionRegistration {
         classInstanceContainer.registerImplementation(ErrorMessagePresenter.class, ErrorMessagePresenterImpl.class);
         classInstanceContainer.registerImplementation(IslandInitializationStateWarningMessagesPresenter.class, IslandInitializationStateWarningMessagePresenterImpl.class);
         classInstanceContainer.registerImplementation(IslandListPresenter.class, IslandListPresenterImpl.class);
+        classInstanceContainer.registerImplementation(NoticePresenter.class, NoticePresenterImpl.class);
     }
 }

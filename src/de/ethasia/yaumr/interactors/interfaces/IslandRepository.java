@@ -12,6 +12,6 @@ import java.util.stream.Stream;
 public interface IslandRepository {
     
     public Stream<IslandMetaData> getMetadataOfAllAvailableIslands();
-    public void createNewIsland(Island island, IslandMetaData islandMetaData);
+    public boolean createNewIsland(Island island, IslandMetaData islandMetaData);
     public Island findIslandByGuid(UUID guid);
 }

@@ -4,6 +4,7 @@ import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.interfaces.IslandRepository;
+import de.ethasia.yaumr.interactors.interfaces.NoticePresenter;
 import de.ethasia.yaumr.interactors.interfaces.SaveIslandInteractor;
 import java.util.UUID;
 
@@ -44,7 +45,10 @@ public class SaveIslandInteractorImpl implements SaveIslandInteractor {
         islandMetaData.setIslandGUID(islandGuid);
         islandMetaData.setIslandEdgeLengthInBlocks(islandEdgeLength);
             
-        islandRepository.createNewIsland(islandManipulationFacade.getIsland(), islandMetaData);
+        if (islandRepository.createNewIsland(islandManipulationFacade.getIsland(), islandMetaData)) {
+            NoticePresenter noticePresenter = dependencyResolver.getImplementationInstance(NoticePresenter.class);
+            noticePresenter.showNotice("Island successfully saved.");
+        }
     }
     
     //</editor-fold>

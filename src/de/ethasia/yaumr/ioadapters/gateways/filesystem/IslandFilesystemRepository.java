@@ -109,7 +109,7 @@ public class IslandFilesystemRepository implements IslandRepository {
     }
 
     @Override
-    public void createNewIsland(Island island, IslandMetaData islandMetaData) {
+    public boolean createNewIsland(Island island, IslandMetaData islandMetaData) {
         IslandSerializer serializer = new IslandSerializer();
         serializer.addByteBlocksForIslandBlockData(island);
         
@@ -125,11 +125,14 @@ public class IslandFilesystemRepository implements IslandRepository {
             fileRepository.createFile(savePath);
             fileRepository.writeCustomFileAttributesToFile(savePath, islandMetadataForFileAttributes);
             fileRepository.writeContentToFile(savePath, serializedData);
+            return true;
         } catch (IOException ex) {
             showErrorMessage("Could not save island, reason: " + ex.getMessage());
         } catch (FileExistsException ex) {
             showErrorMessage("Could not save island, because " + savePath.toString() + " already exists.");
         }
+        
+        return false;
     }
 
     @Override

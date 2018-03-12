@@ -68,7 +68,7 @@ public abstract class YaumrGameState extends AbstractAppState implements ScreenC
             
     //</editor-fold>
     
-    //<editor-fold defaultstate="collapsed" desc="Implementations">
+    //<editor-fold defaultstate="collapsed" desc="Overrides">
     
     @Override
     public void initialize(AppStateManager stateManager, Application app) {

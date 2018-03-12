@@ -82,7 +82,25 @@
                     <text id="#saveIslandWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Save Island" width="100%" textHAlign="center"/>
                 </panel>
             </panel>
-        </layer>    
+        </layer>
+        
+        <layer id="#noticeLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#noticeWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">
+                <panel id="#noticeWindow" height="110px" width="250px" childLayout="absolute" backgroundColor="#00000000" >
+                    <panel id="#noticeWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="76px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <panel height="23" backgroundColor="#00000000"/>
+                        <control id="#noticeText" name="label" style="normal-sized-text-font-orange" align="center"/>
+                        <panel height="6" backgroundColor="#00000000"/>
+                        <control name="button" style="yaumr-button" label="Ok" align="center">
+                            <interact onClick="onNoticeConfirmed()"/>
+                        </control>
+                    </panel>
+                    <panel id="#noticeWindowHeader" childLayout="center" width="100px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <text id="#noticeWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Notice" width="100%" textHAlign="center"/>
+                    </panel>
+                </panel> 
+            </panel>               
+        </layer>         
         
         <layer id="#errorMessageLayer" backgroundColor="#00000000" childLayout="center">
             <panel id="#errorMessageWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">

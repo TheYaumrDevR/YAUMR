@@ -32,15 +32,20 @@ import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.Invent
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.QuickSelectionBar;
 import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsInteractor;
 import de.ethasia.yaumr.interactors.interfaces.TimedUpdateInteractor;
+import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithNotices;
 import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
 import de.ethasia.yaumr.outsidedependencies.renderers.RootNodeProvider;
+import de.lessvoid.nifty.controls.Label;
 import de.lessvoid.nifty.controls.TextField;
+import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.tools.SizeValue;
+import de.lessvoid.nifty.tools.SizeValueType;
 
 /**
  *
  * @author R
  */
-public class RefactoredIslandEditorState extends YaumrGameState implements IslandEditorState {
+public class RefactoredIslandEditorState extends YaumrGameState implements IslandEditorState, AppStateWithNotices {
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
@@ -55,7 +60,13 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private static final String TOGGLE_HELP_TEXT_ACTION_NAME = "toggleHelp";
     private static final String TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME = "toggleTerraformingInventory";
     private static final String SELECT_QUICKBAR_ITEM_ACTION_NAME = "selectItem";
-    private static final String EXECUTE_PRIMARY_ACTION_EVENT_NAME = "executePrimaryAction";    
+    private static final String EXECUTE_PRIMARY_ACTION_EVENT_NAME = "executePrimaryAction";  
+    
+    private static final String NOTICE_WINDOW_CONTAINER_NAME = "#noticeWindowContainer";
+    private static final String NOTICE_WINDOW_NAME = "#noticeWindow";
+    private static final String NOTICE_BODY_PANEL_NAME = "#noticeWindowBody";
+    private static final String NOTICE_HEADER_PANEL_NAME = "#noticeWindowHeader";
+    private static final String NOTICE_TEXT_NAME = "#noticeText";          
     
     private static final String BLOCK_INTERACTION_INDICATOR_NAME = "BlockInteractionIndicator";  
     
@@ -72,6 +83,12 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private Geometry blockInteractionIndicator;
     private QuickSelectionBar quickSelectionBar;
     private InventoryGrid toolsSelectionGrid;
+    
+    protected Element noticeWindowContainer;
+    protected Element noticePanel;
+    protected Element noticeBodyPanel;
+    protected Element noticeHeaderPanel;
+    protected Label noticeText;        
     
     private IslandEditorStateMainInteractor windowsInteractor;
     private IslandEditorStateSetupInteractor setupInteractor;
@@ -161,7 +178,13 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         saveIslandWindow = screen.findElementById(SAVE_ISLAND_WINDOW_NAME);
         quickSelectionBar = screen.findNiftyControl(BOTTOM_QUICKSELECTION_BAR_NAME, QuickSelectionBar.class);    
         toolsSelectionGrid = screen.findNiftyControl(TOOLGRID_NAME, InventoryGrid.class);
-        islandNameTextField = screen.findNiftyControl(ISLAND_NAME_TEXTFIELD_NAME, TextField.class);       
+        islandNameTextField = screen.findNiftyControl(ISLAND_NAME_TEXTFIELD_NAME, TextField.class);     
+        
+        noticeWindowContainer = screen.findElementById(NOTICE_WINDOW_CONTAINER_NAME);
+        noticePanel = screen.findElementById(NOTICE_WINDOW_NAME);
+        noticeBodyPanel = screen.findElementById(NOTICE_BODY_PANEL_NAME);
+        noticeHeaderPanel = screen.findElementById(NOTICE_HEADER_PANEL_NAME);
+        noticeText = screen.findNiftyControl(NOTICE_TEXT_NAME, Label.class);          
         
         setupInteractor.setupInventoryInteractorsForIslandEditorState();
         terraformingToolsSelector = dependencyResolver.getSingletonInstance(TerraformingToolsInteractor.class);
@@ -202,6 +225,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         
         float camXZLocation = 0.5f * (islandManipulationFacade.getIslandEdgeLengthInBlocks() / 2);
         YaumrGame.getInstance().getCamera().setLocation(new Vector3f(camXZLocation, 0, camXZLocation));
+        
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        dependencyResolver.removeSingletonInstance(AppStateWithNotices.class);
+        dependencyResolver.registerSingletonInstance(AppStateWithNotices.class, this);
     }     
     
     @Override
@@ -241,6 +268,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         
         if (null != errorMessagePanel) {
             errorMessagePanel.hide();
+        }
+        
+        if (null != noticePanel) {
+            noticePanel.hide();
         }
     }
     
@@ -336,10 +367,43 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     }
     
     @Override
+    public void showNotice(String notice) {
+        if (noticeWindowElementsArePresent()) {
+            mainMenuInputIsBlocked = true;
+            saveIslandNameWindowIsBlocked = true;             
+            
+            TextRenderer textWidthMeasurer = new TextRenderer(nifty);
+            textWidthMeasurer.setFont(nifty.createFont("Interface/Fonts/MSUIGothic.fnt"));
+            textWidthMeasurer.setText(notice);
+            
+            int windowXOffset = (noticeWindowContainer.getWidth() - textWidthMeasurer.getTextWidth()) / 2;
+            noticePanel.setConstraintX(new SizeValue(windowXOffset, SizeValueType.Pixel));
+            
+            int windowYOffset = (noticeWindowContainer.getHeight() - noticePanel.getHeight()) / 2;
+            noticePanel.setConstraintY(new SizeValue(windowYOffset, SizeValueType.Pixel));            
+            
+            noticeWindowContainer.layoutElements();
+            
+            noticeText.setText(notice);
+            
+            noticePanel.setWidth(textWidthMeasurer.getTextWidth() + 20);
+            noticeBodyPanel.setWidth(textWidthMeasurer.getTextWidth() + 20);
+            
+            int headerPanelOffset = (noticeBodyPanel.getWidth() - noticeHeaderPanel.getWidth()) / 2;
+            noticeHeaderPanel.setConstraintX(new SizeValue(headerPanelOffset, SizeValueType.Pixel));              
+            
+            noticeBodyPanel.layoutElements();
+            noticePanel.layoutElements();
+            
+            noticePanel.show();            
+        }
+    }
+    
+    @Override
     public void showErrorMessage(String message) {
         if (errorMessageWindowElementsArePresent()) {
-            mainMenuInputIsBlocked = false;
-            saveIslandNameWindowIsBlocked = false;            
+            mainMenuInputIsBlocked = true;
+            saveIslandNameWindowIsBlocked = true;            
         }
     }
     
@@ -349,6 +413,14 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         if (null != errorMessagePanel) {
             errorMessagePanel.hide();
         }         
+    }
+    
+    public void onNoticeConfirmed() {
+        saveIslandNameWindowIsBlocked = false;
+        
+        if (null != noticePanel) {
+            noticePanel.hide();
+        }
     }
     
     //</editor-fold>
@@ -409,6 +481,14 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         YaumrGame.getInstance().getInputManager().deleteMapping(QuickSelectionBarControl.SELECT_TENTH_ITEM_KEYACTION);        
         
         YaumrGame.getInstance().getInputManager().removeListener(keyEventHandler);        
+    }
+    
+    private boolean noticeWindowElementsArePresent() {
+        return null != noticeText 
+                && null != noticePanel
+                && null != noticeBodyPanel
+                && null != noticeHeaderPanel
+                && null != noticeWindowContainer;
     }
     
     private void toggleMainMenu(boolean toggleKeyIsPressed) {
