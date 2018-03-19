@@ -5,7 +5,7 @@ package de.ethasia.yaumr.interactors.interfaces;
  * 
  * @author R
  */
-public interface IslandInitializationStateWarningMessagesPresenter {
+public interface WarningMessagePresenter {
     
     public void showNonConfirmationWarning(String message);
     public void showConfirmationWarning(String message);

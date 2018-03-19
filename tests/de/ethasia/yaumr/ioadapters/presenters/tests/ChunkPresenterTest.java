@@ -12,7 +12,6 @@ import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.core.tests.mocks.EarthBlockTypesDailyUpdateCellularAutomatonMock;
-import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
 import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateErrorMessagePresenterMock;
 import de.ethasia.yaumr.interactors.tests.mocks.IslandInitializationStateWarningMessagesPresenterMock;
 import de.ethasia.yaumr.ioadapters.interfaces.ChunkRenderer;
@@ -25,6 +24,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
+import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
 
 /**
  *
@@ -47,10 +47,10 @@ public class ChunkPresenterTest {
         dependencyResolver.registerSingletonInstance(ChunkRenderer.class, usedChunkRendererMock); 
         
         dependencyResolver.removeRegisteredImplementation(ErrorMessagePresenter.class);
-        dependencyResolver.removeRegisteredImplementation(IslandInitializationStateWarningMessagesPresenter.class);
+        dependencyResolver.removeRegisteredImplementation(WarningMessagePresenter.class);
         dependencyResolver.removeRegisteredImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class);
         dependencyResolver.registerImplementation(ErrorMessagePresenter.class, IslandInitializationStateErrorMessagePresenterMock.class);
-        dependencyResolver.registerImplementation(IslandInitializationStateWarningMessagesPresenter.class, IslandInitializationStateWarningMessagesPresenterMock.class);
+        dependencyResolver.registerImplementation(WarningMessagePresenter.class, IslandInitializationStateWarningMessagesPresenterMock.class);
         dependencyResolver.registerImplementation(EarthBlockTypesDailyUpdateCellularAutomaton.class, EarthBlockTypesDailyUpdateCellularAutomatonMock.class); 
     }
     

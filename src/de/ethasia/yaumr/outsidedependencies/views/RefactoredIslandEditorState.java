@@ -417,6 +417,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     public void onNoticeConfirmed() {
         saveIslandNameWindowIsBlocked = false;
+        mainMenuInputIsBlocked = false;
         
         if (null != noticePanel) {
             noticePanel.hide();

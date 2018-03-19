@@ -5,6 +5,7 @@ import de.ethasia.yaumr.base.AutowiringMethod;
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.interactors.IslandCreationInteractorImpl;
+import de.ethasia.yaumr.interactors.IslandDeletionInteractorImpl;
 import de.ethasia.yaumr.interactors.IslandEditorStateMainInteractorImpl;
 import de.ethasia.yaumr.interactors.IslandListPopulatingInteractorImpl;
 import de.ethasia.yaumr.interactors.SaveIslandInteractorImpl;
@@ -28,5 +29,6 @@ public class InteractorsLayerResolutionRegistration {
         classInstanceContainer.registerImplementation(TimedUpdateInteractor.class, TimedUpdateInteractorImpl.class);
         classInstanceContainer.registerImplementation(IslandListPopulatingInteractor.class, IslandListPopulatingInteractorImpl.class);
         classInstanceContainer.registerImplementation(SaveIslandInteractor.class, SaveIslandInteractorImpl.class);
+        classInstanceContainer.registerImplementation(IslandDeletionInteractor.class, IslandDeletionInteractorImpl.class);
     }     
 }

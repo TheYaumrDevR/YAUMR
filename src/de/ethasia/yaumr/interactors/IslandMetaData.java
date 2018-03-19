@@ -48,6 +48,11 @@ public class IslandMetaData {
     //<editor-fold defaultstate="collapsed" desc="Overrides">
     
     @Override
+    public String toString() {
+        return islandName;
+    }
+    
+    @Override
     public boolean equals(Object o) {
         if (o instanceof IslandMetaData) {
             return equals((IslandMetaData)o);

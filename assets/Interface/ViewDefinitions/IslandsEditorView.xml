@@ -3,104 +3,104 @@
 <!-- This is the view the game is in when the user enters the island editor -->
 
 <nifty>
-	<useStyles filename="nifty-default-styles.xml" />
-	<useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
-	<useControls filename="nifty-default-controls.xml" />
+    <useStyles filename="nifty-default-styles.xml" />
+    <useStyles filename="Interface/ViewDefinitions/styleDefinitions.xml" />
+    <useControls filename="nifty-default-controls.xml" />
 
-	<screen id="manageIslandsMenu" controller="de.ethasia.yaumr.outsidedependencies.views.ManageIslandsStateImpl">
-            <layer id="buttonLayer" backgroundColor="#00000000" childLayout="center">
-		<panel childLayout="vertical" backgroundColor="#00000000" width="250px" height="310px" align="center" valign="center">
-                    <text id="#menuHeaderText" font="Interface/Fonts/HomespunTTBRK.fnt" color="#dc6100ff" text="Manage Islands" width="100%" textHAlign="center"/>
-                    <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="25px" />
-			<control id="#availableIslandsList" name="listBox" displayItems="5" horizontal="off" vertical="on">
+    <screen id="manageIslandsMenu" controller="de.ethasia.yaumr.outsidedependencies.views.ManageIslandsStateImpl">
+        <layer id="buttonLayer" backgroundColor="#00000000" childLayout="center">
+            <panel childLayout="vertical" backgroundColor="#00000000" width="250px" height="310px" align="center" valign="center">
+                <text id="#menuHeaderText" font="Interface/Fonts/HomespunTTBRK.fnt" color="#dc6100ff" text="Manage Islands" width="100%" textHAlign="center"/>
+                <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="25px" />
+                <control id="#availableIslandsList" name="listBox" displayItems="5" horizontal="off" vertical="on">
 
-			</control>
-			<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
-                	<control name="button" id="#createIslandButton" style="yaumr-button" label="Create Island" width="100%">
-                            <interact onClick="createNewIsland()"/>
-                	</control>
-                	<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
-                        <control name="button" id="#editIslandButton" style="yaumr-button" label="Edit Selected Island" width="100%">
-                            <interact onClick="editSelectedIsland()"/>
-                	</control>
-                	<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
-                	<control name="button" id="#deleteIslandButton" style="yaumr-button" label="Delete Selected Island" width="100%">
-                            <interact onClick="deleteSelectedIsland()"/>
-                	</control>
-                	<panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
-                	<control name="button" id="#backButton" style="yaumr-button" label="Back" width="100%">
-                            <interact onClick="goToPreviousState()"/>
-                	</control>
+                </control>
+                <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
+                <control name="button" id="#createIslandButton" style="yaumr-button" label="Create Island" width="100%">
+                    <interact onClick="createNewIsland()"/>
+                </control>
+                <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
+                <control name="button" id="#editIslandButton" style="yaumr-button" label="Edit Selected Island" width="100%">
+                    <interact onClick="editSelectedIsland()"/>
+                </control>
+                <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
+                <control name="button" id="#deleteIslandButton" style="yaumr-button" label="Delete Selected Island" width="100%">
+                    <interact onClick="deleteSelectedIsland()"/>
+                </control>
+                <panel childLayout="vertical" backgroundColor="#00000000" width="100%" height="5px" />
+                <control name="button" id="#backButton" style="yaumr-button" label="Back" width="100%">
+                    <interact onClick="goToPreviousState()"/>
+                </control>
+            </panel>
+        </layer>
+            
+        <layer id="#islandCreationConfirmationWindow" backgroundColor="#00000000" childLayout="center">
+            <panel id="#confirmationWindow" height="100px" width="274px" valign="center" childLayout="absolute" backgroundColor="#00000000">
+                <panel id="#confirmationWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="91px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <panel height="23" backgroundColor="#00000000"/>
+                    <panel childLayout="horizontal" width="95%" align="center" backgroundColor="#00000000">
+                        <text id="#islandSizeText" valign="center" font="Interface/Fonts/MSUIGothic.fnt" color="#dc6100ff" text="Island edge length (in blocks):"/>
+                        <panel width="6" backgroundColor="#00000000"/>
+                        <control id="#islandSizeInput" name="textfield" maxLength="40"/>
+                    </panel>
+                    <panel height="6" backgroundColor="#00000000"/>
+                    <panel childLayout="horizontal" height="*" width="95%" align="center" backgroundColor="#00000000">
+                        <control id="#createIslandConfirmButton" name="button" style="yaumr-button" label="Create">
+                            <interact onClick="proceedWithIslandCreation()"/>
+                        </control>
+                        <panel width="*" backgroundColor="#00000000"/>
+                        <control id="#createIslandCancelButton" name="button" style="yaumr-button" label="Cancel">
+                            <interact onClick="closeCreateIslandConfirmation()"/>
+                        </control>                            
+                    </panel>
                 </panel>
-            </layer>
+                <panel id="#confirmationWindowHeader" childLayout="center" width="212px" height="34px" x="31" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                    <text id="#confirmationWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Set Island Properties" width="100%" textHAlign="center"/>
+                </panel>
+            </panel>                
+        </layer>  
             
-            <layer id="#islandCreationConfirmationWindow" backgroundColor="#00000000" childLayout="center">
-		<panel id="#confirmationWindow" height="100px" width="274px" valign="center" childLayout="absolute" backgroundColor="#00000000" >
-                    <panel id="#confirmationWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="91px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+        <layer id="#warningMessageLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#warningMessageWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">
+                <panel id="#warningMessageWindow" height="110px" width="250px" childLayout="absolute" backgroundColor="#00000000" >
+                    <panel id="#warningMessageWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="76px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
                         <panel height="23" backgroundColor="#00000000"/>
-                        <panel childLayout="horizontal" width="95%" align="center" backgroundColor="#00000000">
-                            <text id="#islandSizeText" valign="center" font="Interface/Fonts/MSUIGothic.fnt" color="#dc6100ff" text="Island edge length (in blocks):"/>
-                            <panel width="6" backgroundColor="#00000000"/>
-                            <control id="#islandSizeInput" name="textfield" maxLength="40"/>
-                        </panel>
+                        <control id="#warningMessageText" name="label" style="normal-sized-text-font-orange" align="center"/>
                         <panel height="6" backgroundColor="#00000000"/>
-                        <panel childLayout="horizontal" height="*" width="95%" align="center" backgroundColor="#00000000">
-                            <control id="#createIslandConfirmButton" name="button" style="yaumr-button" label="Create">
-                                <interact onClick="proceedWithIslandCreation()"/>
-                            </control>
+                        <panel width="95%" align="center" childLayout="horizontal" backgroundColor="#00000000">
                             <panel width="*" backgroundColor="#00000000"/>
-                            <control id="#createIslandCancelButton" name="button" style="yaumr-button" label="Cancel">
-                                <interact onClick="closeCreateIslandConfirmation()"/>
-                            </control>                            
+                            <control name="button" style="yaumr-button" label="Ok">
+                                <interact onClick="onWarningMessageConfirmed()"/>
+                            </control>   
+                            <panel width="6" backgroundColor="#00000000"/>
+                            <control name="button" style="yaumr-button" label="Cancel">
+                                <interact onClick="onWarningMessageDeclined()"/>
+                            </control>                                                              
                         </panel>
                     </panel>
-                    <panel id="#confirmationWindowHeader" childLayout="center" width="212px" height="34px" x="31" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-			<text id="#confirmationWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Set Island Properties" width="100%" textHAlign="center"/>
+                    <panel id="#warningMessageWindowHeader" childLayout="center" width="100px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <text id="#warningMessageWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Warning" width="100%" textHAlign="center"/>
                     </panel>
-                </panel>                
-            </layer>  
+                </panel> 
+            </panel>                  
+        </layer>            
             
-            <layer id="#warningMessageLayer" backgroundColor="#00000000" childLayout="center">
-                <panel id="#warningMessageWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">
-                    <panel id="#warningMessageWindow" height="110px" width="250px" childLayout="absolute" backgroundColor="#00000000" >
-                        <panel id="#warningMessageWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="76px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-                            <panel height="23" backgroundColor="#00000000"/>
-                            <control id="#warningMessageText" name="label" style="normal-sized-text-font-orange" align="center"/>
-                            <panel height="6" backgroundColor="#00000000"/>
-                            <panel width="95%" align="center" childLayout="horizontal" backgroundColor="#00000000">
-                                <panel width="*" backgroundColor="#00000000"/>
-                                <control name="button" style="yaumr-button" label="Ok">
-                                    <interact onClick="onWarningMessageConfirmed()"/>
-                                </control>   
-                                <panel width="6" backgroundColor="#00000000"/>
-                                <control name="button" style="yaumr-button" label="Cancel">
-                                    <interact onClick="onWarningMessageDeclined()"/>
-                                </control>                                                              
-                            </panel>
-                        </panel>
-                        <panel id="#warningMessageWindowHeader" childLayout="center" width="100px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-                            <text id="#warningMessageWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Warning" width="100%" textHAlign="center"/>
-                        </panel>
-                    </panel> 
-                </panel>                  
-            </layer>            
-            
-            <layer id="#errorMessageLayer" backgroundColor="#00000000" childLayout="center">
-                <panel id="#errorMessageWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">
-                    <panel id="#errorMessageWindow" height="110px" width="250px" childLayout="absolute" backgroundColor="#00000000" >
-                        <panel id="#errorMessageWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="76px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-                            <panel height="23" backgroundColor="#00000000"/>
-                            <control id="#errorMessageText" name="label" style="normal-sized-text-font-orange" align="center"/>
-                            <panel height="6" backgroundColor="#00000000"/>
-                            <control name="button" style="yaumr-button" label="Ok" align="center">
-                                <interact onClick="onErrorMessageConfirmed()"/>
-                            </control>
-                        </panel>
-                        <panel id="#errorMessageWindowHeader" childLayout="center" width="100px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
-                            <text id="#errorMessageWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Error" width="100%" textHAlign="center"/>
-                        </panel>
-                    </panel> 
-                </panel>               
-            </layer>                                
-	</screen>
+        <layer id="#errorMessageLayer" backgroundColor="#00000000" childLayout="center">
+            <panel id="#errorMessageWindowContainer" backgroundColor="#00000000" childLayout="absolute" width="100%" height="100%">
+                <panel id="#errorMessageWindow" height="110px" width="250px" childLayout="absolute" backgroundColor="#00000000" >
+                    <panel id="#errorMessageWindowBody" childLayout="vertical" x="0" y="17" width="100%" height="76px" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <panel height="23" backgroundColor="#00000000"/>
+                        <control id="#errorMessageText" name="label" style="normal-sized-text-font-orange" align="center"/>
+                        <panel height="6" backgroundColor="#00000000"/>
+                        <control name="button" style="yaumr-button" label="Ok" align="center">
+                            <interact onClick="onErrorMessageConfirmed()"/>
+                        </control>
+                    </panel>
+                    <panel id="#errorMessageWindowHeader" childLayout="center" width="100px" height="34px" x="25" y="0" backgroundImage="Interface/ImagesGUI/PanelBackground/Background.png" imageMode="resize:6,1,6,6,6,1,6,1,6,1,6,6">
+                        <text id="#errorMessageWindowHeaderText" font="Interface/Fonts/Homespun_22.fnt" color="#dc6100ff" text="Error" width="100%" textHAlign="center"/>
+                    </panel>
+                </panel> 
+            </panel>               
+        </layer>                                
+    </screen>
 </nifty>

@@ -1,8 +1,11 @@
 package de.ethasia.yaumr.outsidedependencies.views;
 
+import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.interactors.interfaces.IslandCreationInteractor;
+import de.ethasia.yaumr.interactors.interfaces.IslandDeletionInteractor;
+import de.ethasia.yaumr.interactors.interfaces.IslandListPopulatingInteractor;
 import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithIslandList;
 import de.ethasia.yaumr.ioadapters.interfaces.ConfirmationActionTypes;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
@@ -10,12 +13,15 @@ import de.ethasia.yaumr.ioadapters.interfaces.ManageIslandsState;
 import de.ethasia.yaumr.ioadapters.interfaces.WorldEditorBaseMenuState;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.controls.Label;
+import de.lessvoid.nifty.controls.ListBox;
 import de.lessvoid.nifty.controls.TextField;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.tools.SizeValue;
 import de.lessvoid.nifty.tools.SizeValueType;
+import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 /**
@@ -34,6 +40,8 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     private static final String WARNING_MESSAGE_BODY_PANEL_NAME = "#warningMessageWindowBody";
     private static final String WARNING_MESSAGE_HEADER_PANEL_NAME = "#warningMessageWindowHeader";
     
+    private static final String ISLAND_SELECTION_LIST_NAME = "#availableIslandsList";
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
@@ -47,6 +55,8 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     private Element warningMessageHeaderPanel;    
     private Label warningMessageText;
     private ConfirmationActionTypes currentWarningWindowConfirmationAction;
+    
+    private ListBox<IslandMetaData> availableIslandList;
     
     private boolean buttonsAreBlocked;
     private boolean islandSizeInputIsBlocked;
@@ -77,11 +87,23 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
         warningMessageBodyPanel = screen.findElementById(WARNING_MESSAGE_BODY_PANEL_NAME);
         warningMessageHeaderPanel = screen.findElementById(WARNING_MESSAGE_HEADER_PANEL_NAME);
         warningMessageText = screen.findNiftyControl(WARNING_MESSAGE_TEXT_NAME, Label.class);
+        
+        availableIslandList = screen.findNiftyControl(ISLAND_SELECTION_LIST_NAME, ListBox.class);
     }
 
     @Override
     public void onStartScreen() {
         closeAllPanels();
+        
+        if (null != availableIslandList) {
+            availableIslandList.clear();
+            ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+            IslandListPopulatingInteractor islandListPopulatingInteractor = dependencyResolver.getImplementationInstance(IslandListPopulatingInteractor.class);
+            
+            if (null != islandListPopulatingInteractor) {
+                islandListPopulatingInteractor.loadAllAvailableIslandsIntoIslandList();
+            }
+        }
     }
 
     @Override
@@ -103,6 +125,15 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
 
     @Override
     public void deleteSelectedIsland() {
+        if (null != availableIslandList && !buttonsAreBlocked) {
+            List<IslandMetaData> islandSelection = availableIslandList.getSelection();
+            if (islandSelection.size() > 0) {
+                IslandMetaData selectedMetaData = islandSelection.get(0);
+                ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+                IslandDeletionInteractor islandDeletionInteractor = dependencyResolver.getImplementationInstance(IslandDeletionInteractor.class);
+                islandDeletionInteractor.deleteIsland(selectedMetaData);
+            }
+        }
     }
     
     @Override
@@ -156,10 +187,23 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     public void startDisplaying() {
         YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(ManageIslandsState.class, this);
         YaumrGame.getInstance().setGameState(this);
+        
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        dependencyResolver.removeSingletonInstance(AppStateWithIslandList.class);
+        dependencyResolver.registerSingletonInstance(AppStateWithIslandList.class, this);
     }
     
     @Override
     public void showIslandList(Stream<IslandMetaData> islandList) {
+        if (null != availableIslandList) {
+            islandList.forEach(new Consumer<IslandMetaData>() {
+                
+                @Override
+                public void accept(IslandMetaData islandMetaData) {
+                    availableIslandList.addItem(islandMetaData);
+                }
+            });
+        }
     }    
     
     //</editor-fold>    

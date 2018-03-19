@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -47,8 +48,8 @@ public class IslandFilesystemRepository implements IslandRepository {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private FileRepository fileRepository;
-    private Map<UUID, Path> oldIslandGUIDToFilePath;
+    private final FileRepository fileRepository;
+    private final Map<UUID, Path> oldIslandGUIDToFilePath;
     
     //</editor-fold>
     
@@ -97,11 +98,23 @@ public class IslandFilesystemRepository implements IslandRepository {
             return null;
         }
         
+        if (null == metadataOfAllIslandFiles) {
+            return null;
+        }
+        
         Stream<IslandMetaData> result = metadataOfAllIslandFiles.map(new Function<UserDefinedFileAttributesWithPath, IslandMetaData>() {
                     
             @Override
             public IslandMetaData apply(UserDefinedFileAttributesWithPath fileAttributesWithPath) {
                 return mapFileAttributesToIslandMetaData(fileAttributesWithPath);
+            }
+        });
+        
+        result = result.filter(new Predicate<IslandMetaData>() {
+            
+            @Override
+            public boolean test(IslandMetaData metaData) {
+                return metaData != null;
             }
         });
         
@@ -147,6 +160,10 @@ public class IslandFilesystemRepository implements IslandRepository {
     private IslandMetaData mapFileAttributesToIslandMetaData(UserDefinedFileAttributesWithPath fileAttributesWithPath) {
         Map<String, ByteBuffer> fileAttributes = fileAttributesWithPath.getRawUserDefinedFileAttributes();
         Path filePath = fileAttributesWithPath.getFilePath();
+
+        if (null == fileAttributes || null == filePath) {
+            return null;
+        }
         
         UUID islandGUID = getUUIDFromByteBuffer(fileAttributes.get(ISLAND_GUID_FILE_ATTRIBUTE_NAME));
         
@@ -161,6 +178,7 @@ public class IslandFilesystemRepository implements IslandRepository {
     
     private String getIslandNameFromByteBuffer(ByteBuffer bytes) {
         if (null != bytes) {
+            bytes.flip();
             return StandardCharsets.UTF_8.decode(bytes).toString();
         }
         
@@ -169,6 +187,7 @@ public class IslandFilesystemRepository implements IslandRepository {
     
     private UUID getUUIDFromByteBuffer(ByteBuffer bytes) {
         if (null != bytes) {
+            bytes.flip();
             long firstUUIDPart = bytes.getLong();
             long secondUUIDPart = bytes.getLong();
             
@@ -183,6 +202,7 @@ public class IslandFilesystemRepository implements IslandRepository {
         
         result.putLong(guid.getMostSignificantBits());
         result.putLong(guid.getLeastSignificantBits());
+        result.flip();
         
         return result;
     }

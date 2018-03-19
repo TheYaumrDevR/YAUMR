@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
@@ -31,12 +32,20 @@ public class FileRepositoryImpl implements FileRepository {
     @Override
     public Stream<UserDefinedFileAttributesWithPath> getApplicationDefinedFileAttributesWithNames(List<String> attributeNames, Path directoryOfFiles) throws IOException {
         lastSearchedFileAttributeNames = attributeNames;
-        Stream<UserDefinedFileAttributesWithPath> result = Files.walk(directoryOfFiles)
+        Stream<UserDefinedFileAttributesWithPath> result = Files
+            .walk(directoryOfFiles)
             .map(new Function<Path, UserDefinedFileAttributesWithPath>() {
                     
                 @Override
                 public UserDefinedFileAttributesWithPath apply(Path filePath) {
                     return mapUserSpecificFileAttributesForPath(filePath);
+                }
+            })
+            .filter(new Predicate<UserDefinedFileAttributesWithPath>() {
+                
+                @Override
+                public boolean test(UserDefinedFileAttributesWithPath item) {
+                    return null != item;
                 }
             });
         
@@ -67,7 +76,8 @@ public class FileRepositoryImpl implements FileRepository {
         UserDefinedFileAttributeView attributeView = Files.getFileAttributeView(filePath, UserDefinedFileAttributeView.class);
         
         for (String attributeName : attributes.keySet()) {
-            attributeView.write(attributeName, attributes.get(attributeName));            
+            ByteBuffer bb = attributes.get(attributeName);
+            attributeView.write(attributeName, bb);            
         }
     }
 
@@ -81,9 +91,11 @@ public class FileRepositoryImpl implements FileRepository {
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
     
     private UserDefinedFileAttributesWithPath mapUserSpecificFileAttributesForPath(Path filePath) {
-        UserDefinedFileAttributesWithPath result = new UserDefinedFileAttributesWithPath();
+        UserDefinedFileAttributesWithPath result = null;
         
         if (Files.isRegularFile(filePath)) {
+            result = new UserDefinedFileAttributesWithPath();
+            
             UserDefinedFileAttributeView attributeView = Files.getFileAttributeView(filePath, UserDefinedFileAttributeView.class);
             Map<String, ByteBuffer> userDefinedAttributesWithNames = new HashMap<>();
             
@@ -93,7 +105,7 @@ public class FileRepositoryImpl implements FileRepository {
                     attributeView.read(attributeName, byteBuffer);
                     userDefinedAttributesWithNames.put(attributeName, byteBuffer);
                 } catch (IOException ex) {
-                    break;
+                    return null;
                 }
             }
             

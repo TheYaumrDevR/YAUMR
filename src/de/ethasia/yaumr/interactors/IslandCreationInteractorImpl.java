@@ -8,8 +8,8 @@ import de.ethasia.yaumr.core.blocks.BlockTypes;
 import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.interfaces.IslandCreationInteractor;
-import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
 import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
+import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
 
 /**
  *
@@ -29,7 +29,7 @@ public class IslandCreationInteractorImpl implements IslandCreationInteractor {
                 errorMessagePresenter.showErrorMessage("Cannot create an island with no dimensions.");
                 return false;
             } else if (edgeLengthInBlocks < 8) {
-                IslandInitializationStateWarningMessagesPresenter warningMessagePresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandInitializationStateWarningMessagesPresenter.class);
+                WarningMessagePresenter warningMessagePresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(WarningMessagePresenter.class);
                 warningMessagePresenter.showConfirmationWarning("You are about to create a very small island with less than 8 blocks in length and width. Are you sure?");
                 return false;
             } else if (edgeLengthInBlocks > 512) {

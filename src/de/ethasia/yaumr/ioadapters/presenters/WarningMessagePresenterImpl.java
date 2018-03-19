@@ -2,15 +2,15 @@ package de.ethasia.yaumr.ioadapters.presenters;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
-import de.ethasia.yaumr.interactors.interfaces.IslandInitializationStateWarningMessagesPresenter;
 import de.ethasia.yaumr.ioadapters.interfaces.ConfirmationActionTypes;
 import de.ethasia.yaumr.ioadapters.interfaces.ManageIslandsState;
+import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
 
 /**
  *
  * @author R
  */
-public class IslandInitializationStateWarningMessagePresenterImpl implements IslandInitializationStateWarningMessagesPresenter {
+public class WarningMessagePresenterImpl implements WarningMessagePresenter {
 
     //<editor-fold defaultstate="collapsed" desc="Overrides">
     
