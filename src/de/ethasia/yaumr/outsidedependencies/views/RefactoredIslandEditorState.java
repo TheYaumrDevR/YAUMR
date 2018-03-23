@@ -321,6 +321,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     public void gotoGameEntryState() {
         if (!mainMenuInputIsBlocked) {
+            if (null != blockInteractionIndicatorPresenter) {
+                blockInteractionIndicatorPresenter.removePresentedPointingIndicator();
+            }
+            
             YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(GameEntryState.class).startDisplaying();                    
         }
     }

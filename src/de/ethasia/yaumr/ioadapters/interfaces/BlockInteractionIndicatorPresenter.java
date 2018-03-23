@@ -9,4 +9,5 @@ package de.ethasia.yaumr.ioadapters.interfaces;
 public interface BlockInteractionIndicatorPresenter {
     
     public void presentPointingIndicator(float pointingPositionX, float pointingPositionY, float pointingPositionZ);
+    public void removePresentedPointingIndicator();
 }

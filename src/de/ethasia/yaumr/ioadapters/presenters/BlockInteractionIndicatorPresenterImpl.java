@@ -49,5 +49,15 @@ public class BlockInteractionIndicatorPresenterImpl implements BlockInteractionI
         }
     }
     
+    @Override
+    public void removePresentedPointingIndicator() {
+        IslandEditorState islandEditorState = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandEditorState.class);     
+        
+        if (null != islandEditorState) {
+            lastPointingPosition = null;
+            islandEditorState.removeBlockPointingIndicator();            
+        }
+    }
+    
     //</editor-fold>
 }
