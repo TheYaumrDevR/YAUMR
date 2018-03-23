@@ -9,9 +9,10 @@ import java.util.stream.Stream;
  *
  * @author R
  */
-public interface IslandRepository {
+public interface Islands {
     
     public Stream<IslandMetaData> getMetadataOfAllAvailableIslands();
     public boolean createNewIsland(Island island, IslandMetaData islandMetaData);
     public Island findIslandByGuid(UUID guid);
+    public void deleteIsland(IslandMetaData metaData);
 }

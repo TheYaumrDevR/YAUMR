@@ -48,5 +48,21 @@ public class FileRepositoryMock extends ClassMock implements FileRepository {
     public void writeContentToFile(Path filePath, byte[] content) throws IOException {
         incrementMockCounterForCalledMethod("writeContentToFile");
     }
-    
+
+    @Override
+    public boolean fileExists(Path filePath) {
+        incrementMockCounterForCalledMethod("fileExists");
+        return true;
+    }
+
+    @Override
+    public void createDirectory(Path directoryPath) throws IOException {
+        incrementMockCounterForCalledMethod("createDirectory");
+    }
+
+    @Override
+    public UserDefinedFileAttributesWithPath getApplicationDefinedFileAttributesForFileAt(List<String> attributeNames, Path filePath) throws IOException {
+        incrementMockCounterForCalledMethod("getApplicationDefinedFileAttributesForFileAt");
+        return null;
+    }
 }

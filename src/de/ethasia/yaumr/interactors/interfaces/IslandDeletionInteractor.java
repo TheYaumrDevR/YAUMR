@@ -8,5 +8,5 @@ import de.ethasia.yaumr.interactors.IslandMetaData;
  */
 public interface IslandDeletionInteractor {
     
-    public void deleteIsland(IslandMetaData metaData);
+    public void deleteIsland(final IslandMetaData metaData);
 }

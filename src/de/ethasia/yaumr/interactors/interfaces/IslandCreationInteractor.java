@@ -15,7 +15,7 @@ public interface IslandCreationInteractor {
      * @param userInput The input the user set when creating an Island. 
      * @return True if the creation is successful.
      */
-    public boolean createNewIslandWithRegisteredSingletonFacadeInstance(String userInput);
+    public boolean createNewIslandWithRegisteredSingletonFacadeInstance(final String userInput);
     
     public boolean createNewIslandWithFacadeInstanceWithoutUserConfirmationChecks(String userInput);
 }

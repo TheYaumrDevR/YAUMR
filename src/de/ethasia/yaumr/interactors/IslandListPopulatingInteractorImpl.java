@@ -4,8 +4,8 @@ import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.interactors.interfaces.IslandListPopulatingInteractor;
 import de.ethasia.yaumr.interactors.interfaces.IslandListPresenter;
-import de.ethasia.yaumr.interactors.interfaces.IslandRepository;
 import java.util.stream.Stream;
+import de.ethasia.yaumr.interactors.interfaces.Islands;
 
 /**
  *
@@ -18,7 +18,7 @@ public class IslandListPopulatingInteractorImpl implements IslandListPopulatingI
     @Override
     public void loadAllAvailableIslandsIntoIslandList() {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
-        IslandRepository islandDeserializer = dependencyResolver.getImplementationInstance(IslandRepository.class);
+        Islands islandDeserializer = dependencyResolver.getImplementationInstance(Islands.class);
         IslandListPresenter islandListPresenter = dependencyResolver.getImplementationInstance(IslandListPresenter.class);
         
         Stream<IslandMetaData> allIslandsMetaData = islandDeserializer.getMetadataOfAllAvailableIslands();

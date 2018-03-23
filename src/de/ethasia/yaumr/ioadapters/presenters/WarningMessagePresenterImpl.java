@@ -2,9 +2,9 @@ package de.ethasia.yaumr.ioadapters.presenters;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
-import de.ethasia.yaumr.ioadapters.interfaces.ConfirmationActionTypes;
-import de.ethasia.yaumr.ioadapters.interfaces.ManageIslandsState;
+import de.ethasia.yaumr.interactors.interfaces.MessageConfirmationAction;
 import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
+import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithWarningMessages;
 
 /**
  *
@@ -19,12 +19,12 @@ public class WarningMessagePresenterImpl implements WarningMessagePresenter {
     }
 
     @Override
-    public void showConfirmationWarning(String message) {
+    public void showConfirmationWarning(String message, MessageConfirmationAction confirmationAction) {
         ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
-        ManageIslandsState islandInitializationState = dependencyResolver.getSingletonInstance(ManageIslandsState.class);
+        AppStateWithWarningMessages warningMessagesAppState = dependencyResolver.getSingletonInstance(AppStateWithWarningMessages.class);
         
-        if (null != islandInitializationState) {
-            islandInitializationState.showConfirmationWarningMessage(message, ConfirmationActionTypes.CREATE_ISLAND_CONFIRMED);
+        if (null != warningMessagesAppState) {
+            warningMessagesAppState.showConfirmationWarningMessage(message, confirmationAction);
         }        
     }    
     

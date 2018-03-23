@@ -2,7 +2,7 @@ package de.ethasia.yaumr.ioadapters.gateways.filesystem.tests;
 
 import de.ethasia.yaumr.base.ClassInstanceContainer;
 import de.ethasia.yaumr.base.YaumrGame;
-import de.ethasia.yaumr.ioadapters.gateways.filesystem.IslandFilesystemRepository;
+import de.ethasia.yaumr.ioadapters.gateways.filesystem.IslandsOnFilesystem;
 import de.ethasia.yaumr.ioadapters.gateways.interfaces.FileRepository;
 import de.ethasia.yaumr.outsidedependencies.tests.mocks.FileRepositoryMock;
 import org.junit.BeforeClass;
@@ -23,7 +23,7 @@ public class IslandFilesystemRepositoryTest {
     
     @Test
     public void testGetMetadataOfAllAvailableIslands_mockDataProviderIsPresent_MetadataIsCorrectlyRetrieved() {
-        IslandFilesystemRepository testCandidate = new IslandFilesystemRepository();
+        IslandsOnFilesystem testCandidate = new IslandsOnFilesystem();
         testCandidate.getMetadataOfAllAvailableIslands();
     }
 }

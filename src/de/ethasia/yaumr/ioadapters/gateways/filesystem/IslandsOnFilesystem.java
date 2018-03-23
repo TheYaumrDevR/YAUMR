@@ -5,14 +5,12 @@ import de.ethasia.yaumr.base.YaumrGame;
 import de.ethasia.yaumr.core.Island;
 import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
-import de.ethasia.yaumr.interactors.interfaces.IslandRepository;
 import de.ethasia.yaumr.ioadapters.gateways.interfaces.FileRepository;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -23,12 +21,16 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
+import de.ethasia.yaumr.interactors.interfaces.Islands;
+import java.util.function.Supplier;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author R
  */
-public class IslandFilesystemRepository implements IslandRepository {
+public class IslandsOnFilesystem implements Islands {
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
@@ -56,31 +58,35 @@ public class IslandFilesystemRepository implements IslandRepository {
     //<editor-fold defaultstate="collapsed" desc="Constructors">
     
     static {
-        if (!Files.exists(CREATED_APP_DATA_DIRECTORY_PATH)) {
-            try {
-                Files.createDirectory(CREATED_APP_DATA_DIRECTORY_PATH);
-            } catch (IOException ex) {
-                showErrorMessage("Could not create application data directory, reason: " + ex.getMessage());
-            }
-        }
+        FileRepository fileRepository = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(FileRepository.class);
         
-        if (!Files.exists(ISLAND_FILES_BASE_PATH)) {
-            try {
-                Files.createDirectory(ISLAND_FILES_BASE_PATH);
-            } catch (IOException ex) {
-                showErrorMessage("Could not create island data directory, reason: " + ex.getMessage());                
+        if (null != fileRepository) {
+            if (!fileRepository.fileExists(CREATED_APP_DATA_DIRECTORY_PATH)) {
+                try {
+                    fileRepository.createDirectory(CREATED_APP_DATA_DIRECTORY_PATH);
+                } catch (IOException ex) {
+                    showErrorMessage("Could not create application data directory, reason: " + ex.getMessage());
+                }
             }
+        
+            if (!fileRepository.fileExists(ISLAND_FILES_BASE_PATH)) {
+                try {
+                    fileRepository.createDirectory(ISLAND_FILES_BASE_PATH);
+                } catch (IOException ex) {
+                    showErrorMessage("Could not create island data directory, reason: " + ex.getMessage());                
+                }
+            }            
         }
     }
     
-    public IslandFilesystemRepository() {
+    public IslandsOnFilesystem() {
         oldIslandGUIDToFilePath = new HashMap<>();
         fileRepository = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(FileRepository.class);
     }
     
     //</editor-fold>
 
-    //<editor-fold defaultstate="collapsed" desc="IslandRepository overrides">
+    //<editor-fold defaultstate="collapsed" desc="Islands overrides">
     
     @Override
     public Stream<IslandMetaData> getMetadataOfAllAvailableIslands() {
@@ -94,7 +100,7 @@ public class IslandFilesystemRepository implements IslandRepository {
         try {
             metadataOfAllIslandFiles = fileRepository.getApplicationDefinedFileAttributesWithNames(fileAttributesToLookFor, ISLAND_FILES_BASE_PATH);
         } catch (IOException ex) {
-            // Show error window. 
+            showErrorMessage("Could not read island list. Metadata of islands was not readable."); 
             return null;
         }
         
@@ -152,6 +158,33 @@ public class IslandFilesystemRepository implements IslandRepository {
     public Island findIslandByGuid(UUID guid) {
         return null;
     }    
+    
+    @Override
+    public void deleteIsland(IslandMetaData metaData) {
+        Path filePath = oldIslandGUIDToFilePath.get(metaData.getIslandGUID());
+        
+        if (null != filePath) {
+            IslandMetaData metaDataOnPath = getIslandMetaDataForIslandOnPath(filePath);
+            
+            if (null != metaDataOnPath) {
+                if (metaData.getIslandGUID().equals(metaDataOnPath.getIslandGUID())) {
+                    try {
+                        if (null != fileRepository) {
+                            fileRepository.deleteFile(filePath);
+                        }
+                    } catch (IOException ex) {
+                        showErrorMessage("Could not delete the island on path: " + filePath.toString());
+                    }
+                } else {
+                    findAndDeleteIslandWithGUID(metaData.getIslandGUID());
+                }
+            } else {
+                findAndDeleteIslandWithGUID(metaData.getIslandGUID());
+            }
+        } else {
+            findAndDeleteIslandWithGUID(metaData.getIslandGUID());
+        }
+    }
     
     //</editor-fold>
     
@@ -211,12 +244,65 @@ public class IslandFilesystemRepository implements IslandRepository {
         Path filePath = Paths.get(ISLAND_FILES_BASE_PATH.toString(), islandName + ".is");
         int i = 1;
         
-        while (Files.exists(filePath)) {
-            filePath = Paths.get(ISLAND_FILES_BASE_PATH.toString(), islandName + " (" + i + ").is");
-            i++;
+        if (null != fileRepository) {
+            while (fileRepository.fileExists(filePath)) {
+                filePath = Paths.get(ISLAND_FILES_BASE_PATH.toString(), islandName + " (" + i + ").is");
+                i++;
+            }            
         }
         
         return filePath;
+    }
+    
+    private IslandMetaData getIslandMetaDataForIslandOnPath(Path filePath) {
+        if (null != fileRepository) {
+            if (fileRepository.fileExists(filePath)) {
+                List<String> fileAttributesToLookFor = new LinkedList<>();
+                fileAttributesToLookFor.add(ISLAND_NAME_FILE_ATTRIBUTE_NAME);
+                fileAttributesToLookFor.add(ISLAND_GUID_FILE_ATTRIBUTE_NAME);                
+                
+                try {
+                    UserDefinedFileAttributesWithPath fileAttributesWithPath = fileRepository.getApplicationDefinedFileAttributesForFileAt(fileAttributesToLookFor, filePath);
+                    return mapFileAttributesToIslandMetaData(fileAttributesWithPath);
+                } catch (IOException ex) {
+                    return null;
+                }
+            }
+        }
+        
+        return null;
+    }
+    
+    private void findAndDeleteIslandWithGUID(final UUID islandGUID) {
+        Stream<IslandMetaData> islandData = getMetadataOfAllAvailableIslands();
+        
+        IslandMetaData metaDataWithGUID = islandData.filter(new Predicate<IslandMetaData>() {
+            
+            @Override
+            public boolean test(IslandMetaData t) {
+                return t.getIslandGUID().equals(islandGUID);
+            }
+        }).findFirst()
+            .orElseGet(new Supplier<IslandMetaData>() {
+                
+                @Override
+                public IslandMetaData get() {
+                    return new IslandMetaData();
+                }
+            });
+        
+        if (null != metaDataWithGUID.getIslandGUID()) {
+            Path filePath = oldIslandGUIDToFilePath.get(metaDataWithGUID.getIslandGUID());
+            if (null != filePath) {
+                try {
+                    if (null != fileRepository) {
+                        fileRepository.deleteFile(filePath);
+                    }
+                } catch (IOException ex) {
+                    showErrorMessage("Could not delete the island on path: " + filePath.toString());
+                }
+            }
+        }
     }
     
     private static void showErrorMessage(String message) {

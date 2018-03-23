@@ -19,7 +19,10 @@ public interface FileRepository {
     public Stream<UserDefinedFileAttributesWithPath> getApplicationDefinedFileAttributesWithNames(List<String> attributeNames, Path directoryOfFiles) throws IOException;
     public void createFile(Path filePath) throws IOException, FileExistsException;
     public void deleteFile(Path filePath) throws IOException;
+    public boolean fileExists(Path filePath);
+    public void createDirectory(Path directoryPath) throws IOException;
     public byte[] getFileContent(Path filePath);
     public void writeCustomFileAttributesToFile(Path filePath, Map<String, ByteBuffer> attributes) throws IOException;
     public void writeContentToFile(Path filePath, byte[] content) throws IOException;
+    public UserDefinedFileAttributesWithPath getApplicationDefinedFileAttributesForFileAt(List<String> attributeNames, Path filePath) throws IOException;
 }

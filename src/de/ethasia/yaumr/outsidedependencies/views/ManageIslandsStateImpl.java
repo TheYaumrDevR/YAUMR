@@ -6,8 +6,9 @@ import de.ethasia.yaumr.interactors.IslandMetaData;
 import de.ethasia.yaumr.interactors.interfaces.IslandCreationInteractor;
 import de.ethasia.yaumr.interactors.interfaces.IslandDeletionInteractor;
 import de.ethasia.yaumr.interactors.interfaces.IslandListPopulatingInteractor;
+import de.ethasia.yaumr.interactors.interfaces.MessageConfirmationAction;
 import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithIslandList;
-import de.ethasia.yaumr.ioadapters.interfaces.ConfirmationActionTypes;
+import de.ethasia.yaumr.ioadapters.interfaces.AppStateWithWarningMessages;
 import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
 import de.ethasia.yaumr.ioadapters.interfaces.ManageIslandsState;
 import de.ethasia.yaumr.ioadapters.interfaces.WorldEditorBaseMenuState;
@@ -28,7 +29,9 @@ import java.util.stream.Stream;
  *
  * @author R
  */
-public class ManageIslandsStateImpl extends YaumrGameState implements ManageIslandsState, AppStateWithIslandList {
+public class ManageIslandsStateImpl extends YaumrGameState implements ManageIslandsState, 
+        AppStateWithIslandList, 
+        AppStateWithWarningMessages {
     
     //<editor-fold defaultstate="collapsed" desc="Constants">
     
@@ -54,7 +57,7 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     private Element warningMessageBodyPanel;
     private Element warningMessageHeaderPanel;    
     private Label warningMessageText;
-    private ConfirmationActionTypes currentWarningWindowConfirmationAction;
+    private MessageConfirmationAction currentWarningWindowConfirmationAction;
     
     private ListBox<IslandMetaData> availableIslandList;
     
@@ -94,20 +97,24 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     @Override
     public void onStartScreen() {
         closeAllPanels();
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
         
         if (null != availableIslandList) {
             availableIslandList.clear();
-            ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
             IslandListPopulatingInteractor islandListPopulatingInteractor = dependencyResolver.getImplementationInstance(IslandListPopulatingInteractor.class);
             
             if (null != islandListPopulatingInteractor) {
                 islandListPopulatingInteractor.loadAllAvailableIslandsIntoIslandList();
             }
         }
+        
+        dependencyResolver.removeSingletonInstance(AppStateWithWarningMessages.class);
+        dependencyResolver.registerSingletonInstance(AppStateWithWarningMessages.class, this);
     }
 
     @Override
     public void onEndScreen() {
+        closeAllPanels();
         YaumrGame.getInstance().getClassInstanceContainer().removeSingletonInstance(ManageIslandsState.class);
     }
 
@@ -137,14 +144,14 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     }
     
     @Override
-    public void showConfirmationWarningMessage(String message, ConfirmationActionTypes actionType) {
+    public void showConfirmationWarningMessage(String messageText, MessageConfirmationAction confirmationAction) {
         if (warningMessageWindowElementsArePresent()) {
             islandSizeInputIsBlocked = true;
-            currentWarningWindowConfirmationAction = actionType;
+            currentWarningWindowConfirmationAction = confirmationAction;
                       
             TextRenderer textWidthMeasurer = new TextRenderer(nifty);
             textWidthMeasurer.setFont(nifty.createFont("Interface/Fonts/MSUIGothic.fnt"));
-            textWidthMeasurer.setText(message);
+            textWidthMeasurer.setText(messageText);
             
             int windowXOffset = (warningMessageWindowContainer.getWidth() - textWidthMeasurer.getTextWidth()) / 2;
             warningMessagePanel.setConstraintX(new SizeValue(windowXOffset, SizeValueType.Pixel));
@@ -154,7 +161,7 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
             
             warningMessageWindowContainer.layoutElements();
             
-            warningMessageText.setText(message);
+            warningMessageText.setText(messageText);
             
             warningMessagePanel.setWidth(textWidthMeasurer.getTextWidth() + 20);
             warningMessageBodyPanel.setWidth(textWidthMeasurer.getTextWidth() + 20);
@@ -168,6 +175,10 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
             warningMessagePanel.show();
         }        
     }
+
+    @Override
+    public void showNonConfirmationWarningMessage(String messageText) {
+    }    
     
     @Override
     public void showErrorMessage(String message) {
@@ -196,6 +207,8 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
     @Override
     public void showIslandList(Stream<IslandMetaData> islandList) {
         if (null != availableIslandList) {
+            availableIslandList.clear();
+            
             islandList.forEach(new Consumer<IslandMetaData>() {
                 
                 @Override
@@ -289,22 +302,9 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
             warningMessagePanel.hide();
         }
         
-        switch (currentWarningWindowConfirmationAction) {
-            case CREATE_ISLAND_CONFIRMED:
-                tryToCreateNewIslandAndProceed();
-                break;
+        if (null != currentWarningWindowConfirmationAction) {
+            currentWarningWindowConfirmationAction.onMessageConfirmed();
         }
-    }
-    
-    private void tryToCreateNewIslandAndProceed() {
-        if (null != islandSizeTextField) {
-            IslandCreationInteractor islandCreationInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandCreationInteractor.class);
-            
-            if (islandCreationInteractor.createNewIslandWithFacadeInstanceWithoutUserConfirmationChecks(islandSizeTextField.getDisplayedText())) {
-                closeAllPanels(); 
-                YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandEditorState.class).startDisplaying();                
-            }                
-        }        
     }
     
     //</editor-fold>

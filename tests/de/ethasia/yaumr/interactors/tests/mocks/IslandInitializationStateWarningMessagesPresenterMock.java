@@ -1,5 +1,6 @@
 package de.ethasia.yaumr.interactors.tests.mocks;
 
+import de.ethasia.yaumr.interactors.interfaces.MessageConfirmationAction;
 import de.ethasia.yaumr.tests.helpers.ClassMock;
 import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
 
@@ -17,7 +18,7 @@ public class IslandInitializationStateWarningMessagesPresenterMock extends Class
     }
 
     @Override
-    public void showConfirmationWarning(String message) {
+    public void showConfirmationWarning(String message, MessageConfirmationAction confirmationAction) {
         incrementMockCounterForCalledMethod("showConfirmationWarning");
     }    
     

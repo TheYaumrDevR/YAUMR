@@ -9,6 +9,7 @@ import de.ethasia.yaumr.core.blocks.SimpleBlockFactory;
 import de.ethasia.yaumr.core.interfaces.IslandManipulationFacade;
 import de.ethasia.yaumr.interactors.interfaces.IslandCreationInteractor;
 import de.ethasia.yaumr.interactors.interfaces.ErrorMessagePresenter;
+import de.ethasia.yaumr.interactors.interfaces.MessageConfirmationAction;
 import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
 
 /**
@@ -20,7 +21,7 @@ public class IslandCreationInteractorImpl implements IslandCreationInteractor {
     //<editor-fold defaultstate="collapsed" desc="Overrides">
 
     @Override
-    public boolean createNewIslandWithRegisteredSingletonFacadeInstance(String userInput) {
+    public boolean createNewIslandWithRegisteredSingletonFacadeInstance(final String userInput) {
         Integer edgeLengthInBlocks = getEdgeLengthInBlocksFromUserInput(userInput);
         
         if (null != edgeLengthInBlocks) {
@@ -29,8 +30,16 @@ public class IslandCreationInteractorImpl implements IslandCreationInteractor {
                 errorMessagePresenter.showErrorMessage("Cannot create an island with no dimensions.");
                 return false;
             } else if (edgeLengthInBlocks < 8) {
+                MessageConfirmationAction confirmationAction = new MessageConfirmationAction() {
+                    
+                    @Override
+                    public void onMessageConfirmed() {
+                        createNewIslandWithFacadeInstanceWithoutUserConfirmationChecks(userInput);
+                    }
+                };
+                        
                 WarningMessagePresenter warningMessagePresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(WarningMessagePresenter.class);
-                warningMessagePresenter.showConfirmationWarning("You are about to create a very small island with less than 8 blocks in length and width. Are you sure?");
+                warningMessagePresenter.showConfirmationWarning("You are about to create a very small island with less than 8 blocks in length and width. Are you sure?", confirmationAction);
                 return false;
             } else if (edgeLengthInBlocks > 512) {
                 ErrorMessagePresenter errorMessagePresenter = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(ErrorMessagePresenter.class);

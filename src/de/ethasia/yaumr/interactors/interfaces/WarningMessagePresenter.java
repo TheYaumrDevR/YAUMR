@@ -8,5 +8,5 @@ package de.ethasia.yaumr.interactors.interfaces;
 public interface WarningMessagePresenter {
     
     public void showNonConfirmationWarning(String message);
-    public void showConfirmationWarning(String message);
+    public void showConfirmationWarning(String message, MessageConfirmationAction confirmationAction);
 }

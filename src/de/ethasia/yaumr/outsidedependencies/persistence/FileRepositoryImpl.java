@@ -51,6 +51,31 @@ public class FileRepositoryImpl implements FileRepository {
         
         return result;
     }
+    
+    @Override
+    public UserDefinedFileAttributesWithPath getApplicationDefinedFileAttributesForFileAt(List<String> attributeNames, Path filePath) throws IOException {
+        UserDefinedFileAttributesWithPath attributesWithFilePath = new UserDefinedFileAttributesWithPath();
+        
+        if (Files.exists(filePath) && Files.isRegularFile(filePath)) {
+            UserDefinedFileAttributeView customFileAttributes = Files.getFileAttributeView(filePath, UserDefinedFileAttributeView.class);
+            
+            Map<String, ByteBuffer> userDefinedAttributesWithNames = new HashMap<>();
+            for (String attributeName : lastSearchedFileAttributeNames) {
+                try {
+                    ByteBuffer byteBuffer = ByteBuffer.allocate(customFileAttributes.size(attributeName));
+                    customFileAttributes.read(attributeName, byteBuffer);
+                    userDefinedAttributesWithNames.put(attributeName, byteBuffer);
+                } catch (IOException ex) {
+                    return null;
+                }
+            }  
+            
+            attributesWithFilePath.setFilePath(filePath);
+            attributesWithFilePath.setRawUserDefinedFileAttributes(userDefinedAttributesWithNames);            
+        }
+        
+        return attributesWithFilePath;
+    }
 
     @Override
     public void createFile(Path filePath) throws IOException, FileExistsException {
@@ -65,6 +90,16 @@ public class FileRepositoryImpl implements FileRepository {
     public void deleteFile(Path filePath) throws IOException {
         Files.delete(filePath);
     }
+    
+    @Override
+    public boolean fileExists(Path filePath) {
+        return Files.exists(filePath);
+    }
+    
+    @Override
+    public void createDirectory(Path directoryPath) throws IOException {
+        Files.createDirectory(directoryPath);
+    } 
 
     @Override
     public byte[] getFileContent(Path filePath) {
