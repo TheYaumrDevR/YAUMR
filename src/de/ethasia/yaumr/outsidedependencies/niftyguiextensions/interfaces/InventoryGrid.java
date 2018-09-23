@@ -1,6 +1,6 @@
 package de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces;
 
-import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
+import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.lessvoid.nifty.controls.Draggable;
 import de.lessvoid.nifty.controls.Droppable;
 import de.lessvoid.nifty.controls.NiftyControl;
@@ -13,11 +13,11 @@ import de.lessvoid.nifty.controls.NiftyControl;
  */
 public interface InventoryGrid extends NiftyControl {
     
-    public void setItemOnPosition(QuickSelectableEntity item, int position);
+    public void setItemDisplayDataOnPosition(ItemDisplayData displayData, int position);
     public void onDragAndDropOperationCompleted(Droppable dropSource, Draggable drgbl, Droppable droppedAt);
     public void onDragAndDropItemRemovedFromGrid(Droppable dropSource, Draggable draggable, Droppable droppedAt);
     
-    public boolean inventoryGridIsVisible();
-    public void hideInventoryGrid();
-    public void showInventoryGrid();
+    public boolean isVisible();
+    public void hide();
+    public void show();
 }

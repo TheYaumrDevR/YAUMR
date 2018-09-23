@@ -10,14 +10,8 @@ import de.ethasia.yaumr.ioadapters.interfaces.IslandEditorState;
  *
  * @author R
  */
-public class TerraformingToolsQuickbarPresenterImpl implements TerraformingToolsQuickbarPresenter {
+public class TerraformingToolsQuickbarPresenterImpl extends TerraformingToolsPresenter implements TerraformingToolsQuickbarPresenter {
     
-    //<editor-fold defaultstate="collapsed" desc="Constants">
-    
-    private static final String QUICK_SELECTION_IMAGES_BASE_PATH = "Interface/ImagesGUI/HUD/QuickSelectionIcons/";            
-    
-    //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Overrides">
     
     @Override
@@ -31,23 +25,13 @@ public class TerraformingToolsQuickbarPresenterImpl implements TerraformingTools
 
     @Override
     public void showItemsOnQuickbar(TerraformingTool[] tools) {
-        ItemDisplayData[] displayDataForGUI = new ItemDisplayData[tools.length];                    
+        ItemDisplayData[] displayDataForGUI = convertTerraformingToolsToDisplayData(tools); 
         IslandEditorState islandEditorState = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandEditorState.class);
 
         if (null != islandEditorState) {
-            for (int i = 0; i < tools.length; i++) {
-                TerraformingTool tool = tools[i];
-            
-                if (null != tool) {
-                    String toolImagePath = QUICK_SELECTION_IMAGES_BASE_PATH + tool.getTypeName() + ".png";
-                    ItemDisplayData toolDisplayData = new ItemDisplayData();
-                    toolDisplayData.setItemImagePath(toolImagePath);
-                
-                    displayDataForGUI[i] = toolDisplayData;
-                }
-            } 
-            
-            islandEditorState.showItemsOnQuickbar(displayDataForGUI);
+            if (displayDataForGUI.length > 0) {
+                islandEditorState.showItemsOnQuickbar(displayDataForGUI);
+            }
         }
     }    
     

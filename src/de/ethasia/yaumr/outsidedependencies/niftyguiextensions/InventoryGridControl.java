@@ -5,6 +5,7 @@ import java.util.Map;
 
 import de.ethasia.yaumr.blockengine.entities.base.QuickSelectableEntity;
 import de.ethasia.yaumr.controllers.interfaces.BlockPlacementController;
+import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.DraggableItemBox;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.DroppableItemBox;
 import de.ethasia.yaumr.outsidedependencies.niftyguiextensions.interfaces.InventoryGrid;
@@ -188,7 +189,7 @@ public class InventoryGridControl extends AbstractController implements Inventor
 
     @Override
     public void onStartScreen() {
-        hideInventoryGrid();
+        hide();
     }
 
     @Override
@@ -197,7 +198,7 @@ public class InventoryGridControl extends AbstractController implements Inventor
     }    
     
     @Override
-    public boolean inventoryGridIsVisible() {
+    public boolean isVisible() {
         if (null != rootPanel) {
             return rootPanel.isVisible();
         }
@@ -206,27 +207,26 @@ public class InventoryGridControl extends AbstractController implements Inventor
     }
     
     @Override
-    public void hideInventoryGrid() {
+    public void hide() {
         if (null != rootPanel) {
             rootPanel.hide();
         }
     }
     
     @Override
-    public void showInventoryGrid() {
+    public void show() {
         if (null != rootPanel) {
             rootPanel.show();
         }
     }
     
     @Override
-    public void setItemOnPosition(QuickSelectableEntity item, int position) {
+    public void setItemDisplayDataOnPosition(ItemDisplayData displayData, int position) {
         if (position > 0 && position < 41) {
             if (null != itemBoxes.get(position)) {
-                itemBoxes.get(position).setDisplayedItem(item);
             }
-        }
-    }
+        }        
+    }    
     
     @Override
     public void onDragAndDropOperationCompleted(Droppable dropSource, Draggable drgbl, Droppable droppedAt) {
@@ -284,8 +284,6 @@ public class InventoryGridControl extends AbstractController implements Inventor
     
     @NiftyEventSubscriber(pattern="droppableBox[0-9]+")
     public void itemDroppedToQuickSelection(String id, final DroppableDroppedEvent event) {
-        System.out.println("event fired");
-        
         for (Integer key : itemBoxes.keySet()) {
             if (itemBoxes.get(key).getId().equals(event.getDraggable().getId())) {
                 

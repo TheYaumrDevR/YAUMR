@@ -119,6 +119,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
                             toggleHelpText(isPressed);
                             break;
                         case TOGGLE_TERRAFORMING_INVENTORY_ACTION_NAME:
+                            toggleToolsGrid(isPressed);
                             break;
                         case EXECUTE_PRIMARY_ACTION_EVENT_NAME:
                             executePrimaryAction(isPressed);
@@ -197,7 +198,7 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         terraformingToolsSelector.setSelectedToolIndex(0);
         
         if (null != toolsSelectionGrid) {
-            toolsSelectionGrid.hideInventoryGrid();
+            toolsSelectionGrid.hide();
         }       
         
         initRenderers();
@@ -505,6 +506,16 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     private void toggleHelpText(boolean toggleKeyIsPressed) {
         if (toggleKeyIsPressed) {
             windowsInteractor.toggleHelpMenu();
+        }
+    }
+    
+    private void toggleToolsGrid(boolean keyIsPressed) {
+        if (null != toolsSelectionGrid) {
+            if (toolsSelectionGrid.isVisible()) {
+                toolsSelectionGrid.hide();
+            } else {
+                toolsSelectionGrid.show();
+            }
         }
     }
     

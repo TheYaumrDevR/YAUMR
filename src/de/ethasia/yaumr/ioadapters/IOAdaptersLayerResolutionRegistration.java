@@ -22,6 +22,8 @@ import de.ethasia.yaumr.ioadapters.presenters.IslandListPresenterImpl;
 import de.ethasia.yaumr.ioadapters.presenters.NoticePresenterImpl;
 import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
 import de.ethasia.yaumr.interactors.interfaces.Islands;
+import de.ethasia.yaumr.interactors.interfaces.TerraformingToolsGridPresenter;
+import de.ethasia.yaumr.ioadapters.presenters.TerraformingToolsGridPresenterImpl;
 
 /**
  *
@@ -37,6 +39,7 @@ public class IOAdaptersLayerResolutionRegistration {
         classInstanceContainer.registerImplementation(IslandEditorStateMainWindowsPresenter.class, IslandEditorStateMainWindowsPresenterImpl.class);  
         classInstanceContainer.registerImplementation(IslandEditorStateSetupInteractor.class, IslandEditorStateSetupInteractorImpl.class);
         classInstanceContainer.registerImplementation(TerraformingToolsQuickbarPresenter.class, TerraformingToolsQuickbarPresenterImpl.class);
+        classInstanceContainer.registerImplementation(TerraformingToolsGridPresenter.class, TerraformingToolsGridPresenterImpl.class);
         classInstanceContainer.registerImplementation(ChunkPresenter.class, ChunkPresenterImpl.class);
         classInstanceContainer.registerImplementation(Islands.class, IslandsOnFilesystem.class);
         classInstanceContainer.registerImplementation(ErrorMessagePresenter.class, ErrorMessagePresenterImpl.class);
