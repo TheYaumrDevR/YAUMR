@@ -36,7 +36,6 @@ public class CharacterAttributes {
     private int baseMagicAttackPower;
     private int baseMagicDefense;
     private int baseCriticalHitChanceValue;
-    private int baseDodgeChanceValue;
     
     private float baseCriticalHitDamageMultiplier;
 
@@ -56,7 +55,6 @@ public class CharacterAttributes {
     private int additionalMagicAttackPower;
     private int additionalMagicDefense;
     private int additionalCriticalHitChanceValue;
-    private int additionalDodgeChanceValue;
     
     private float additionalCriticalHitDamageMultiplier;
     
@@ -131,10 +129,6 @@ public class CharacterAttributes {
         return baseCriticalHitChanceValue;
     }
     
-    public int getBaseDodgeChanceValue() {
-        return baseDodgeChanceValue;
-    }
-    
     public float getBaseCriticalHitDamageMultiplier() {
         return baseCriticalHitDamageMultiplier;
     }
@@ -175,7 +169,7 @@ public class CharacterAttributes {
         return additionalPhysicalAttackPower;
     }
     
-    public int getAditionalPhysicalDefense() {
+    public int getAdditionalPhysicalDefense() {
         return additionalPhysicalDefense;
     }
     
@@ -189,10 +183,6 @@ public class CharacterAttributes {
     
     public int getAdditionalCriticalHitChanceValue() {
         return additionalCriticalHitChanceValue;
-    }
-    
-    public int getAdditionalDodgeChanceValue() {
-        return additionalDodgeChanceValue;
     }
     
     public float getAdditionalCriticalHitDamageMultiplier() {
@@ -330,7 +320,4 @@ public class CharacterAttributes {
     }
     
     //</editor-fold>
-    
-    // Derived attributes: str -> critical hit damage, int -> magic res, 
-    // perception -> critical hit chance, agility -> dodge chance
 }
