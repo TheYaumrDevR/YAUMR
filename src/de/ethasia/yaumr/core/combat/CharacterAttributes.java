@@ -196,6 +196,14 @@ public class CharacterAttributes {
     public int getAdditionalJumpHeight() {
         return additionalJumpHeight;
     }
+    
+    public void setAdditionalPhysicalDefense(int value) {
+        additionalPhysicalDefense = value;
+    }
+    
+    public void setAdditionalMagicDefense(int value) {
+        additionalMagicDefense = value;
+    }
         
     //</editor-fold>
     
