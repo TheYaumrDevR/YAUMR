@@ -225,7 +225,7 @@ public class CharacterAttributes {
         basePerception = 1;
         baseAgility = 1;
         
-        baseCriticalHitDamageMultiplier = 1.f;
+        baseCriticalHitDamageMultiplier = 1.5f;
         
         baseSpeed = 1;
         baseJumpHeight = 1;
