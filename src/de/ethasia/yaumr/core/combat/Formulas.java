@@ -23,13 +23,31 @@ public class Formulas {
             randomFactorMinimum = 1;
         }
         
-        Random generator = new Random();
-        double randomDamageMultiplier = Formulas.mapDoubleBetweenZeroAndOneToNewMinAndMax(generator.nextDouble(), randomFactorMinimum, 1.f);
+        Random dice = new Random();
+        double randomDamageMultiplier = Formulas.mapDoubleBetweenZeroAndOneToNewMinAndMax(dice.nextDouble(), randomFactorMinimum, 1.f);
         
         return (int)Math.floor(randomDamageMultiplier * damageNumber);
     }
     
     public static double mapDoubleBetweenZeroAndOneToNewMinAndMax(double randomDoubleZeroToOne, double newMin, double newMax) {
         return randomDoubleZeroToOne * (newMax - newMin) + newMin;
+    }
+    
+    public static float getCriticalHitChanceFromCriticalHitChanceValue(CharacterAttributes attackerAttributes) {
+        int criticalHitChanceValue = attackerAttributes.getBaseCriticalHitChanceValue() + attackerAttributes.getAdditionalCriticalHitChanceValue();
+        int criticalHitChanceValueForOneHundretPercent = attackerAttributes.getLevel() * 100;
+        
+        if (criticalHitChanceValue >= criticalHitChanceValueForOneHundretPercent) {
+            return 1;
+        }
+        
+        return (float)criticalHitChanceValue / criticalHitChanceValueForOneHundretPercent;
+    }
+    
+    public static boolean isCriticalHit(float criticalHitChanceZeroToOne) {
+        Random dice = new Random();
+        float randomNumber = dice.nextFloat();
+        
+        return randomNumber <= criticalHitChanceZeroToOne;
     }
 }

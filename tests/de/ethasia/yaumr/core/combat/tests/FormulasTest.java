@@ -152,4 +152,67 @@ public class FormulasTest {
             assertTrue(randomizedDamage >= 15);
         }
     }    
+    
+    @Test 
+    public void testGetCriticalHitChanceFromCriticalHitChanceValue_CharacterIsLevelOne_ThirtyIsThirtyPercent() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.setAdditionalCriticalHitChanceValue(30);
+        
+        float actual = Formulas.getCriticalHitChanceFromCriticalHitChanceValue(attacker);
+        float expected = 0.3f;
+        
+        assertEquals(expected, actual, 0.01f);
+    }
+    
+    @Test 
+    public void testGetCriticalHitChanceFromCriticalHitChanceValue_CharacterIsLevelTwenty_1200IsSixtyPercent() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(19);
+        attacker.setAdditionalCriticalHitChanceValue(1200);
+        
+        float actual = Formulas.getCriticalHitChanceFromCriticalHitChanceValue(attacker);
+        float expected = 0.6f;
+        
+        assertEquals(expected, actual, 0.01f);
+    }  
+    
+    @Test 
+    public void testGetCriticalHitChanceFromCriticalHitChanceValue_CharacterIsLevelTen_700IsSeventyPercent() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(9);
+        attacker.setAdditionalCriticalHitChanceValue(700);
+        
+        float actual = Formulas.getCriticalHitChanceFromCriticalHitChanceValue(attacker);
+        float expected = 0.7f;
+        
+        assertEquals(expected, actual, 0.01f);
+    } 
+
+    @Test
+    public void testIsCriticalHit_ChanceIsHalf_RoughlyHalfCriticalHitsAreGenerated() {
+        int numberOfCriticalHits = 0;
+        
+        for (int i = 0; i < 1000; i++) {
+            if (Formulas.isCriticalHit(0.5f)) {
+                numberOfCriticalHits++;
+            }
+        }
+        
+        boolean criticalHitsAreInReasonableRange = numberOfCriticalHits > 461 && numberOfCriticalHits < 539;
+        assertTrue(criticalHitsAreInReasonableRange);
+    } 
+    
+    @Test
+    public void testIsCriticalHit_ChanceIsEightyPercent_RoughlyThatManyAreCriticalHits() {
+        int numberOfCriticalHits = 0;
+        
+        for (int i = 0; i < 1000; i++) {
+            if (Formulas.isCriticalHit(0.8f)) {
+                numberOfCriticalHits++;
+            }
+        }
+        
+        boolean criticalHitsAreInReasonableRange = numberOfCriticalHits > 757 && numberOfCriticalHits < 843;
+        assertTrue(criticalHitsAreInReasonableRange);
+    }     
 }

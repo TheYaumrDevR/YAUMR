@@ -197,14 +197,22 @@ public class CharacterAttributes {
         return additionalJumpHeight;
     }
     
+    //</editor-fold>
+    
+    //<editor-fold defaultstate="collapsed" desc="Setters">
+    
     public void setAdditionalPhysicalDefense(int value) {
         additionalPhysicalDefense = value;
     }
     
     public void setAdditionalMagicDefense(int value) {
         additionalMagicDefense = value;
+    }    
+    
+    public void setAdditionalCriticalHitChanceValue(int value) {
+        additionalCriticalHitChanceValue = value;
     }
-        
+    
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Constructors">
