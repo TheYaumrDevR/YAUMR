@@ -185,6 +185,8 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
         if (errorMessageWindowElementsArePresent()) {
             islandSizeInputIsBlocked = true;
         }
+        
+        super.showErrorMessage(message);
     }
 
     @Override
