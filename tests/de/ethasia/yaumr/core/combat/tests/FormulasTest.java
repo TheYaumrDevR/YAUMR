@@ -238,7 +238,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testCalculateFullPhysicalDamage_DamageIsStableCritChanceIsZero_FullDamageIsCalculated() {
+    public void testApplyFullPhysicalDamageToDefender_DamageIsStableCritChanceIsZero_FullDamageIsCalculated() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         attacker.levelUpBy(9);
         attacker.assignFreePointsToAgility(40);
@@ -252,7 +252,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testCalculateFullPhysicalDamage_DamageIsStableCritChanceIsZeroDefenseIsEqual_HalfDamageIsCalculated() {
+    public void testApplyFullPhysicalDamageToDefender_DamageIsStableCritChanceIsZeroDefenseIsEqual_HalfDamageIsCalculated() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToAgility(80);
@@ -267,7 +267,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testCalculateFullPhysicalDamage_DamageIsUnstableFiftyPercentNoCriticalHitChance_DamageDoneIsBetweenHalfAndFull() {
+    public void testApplyFullPhysicalDamageToDefender_DamageIsUnstableFiftyPercentNoCriticalHitChance_DamageDoneIsBetweenHalfAndFull() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToStrength(80);
@@ -283,7 +283,7 @@ public class FormulasTest {
     } 
     
     @Test
-    public void testCalculateFullPhysicalDamage_DamageIsStableCriticalHitChanceIsHalf_DamageDoneIsBetweenFullAndThriceFull() {
+    public void testApplyFullPhysicalDamageToDefender_DamageIsStableCriticalHitChanceIsHalf_DamageDoneIsBetweenFullAndThriceFull() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToPerception(80);
@@ -302,7 +302,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testCalculateFullPhysicalDamage_DamageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_CalculationIsCorrect() {
+    public void testApplyFullPhysicalDamageToDefender_DamageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_CalculationIsCorrect() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToPerception(80);
@@ -317,5 +317,87 @@ public class FormulasTest {
         boolean defenderHealthPointsAreInExpectedRange = defenderHealthPoints > 84 || defenderHealthPoints < 96;
         
         assertTrue(defenderHealthPointsAreInExpectedRange);
-    }     
+    }    
+    
+    @Test
+    public void testApplyFullMagicalDamageToDefender_DamageIsStableCritChanceIsZero_FullDamageIsCalculated() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(9);
+        attacker.assignFreePointsToIntelligence(40);
+        attacker.setLowestDamageFromFullFactor(1.f);
+        
+        CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        
+        Formulas.applyFullMagicalDamageToDefender(attacker, defender);
+        
+        assertEquals(90, defender.getCurrentHealthPoints());
+    }
+    
+    @Test
+    public void testApplyFullMagicalDamageToDefender_DamageIsStableCritChanceIsZeroDefenseIsEqual_HalfDamageIsCalculated() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(19);
+        attacker.assignFreePointsToIntelligence(80);
+        attacker.setLowestDamageFromFullFactor(1.f);
+        
+        CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
+        defender.setAdditionalMagicDefense(19);
+        
+        Formulas.applyFullMagicalDamageToDefender(attacker, defender);
+        
+        assertEquals(90, defender.getCurrentHealthPoints());
+    }    
+    
+    @Test
+    public void testApplyFullMagicalDamageToDefender_DamageIsUnstableFiftyPercentNoCriticalHitChance_DamageDoneIsBetweenHalfAndFull() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(19);
+        attacker.assignFreePointsToIntelligence(80);
+        
+        CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
+        
+        Formulas.applyFullMagicalDamageToDefender(attacker, defender);
+        
+        int defenderHealthPoints = defender.getCurrentHealthPoints();
+        boolean defenderHealthPointsAreInExpectedRange = defenderHealthPoints <= 90 && defenderHealthPoints >= 80;
+        
+        assertTrue(defenderHealthPointsAreInExpectedRange);
+    } 
+    
+    @Test
+    public void testApplyFullMagicalDamageToDefender_DamageIsStableCriticalHitChanceIsHalf_DamageDoneIsBetweenFullAndThriceFull() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(19);
+        attacker.assignFreePointsToIntelligence(80);
+        attacker.setAdditionalCriticalHitDamageMultiplier(1.5f);
+        attacker.setLowestDamageFromFullFactor(1.f);
+        attacker.setAdditionalCriticalHitChanceValue(1000);
+        
+        CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
+        
+        Formulas.applyFullMagicalDamageToDefender(attacker, defender);
+        
+        int defenderHealthPoints = defender.getCurrentHealthPoints();
+        boolean defenderHealthPointsAreInExpectedRange = defenderHealthPoints == 80 || defenderHealthPoints == 40;
+        
+        assertTrue(defenderHealthPointsAreInExpectedRange);
+    }    
+    
+    @Test
+    public void testApplyFullMagicalDamageToDefender_DamageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_CalculationIsCorrect() {
+        CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        attacker.levelUpBy(19);
+        attacker.assignFreePointsToIntelligence(80);
+        attacker.setAdditionalCriticalHitChanceValue(1000);
+        
+        CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        defender.setAdditionalMagicDefense(20);
+        
+        Formulas.applyFullMagicalDamageToDefender(attacker, defender);
+
+        int defenderHealthPoints = defender.getCurrentHealthPoints();
+        boolean defenderHealthPointsAreInExpectedRange = defenderHealthPoints > 84 || defenderHealthPoints < 96;
+        
+        assertTrue(defenderHealthPointsAreInExpectedRange);
+    }    
 }

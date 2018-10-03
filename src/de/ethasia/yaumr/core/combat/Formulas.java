@@ -6,11 +6,23 @@ public class Formulas {
     
     public static void applyFullPhysicalDamageToDefender(CharacterAttributes attackerAttributes, CharacterAttributes defenderAttributes) {
         int baseDamage = calculateBaseDamageFromPhysicalAttack(attackerAttributes, defenderAttributes);
+        int finalDamage = getFinalDamageFromBaseDamage(baseDamage, attackerAttributes);
+
+        defenderAttributes.subtractDamageFromHealth(finalDamage);
+    }
+    
+    public static void applyFullMagicalDamageToDefender(CharacterAttributes attackerAttributes, CharacterAttributes defenderAttributes) {
+        int baseDamage = calculateBaseDamageFromMagicalAttack(attackerAttributes, defenderAttributes);
+        int finalDamage = getFinalDamageFromBaseDamage(baseDamage, attackerAttributes);
+
+        defenderAttributes.subtractDamageFromHealth(finalDamage);
+    }    
+    
+    private static int getFinalDamageFromBaseDamage(int baseDamage, CharacterAttributes attackerAttributes) {
         int unstableDamage = multiplyDamageNumberWithRandomFactorBetweenMinimumAndOne(baseDamage, attackerAttributes.getLowestDamageFromFullFactor());
         float criticalHitFactor = decideIfCriticalHitAndReturnDamageMultiplier(attackerAttributes);
         
-        int damage = (int)Math.floor(unstableDamage * criticalHitFactor);
-        defenderAttributes.subtractDamageFromHealth(damage);
+        return (int)Math.floor(unstableDamage * criticalHitFactor);        
     }
     
     public static int calculateBaseDamageFromPhysicalAttack(CharacterAttributes attackerAttributes, CharacterAttributes defenderAttributes) {
