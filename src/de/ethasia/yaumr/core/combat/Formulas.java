@@ -4,6 +4,15 @@ import java.util.Random;
 
 public class Formulas {
     
+    public static void applyFullPhysicalDamageToDefender(CharacterAttributes attackerAttributes, CharacterAttributes defenderAttributes) {
+        int baseDamage = calculateBaseDamageFromPhysicalAttack(attackerAttributes, defenderAttributes);
+        int unstableDamage = multiplyDamageNumberWithRandomFactorBetweenMinimumAndOne(baseDamage, attackerAttributes.getLowestDamageFromFullFactor());
+        float criticalHitFactor = decideIfCriticalHitAndReturnDamageMultiplier(attackerAttributes);
+        
+        int damage = (int)Math.floor(unstableDamage * criticalHitFactor);
+        defenderAttributes.subtractDamageFromHealth(damage);
+    }
+    
     public static int calculateBaseDamageFromPhysicalAttack(CharacterAttributes attackerAttributes, CharacterAttributes defenderAttributes) {
         int attackPower = attackerAttributes.getBasePhysicalAttackPower() + attackerAttributes.getAdditionalPhysicalAttackPower();
         int defense = defenderAttributes.getBasePhysicalDefense() + defenderAttributes.getAdditionalPhysicalDefense();
@@ -24,13 +33,19 @@ public class Formulas {
         }
         
         Random dice = new Random();
-        double randomDamageMultiplier = Formulas.mapDoubleBetweenZeroAndOneToNewMinAndMax(dice.nextDouble(), randomFactorMinimum, 1.f);
+        double randomDamageMultiplier = mapDoubleBetweenZeroAndOneToNewMinAndMax(dice.nextDouble(), randomFactorMinimum, 1.f);
         
         return (int)Math.floor(randomDamageMultiplier * damageNumber);
     }
     
     public static double mapDoubleBetweenZeroAndOneToNewMinAndMax(double randomDoubleZeroToOne, double newMin, double newMax) {
         return randomDoubleZeroToOne * (newMax - newMin) + newMin;
+    }
+    
+    public static float decideIfCriticalHitAndReturnDamageMultiplier(CharacterAttributes attackerAttributes) {
+        float criticalHitDamageMultiplier = attackerAttributes.getBaseCriticalHitDamageMultiplier() + attackerAttributes.getAdditionalCriticalHitDamageMultiplier();
+        float criticalHitChance = getCriticalHitChanceFromCriticalHitChanceValue(attackerAttributes);
+        return isCriticalHit(criticalHitChance) ? criticalHitDamageMultiplier : 1.f;        
     }
     
     public static float getCriticalHitChanceFromCriticalHitChanceValue(CharacterAttributes attackerAttributes) {

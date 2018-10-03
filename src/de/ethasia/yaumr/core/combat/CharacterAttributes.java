@@ -38,7 +38,8 @@ public class CharacterAttributes {
     private int baseCriticalHitChanceValue;
     
     private float baseCriticalHitDamageMultiplier;
-
+    private float lowestDamageFromFullFactor;
+    
     private int baseSpeed;
     private int baseJumpHeight;
     
@@ -132,6 +133,10 @@ public class CharacterAttributes {
     public float getBaseCriticalHitDamageMultiplier() {
         return baseCriticalHitDamageMultiplier;
     }
+    
+    public float getLowestDamageFromFullFactor() {
+        return lowestDamageFromFullFactor;
+    }
 
     public int getBaseSpeed() {
         return baseSpeed;
@@ -201,6 +206,10 @@ public class CharacterAttributes {
     
     //<editor-fold defaultstate="collapsed" desc="Setters">
     
+    public void setLowestDamageFromFullFactor(float value) {
+        lowestDamageFromFullFactor = value;
+    }
+    
     public void setAdditionalPhysicalDefense(int value) {
         additionalPhysicalDefense = value;
     }
@@ -211,6 +220,10 @@ public class CharacterAttributes {
     
     public void setAdditionalCriticalHitChanceValue(int value) {
         additionalCriticalHitChanceValue = value;
+    }
+    
+    public void setAdditionalCriticalHitDamageMultiplier(float value) {
+        additionalCriticalHitDamageMultiplier = value;
     }
     
     //</editor-fold>
@@ -234,6 +247,7 @@ public class CharacterAttributes {
         baseAgility = 1;
         
         baseCriticalHitDamageMultiplier = 1.5f;
+        lowestDamageFromFullFactor = 0.5f;
         
         baseSpeed = 1;
         baseJumpHeight = 1;
@@ -284,6 +298,14 @@ public class CharacterAttributes {
         baseAgility += amount;  
         
         recalculateDerivedAttributes();
+    }
+    
+    public void subtractDamageFromHealth(int damage) {
+        if (damage > currentHealthPoints) {
+            currentHealthPoints = 0;
+        } else {
+            currentHealthPoints -= damage;
+        }
     }
     
     //</editor-fold>

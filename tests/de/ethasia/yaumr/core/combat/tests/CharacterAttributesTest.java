@@ -161,4 +161,22 @@ public class CharacterAttributesTest {
         int expectedAttackPower = 3;
         assertEquals(expectedAttackPower, testCandidate.getBasePhysicalAttackPower());
     }    
+    
+    @Test
+    public void testSubtractDamageFromHealth_DamageIsLowerThanHealth_DamageIsCorrectlySubtracted() {
+        CharacterAttributes testCandidate = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
+        
+        testCandidate.subtractDamageFromHealth(25);
+        
+        assertEquals(75, testCandidate.getCurrentHealthPoints());
+    }
+    
+    @Test
+    public void testSubtractDamageFromHealth_DamageIsHigherThanHealth_HealthDropsToZero() {
+        CharacterAttributes testCandidate = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
+        
+        testCandidate.subtractDamageFromHealth(123);
+        
+        assertEquals(0, testCandidate.getCurrentHealthPoints());
+    }    
 }
