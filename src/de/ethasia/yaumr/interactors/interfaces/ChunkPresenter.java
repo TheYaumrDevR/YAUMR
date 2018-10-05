@@ -10,4 +10,5 @@ public interface ChunkPresenter {
     
     public void setChangedPosition(int[] position);
     public void presentChunksForChangedPositions(Island island);
+    public void presentAllChunksInIsland(Island island);
 }

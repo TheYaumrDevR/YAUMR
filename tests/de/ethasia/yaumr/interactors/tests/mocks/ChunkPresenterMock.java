@@ -19,4 +19,9 @@ public class ChunkPresenterMock extends ClassMock implements ChunkPresenter {
     public void presentChunksForChangedPositions(Island island) {
         incrementMockCounterForCalledMethod("presentChunksForChangedPositions");
     }
+    
+    @Override
+    public void presentAllChunksInIsland(Island island) {
+        incrementMockCounterForCalledMethod("presentAllChunksInIsland");
+    }
 }

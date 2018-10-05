@@ -10,7 +10,7 @@ import org.junit.Test;
 public class FormulasTest {
     
     @Test
-    public void testCalculateBaseDamageFromPhysicalAttack_DefenseIsZero_DamageIsAttack() {
+    public void testCalculateBaseDamageFromPhysicalAttack_defenseIsZero_damageIsAttack() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
         
@@ -23,7 +23,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testCalculateBaseDamageFromPhysicalAttack_DefenseIsEqual_DamageIsHalfed() {
+    public void testCalculateBaseDamageFromPhysicalAttack_defenseIsEqual_damageIsHalfed() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         
@@ -37,7 +37,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testCalculateBaseDamageFromPhysicalAttack_DefenseIsTwice_DamageIsOneThird() {
+    public void testCalculateBaseDamageFromPhysicalAttack_defenseIsTwice_damageIsOneThird() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         
@@ -51,7 +51,7 @@ public class FormulasTest {
     } 
     
     @Test
-    public void testCalculateBaseDamageFromPhysicalAttack_DefenseIsQuadruple_DamageIsTwoNinths() {
+    public void testCalculateBaseDamageFromPhysicalAttack_defenseIsQuadruple_damageIsTwoNinths() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         
@@ -65,7 +65,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testCalculateBaseDamageFromMagicalAttack_MagicalDefenseIsZero_DamageIsAttack() {
+    public void testCalculateBaseDamageFromMagicalAttack_magicalDefenseIsZero_damageIsAttack() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         
@@ -78,7 +78,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testCalculateBaseDamageFromMagicalAttack_MagicalDefenseIsEqual_DamageIsHalfed() {
+    public void testCalculateBaseDamageFromMagicalAttack_magicalDefenseIsEqual_damageIsHalfed() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         
@@ -92,7 +92,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testCalculateBaseDamageFromMAgicalAttack_MagicalDefenseIsTwice_DamageIsOneThird() {
+    public void testCalculateBaseDamageFromMAgicalAttack_magicalDefenseIsTwice_damageIsOneThird() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         
@@ -106,7 +106,7 @@ public class FormulasTest {
     } 
     
     @Test
-    public void testCalculateBaseDamageFromMagicalAttack_MagicalDefenseIsQuadruple_DamageIsTwoNinths() {
+    public void testCalculateBaseDamageFromMagicalAttack_magicalDefenseIsQuadruple_damageIsTwoNinths() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         CharacterAttributes defender = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         
@@ -120,25 +120,25 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testMapDoubleBetweenZeroAndOneToNewMinAndMax_OldMinIsMappedToNewMin() {
+    public void testMapDoubleBetweenZeroAndOneToNewMinAndMax_oldMinIsMappedToNewMin() {
         double output = Formulas.mapDoubleBetweenZeroAndOneToNewMinAndMax(0, 0.5, 1);
         assertEquals(0.5, output, 0.01);
     }
     
     @Test
-    public void testMapDoubleBetweenZeroAndOneToNewMinAndMax_OldMaxIsMappedToNewMax() {
+    public void testMapDoubleBetweenZeroAndOneToNewMinAndMax_oldMaxIsMappedToNewMax() {
         double output = Formulas.mapDoubleBetweenZeroAndOneToNewMinAndMax(1, 0.5, 1);
         assertEquals(1, output, 0.01);
     }   
     
     @Test
-    public void testMapDoubleBetweenZeroAndOneToNewMinAndMax_ZeroPointFiveIsMappedToNewMiddleValue() {
+    public void testMapDoubleBetweenZeroAndOneToNewMinAndMax_zeroPointFiveIsMappedToNewMiddleValue() {
         double output = Formulas.mapDoubleBetweenZeroAndOneToNewMinAndMax(0.5, 0.5, 1);
         assertEquals(0.75, output, 0.01);
     }    
     
     @Test
-    public void testMultiplyDamageNumberWithRandomFactorBetweenMinimumAndOne_LowestDamageIsFiftyPercent_DamagesAreCorrect() {
+    public void testMultiplyDamageNumberWithRandomFactorBetweenMinimumAndOne_lowestDamageIsFiftyPercent_damagesAreCorrect() {
         for (int i = 0; i < 1000; i++) {
             int randomizedDamage = Formulas.multiplyDamageNumberWithRandomFactorBetweenMinimumAndOne(20, 0.5);
             assertTrue(randomizedDamage >= 10);
@@ -146,7 +146,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testMultiplyDamageNumberWithRandomFactorBetweenMinimumAndOne_LowestDamageIsThreeFourths_DamagesAreCorrect() {
+    public void testMultiplyDamageNumberWithRandomFactorBetweenMinimumAndOne_lowestDamageIsThreeFourths_damagesAreCorrect() {
         for (int i = 0; i < 1000; i++) {
             int randomizedDamage = Formulas.multiplyDamageNumberWithRandomFactorBetweenMinimumAndOne(20, 0.75);
             assertTrue(randomizedDamage >= 15);
@@ -154,7 +154,7 @@ public class FormulasTest {
     }    
     
     @Test 
-    public void testGetCriticalHitChanceFromCriticalHitChanceValue_CharacterIsLevelOne_ThirtyIsThirtyPercent() {
+    public void testGetCriticalHitChanceFromCriticalHitChanceValue_characterIsLevelOne_thirtyIsThirtyPercent() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.setAdditionalCriticalHitChanceValue(30);
         
@@ -165,7 +165,7 @@ public class FormulasTest {
     }
     
     @Test 
-    public void testGetCriticalHitChanceFromCriticalHitChanceValue_CharacterIsLevelTwenty_1200IsSixtyPercent() {
+    public void testGetCriticalHitChanceFromCriticalHitChanceValue_characterIsLevelTwenty_1200IsSixtyPercent() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(19);
         attacker.setAdditionalCriticalHitChanceValue(1200);
@@ -177,7 +177,7 @@ public class FormulasTest {
     }  
     
     @Test 
-    public void testGetCriticalHitChanceFromCriticalHitChanceValue_CharacterIsLevelTen_700IsSeventyPercent() {
+    public void testGetCriticalHitChanceFromCriticalHitChanceValue_characterIsLevelTen_700IsSeventyPercent() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(9);
         attacker.setAdditionalCriticalHitChanceValue(700);
@@ -189,7 +189,7 @@ public class FormulasTest {
     } 
 
     @Test
-    public void testIsCriticalHit_ChanceIsHalf_RoughlyHalfCriticalHitsAreGenerated() {
+    public void testIsCriticalHit_chanceIsHalf_roughlyHalfCriticalHitsAreGenerated() {
         int numberOfCriticalHits = 0;
         
         for (int i = 0; i < 1000; i++) {
@@ -203,7 +203,7 @@ public class FormulasTest {
     } 
     
     @Test
-    public void testIsCriticalHit_ChanceIsEightyPercent_RoughlyThatManyAreCriticalHits() {
+    public void testIsCriticalHit_chanceIsEightyPercent_roughlyThatManyAreCriticalHits() {
         int numberOfCriticalHits = 0;
         
         for (int i = 0; i < 1000; i++) {
@@ -217,7 +217,7 @@ public class FormulasTest {
     }     
     
     @Test
-    public void testDecideIfCriticalHitAndReturnDamageMultiplier_CriticalHitChanceIsOne_CriticalHitMultiplierIsReturned() {
+    public void testDecideIfCriticalHitAndReturnDamageMultiplier_criticalHitChanceIsOne_criticalHitMultiplierIsReturned() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
         attacker.setAdditionalCriticalHitDamageMultiplier(1.f);
         attacker.setAdditionalCriticalHitChanceValue(100);
@@ -228,7 +228,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testDecideIfCriticalHitAndReturnDamageMultiplier_CriticalHitChanceIsZero_NeutralMultiplierIsReturned() {
+    public void testDecideIfCriticalHitAndReturnDamageMultiplier_criticalHitChanceIsZero_neutralMultiplierIsReturned() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         attacker.setAdditionalCriticalHitDamageMultiplier(1.f);
         
@@ -238,7 +238,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testApplyFullPhysicalDamageToDefender_DamageIsStableCritChanceIsZero_FullDamageIsCalculated() {
+    public void testApplyFullPhysicalDamageToDefender_damageIsStableCritChanceIsZero_fullDamageIsCalculated() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         attacker.levelUpBy(9);
         attacker.assignFreePointsToAgility(40);
@@ -252,7 +252,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testApplyFullPhysicalDamageToDefender_DamageIsStableCritChanceIsZeroDefenseIsEqual_HalfDamageIsCalculated() {
+    public void testApplyFullPhysicalDamageToDefender_damageIsStableCritChanceIsZeroDefenseIsEqual_halfDamageIsCalculated() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.ROGUE);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToAgility(80);
@@ -267,7 +267,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testApplyFullPhysicalDamageToDefender_DamageIsUnstableFiftyPercentNoCriticalHitChance_DamageDoneIsBetweenHalfAndFull() {
+    public void testApplyFullPhysicalDamageToDefender_damageIsUnstableFiftyPercentNoCriticalHitChance_damageDoneIsBetweenHalfAndFull() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WARRIOR);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToStrength(80);
@@ -283,7 +283,7 @@ public class FormulasTest {
     } 
     
     @Test
-    public void testApplyFullPhysicalDamageToDefender_DamageIsStableCriticalHitChanceIsHalf_DamageDoneIsBetweenFullAndThriceFull() {
+    public void testApplyFullPhysicalDamageToDefender_damageIsStableCriticalHitChanceIsHalf_damageDoneIsBetweenFullAndThriceFull() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToPerception(80);
@@ -302,7 +302,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testApplyFullPhysicalDamageToDefender_DamageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_CalculationIsCorrect() {
+    public void testApplyFullPhysicalDamageToDefender_damageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_calculationIsCorrect() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.MARKSMAN);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToPerception(80);
@@ -320,7 +320,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testApplyFullMagicalDamageToDefender_DamageIsStableCritChanceIsZero_FullDamageIsCalculated() {
+    public void testApplyFullMagicalDamageToDefender_damageIsStableCritChanceIsZero_fullDamageIsCalculated() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(9);
         attacker.assignFreePointsToIntelligence(40);
@@ -334,7 +334,7 @@ public class FormulasTest {
     }
     
     @Test
-    public void testApplyFullMagicalDamageToDefender_DamageIsStableCritChanceIsZeroDefenseIsEqual_HalfDamageIsCalculated() {
+    public void testApplyFullMagicalDamageToDefender_damageIsStableCritChanceIsZeroDefenseIsEqual_halfDamageIsCalculated() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToIntelligence(80);
@@ -349,7 +349,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testApplyFullMagicalDamageToDefender_DamageIsUnstableFiftyPercentNoCriticalHitChance_DamageDoneIsBetweenHalfAndFull() {
+    public void testApplyFullMagicalDamageToDefender_damageIsUnstableFiftyPercentNoCriticalHitChance_damageDoneIsBetweenHalfAndFull() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToIntelligence(80);
@@ -365,7 +365,7 @@ public class FormulasTest {
     } 
     
     @Test
-    public void testApplyFullMagicalDamageToDefender_DamageIsStableCriticalHitChanceIsHalf_DamageDoneIsBetweenFullAndThriceFull() {
+    public void testApplyFullMagicalDamageToDefender_damageIsStableCriticalHitChanceIsHalf_damageDoneIsBetweenFullAndThriceFull() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToIntelligence(80);
@@ -384,7 +384,7 @@ public class FormulasTest {
     }    
     
     @Test
-    public void testApplyFullMagicalDamageToDefender_DamageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_CalculationIsCorrect() {
+    public void testApplyFullMagicalDamageToDefender_damageIsUnstableHalfCriticalHitIsHalfDefenseIsEqual_calculationIsCorrect() {
         CharacterAttributes attacker = new CharacterAttributes(BaseCharacterClassBranches.WIZARD);
         attacker.levelUpBy(19);
         attacker.assignFreePointsToIntelligence(80);

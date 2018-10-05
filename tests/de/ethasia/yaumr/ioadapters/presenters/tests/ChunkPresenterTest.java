@@ -394,4 +394,30 @@ public class ChunkPresenterTest {
         assertEquals(72, normals.length);
         assertEquals(48, uvCoordinates.length);
     }
+    
+    @Test
+    public void testPresentAllChunksInIsland_eachChunkHasOneBlock_allVerticesArePresent() {
+        ChunkPresenterImpl testCandidate = new ChunkPresenterImpl();
+        IslandManipulationFacade islandManipulationFacade = new IslandManipulationFacadeImpl();
+        islandManipulationFacade.setNewlyCreatedIsland(testIsland);
+        
+        Block testBlockOne = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GOLD_VEIN);
+        Block testBlockTwo = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.GOLD_VEIN);
+        Block testBlockThree = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.EARTH_PLOWED_WATERED);
+        Block testBlockFour = SimpleBlockFactory.createConcreteBlockFromBlockType(BlockTypes.BIRCH_TRUNK);  
+        
+        islandManipulationFacade.copyBlockTo(testBlockOne, new BlockPosition(0, 0, 0));
+        islandManipulationFacade.copyBlockTo(testBlockTwo, new BlockPosition(17, 255, 0));
+        islandManipulationFacade.copyBlockTo(testBlockThree, new BlockPosition(0, 255, 17)); 
+        islandManipulationFacade.copyBlockTo(testBlockFour, new BlockPosition(17, 0, 17));  
+        
+        testCandidate.presentAllChunksInIsland(testIsland);
+        
+        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
+        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
+        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
+        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();        
+        
+        assertEquals(4, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
+    }
 }

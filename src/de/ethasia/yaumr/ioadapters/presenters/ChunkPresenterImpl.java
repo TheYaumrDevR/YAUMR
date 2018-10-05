@@ -56,28 +56,31 @@ public class ChunkPresenterImpl implements ChunkPresenter {
             int chunkX = (int)Math.floor((float)x / (float)CHUNK_EDGE_LENGTH_IN_BLOCKS);
             int chunkZ = (int)Math.floor((float)z / (float)CHUNK_EDGE_LENGTH_IN_BLOCKS);
             
-            if (x + 1 - chunkX * CHUNK_EDGE_LENGTH_IN_BLOCKS == 16) {
-                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX + 1, chunkZ);
-                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
-            } else if (x == chunkX * CHUNK_EDGE_LENGTH_IN_BLOCKS && x != 0) {
-                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX - 1, chunkZ);
-                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
+            if (blockIsAtEdgeOfChunkInPositiveAxisDirection(x, chunkX)) {
+                markChunkPositionAsChanged(chunkX + 1, chunkZ);
+            } else if (blockIsAtEdgeOfChunkInNegativeAxisDirection(x, chunkX)) {
+                markChunkPositionAsChanged(chunkX - 1, chunkZ);
             }
             
-            if (z + 1 - chunkZ * CHUNK_EDGE_LENGTH_IN_BLOCKS == 16) {
-                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX, chunkZ + 1);
-                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
-            } else if (z == chunkZ * CHUNK_EDGE_LENGTH_IN_BLOCKS && z != 0) {
-                Vector2Int changedNeighborChunkCoordinate = new Vector2Int(chunkX, chunkZ - 1);
-                changedChunkCoordinates.add(changedNeighborChunkCoordinate);
+            if (blockIsAtEdgeOfChunkInPositiveAxisDirection(z, chunkZ)) {
+                markChunkPositionAsChanged(chunkX, chunkZ + 1);
+            } else if (blockIsAtEdgeOfChunkInNegativeAxisDirection(z, chunkZ)) {
+                markChunkPositionAsChanged(chunkX, chunkZ - 1);
             }            
-            
-            Vector2Int changedChunkCoordinate = new Vector2Int(chunkX, chunkZ);
-            changedChunkCoordinates.add(changedChunkCoordinate);
+
+            markChunkPositionAsChanged(chunkX, chunkZ);
         } else {
             throw new IllegalArgumentException("The position array for a position on an Island must consist of 3 integers corresponding to x, y and z axis position respectively.");
         }
     }
+    
+    @Override
+    public void presentAllChunksInIsland(Island island) {
+        int horizontalPlaneDimensions = island.getHorizontalEdgeLengthOfIslandInBlocks();
+        
+        markAllChunksAsChanged(horizontalPlaneDimensions);
+        presentChunksForChangedPositions(island);        
+    }    
 
     @Override
     public void presentChunksForChangedPositions(Island island) {   
@@ -127,11 +130,39 @@ public class ChunkPresenterImpl implements ChunkPresenter {
         }
         
         changedChunkCoordinates.clear();
-    }    
+    }  
     
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    private boolean blockIsAtEdgeOfChunkInPositiveAxisDirection(int axisPositionBlock, int axisPositionChunk) {
+        return axisPositionBlock + 1 - axisPositionChunk * CHUNK_EDGE_LENGTH_IN_BLOCKS == 16;      
+    }
+    
+    private boolean blockIsAtEdgeOfChunkInNegativeAxisDirection(int axisPositionBlock, int axisPositionChunk) {
+        return axisPositionBlock == axisPositionChunk * CHUNK_EDGE_LENGTH_IN_BLOCKS && axisPositionBlock != 0;     
+    }
+    
+    private void markAllChunksAsChanged(int horizontalPlaneDimensions) {
+        for (int i = 0; i < horizontalPlaneDimensions; i += CHUNK_EDGE_LENGTH_IN_BLOCKS) {
+            for (int j = 0; j < horizontalPlaneDimensions; j += CHUNK_EDGE_LENGTH_IN_BLOCKS) {
+                markChunkOnBlockPositionAsChanged(i, j);
+            }            
+        }        
+    }
+    
+    private void markChunkOnBlockPositionAsChanged(int i, int j) {
+        int chunkX = i / CHUNK_EDGE_LENGTH_IN_BLOCKS;
+        int chunkZ = j / CHUNK_EDGE_LENGTH_IN_BLOCKS;
+                
+        markChunkPositionAsChanged(chunkX, chunkZ);        
+    }
+    
+    private void markChunkPositionAsChanged(int chunkX, int chunkZ) {
+        Vector2Int changedChunkCoordinate = new Vector2Int(chunkX, chunkZ);
+        changedChunkCoordinates.add(changedChunkCoordinate);        
+    }
     
     private boolean allFacesOfBlockAreCovered(int[] blockPosition) {
         return currentlyRenderedIsland.blockFaceAtPositionIsHidden(BlockFaceTypes.BACK, blockPosition)
