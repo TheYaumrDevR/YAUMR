@@ -32,6 +32,15 @@ import de.ethasia.yaumr.interactors.interfaces.WarningMessagePresenter;
  */
 public class ChunkPresenterTest {
     
+    //<editor-fold defaultstate="collapsed" desc="Constants">
+    
+    private static final int VERTEX_FLOATS_PER_FACE = 3 * 4;
+    private static final int INDEX_INTS_PER_FACE = 6;
+    private static final int NORMAL_FLOATS_PER_FACE = 3 * 4;
+    private static final int UV_FLOATS_PER_FACE = 2 * 4;
+    
+    //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     private static Island testIsland;
@@ -57,6 +66,7 @@ public class ChunkPresenterTest {
     @Before
     public void setUpTest() {
         ChunkRendererMock.resetMethodCallCounts();
+        usedChunkRendererMock.resetRenderedData();
         testIsland = new Island(18);
     }
     
@@ -78,16 +88,16 @@ public class ChunkPresenterTest {
         testCandidate.setChangedPosition(new int[] {4, 20, 4});
         
         testCandidate.presentChunksForChangedPositions(testIsland);
-        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
-        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
-        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
-        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();
+        Float[] vertices = usedChunkRendererMock.getAllRenderedVertices();
+        Integer[] indices = usedChunkRendererMock.getAllRenderedIndices();
+        Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
+        Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
         
         assertEquals(1, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
-        assertEquals(168, vertices.length);
-        assertEquals(84, indices.length);
-        assertEquals(168, normals.length);
-        assertEquals(112, uvCoordinates.length);
+        assertEquals(VERTEX_FLOATS_PER_FACE * 14, vertices.length);
+        assertEquals(INDEX_INTS_PER_FACE * 14, indices.length);
+        assertEquals(NORMAL_FLOATS_PER_FACE * 14, normals.length);
+        assertEquals(UV_FLOATS_PER_FACE * 14, uvCoordinates.length);
         
         float[] expectedUVLeftBlock = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(testBlockOne.getBlockType());
         float[] expectedUVRightBlock = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(testBlockTwo.getBlockType());
@@ -140,7 +150,7 @@ public class ChunkPresenterTest {
             assertTrue(false);
         }
         
-        assertEquals(55, indices[81]);
+        assertEquals((Integer)55, indices[81]);
     }
     
     @Test
@@ -214,16 +224,16 @@ public class ChunkPresenterTest {
         testCandidate.setChangedPosition(new int[] {5, 16, 5});          
         
         testCandidate.presentChunksForChangedPositions(testIsland);  
-        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
-        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
-        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
-        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();
+        Float[] vertices = usedChunkRendererMock.getAllRenderedVertices();
+        Integer[] indices = usedChunkRendererMock.getAllRenderedIndices();
+        Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
+        Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
         
         assertEquals(1, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
-        assertEquals(648, vertices.length);
-        assertEquals(324, indices.length);
-        assertEquals(648, normals.length);
-        assertEquals(432, uvCoordinates.length);        
+        assertEquals(VERTEX_FLOATS_PER_FACE * 54, vertices.length);
+        assertEquals(INDEX_INTS_PER_FACE * 54, indices.length);
+        assertEquals(NORMAL_FLOATS_PER_FACE * 54, normals.length);
+        assertEquals(UV_FLOATS_PER_FACE * 54, uvCoordinates.length);        
     }
     
     @Test
@@ -241,38 +251,38 @@ public class ChunkPresenterTest {
         testCandidate.setChangedPosition(new int[] {16, 20, 3});
         
         testCandidate.presentChunksForChangedPositions(testIsland);
-        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
-        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
-        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
-        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();
+        Float[] vertices = usedChunkRendererMock.getAllRenderedVertices();
+        Integer[] indices = usedChunkRendererMock.getAllRenderedIndices();
+        Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
+        Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
         
         float[] expectedUVRightBlock = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(testBlockTwo.getBlockType());        
         
         assertEquals(2, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
-        assertEquals(60, vertices.length);
-        assertEquals(30, indices.length);
-        assertEquals(60, normals.length);
-        assertEquals(40, uvCoordinates.length);
+        assertEquals(VERTEX_FLOATS_PER_FACE * 10, vertices.length);
+        assertEquals(INDEX_INTS_PER_FACE * 10, indices.length);
+        assertEquals(NORMAL_FLOATS_PER_FACE * 10, normals.length);
+        assertEquals(UV_FLOATS_PER_FACE * 10, uvCoordinates.length);  
         
-        assertEquals(vertices[3], 0.5f, 0.001);
-        assertEquals(vertices[4], 10.f, 0.001);
-        assertEquals(vertices[5], 1.5f, 0.001);
+        assertEquals(vertices[63], 0.5f, 0.001);
+        assertEquals(vertices[64], 10.f, 0.001);
+        assertEquals(vertices[65], 1.5f, 0.001);
         
-        assertEquals(indices[0], 2);
-        assertEquals(indices[1], 1);
-        assertEquals(indices[2], 0);
-        assertEquals(indices[3], 3);
-        assertEquals(indices[4], 2);
-        assertEquals(indices[5], 0);  
+        assertEquals(indices[0], (Integer)2);
+        assertEquals(indices[1], (Integer)1);
+        assertEquals(indices[2], (Integer)0);
+        assertEquals(indices[3], (Integer)3);
+        assertEquals(indices[4], (Integer)2);
+        assertEquals(indices[5], (Integer)0);  
         
         assertEquals(0.f, normals[0], 0.001f);
         assertEquals(0.f, normals[1], 0.001f); 
         assertEquals(-1.f, normals[2], 0.001f); 
         
-        assertEquals(expectedUVRightBlock[0], uvCoordinates[0], 0.001f);
-        assertEquals(expectedUVRightBlock[1], uvCoordinates[1], 0.001f);
-        assertEquals(expectedUVRightBlock[2], uvCoordinates[2], 0.001f);
-        assertEquals(expectedUVRightBlock[3], uvCoordinates[3], 0.001f);
+        assertEquals(expectedUVRightBlock[0], uvCoordinates[40], 0.001f);
+        assertEquals(expectedUVRightBlock[1], uvCoordinates[41], 0.001f);
+        assertEquals(expectedUVRightBlock[2], uvCoordinates[42], 0.001f);
+        assertEquals(expectedUVRightBlock[3], uvCoordinates[43], 0.001f);
     } 
     
     @Test
@@ -298,16 +308,16 @@ public class ChunkPresenterTest {
         testCandidate.setChangedPosition(new int[] {4, 20, 4});
         
         testCandidate.presentChunksForChangedPositions(testIsland);
-        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
-        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
-        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
-        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();
+        Float[] vertices = usedChunkRendererMock.getAllRenderedVertices();
+        Integer[] indices = usedChunkRendererMock.getAllRenderedIndices();
+        Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
+        Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
         
         assertEquals(1, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
-        assertEquals(168, vertices.length);
-        assertEquals(84, indices.length);
-        assertEquals(168, normals.length);
-        assertEquals(112, uvCoordinates.length);
+        assertEquals(VERTEX_FLOATS_PER_FACE * 14, vertices.length);
+        assertEquals(INDEX_INTS_PER_FACE * 14, indices.length);
+        assertEquals(NORMAL_FLOATS_PER_FACE * 14, normals.length);
+        assertEquals(UV_FLOATS_PER_FACE * 14, uvCoordinates.length);  
         
         float[] expectedUVLeftBlock = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(testBlockOne.getBlockType());
         float[] expectedUVRightBlock = BlockTypeToTextureCoordinatesMapper.getUVCoordinatesForBlockType(testBlockTwo.getBlockType());
@@ -360,7 +370,7 @@ public class ChunkPresenterTest {
             assertTrue(false);
         }
         
-        assertEquals(55, indices[81]);
+        assertEquals((Integer)55, indices[81]);
     }    
     
     @Test
@@ -378,21 +388,22 @@ public class ChunkPresenterTest {
         testCandidate.setChangedPosition(new int[] {16, 20, 3});
         
         testCandidate.presentChunksForChangedPositions(testIsland);
+        usedChunkRendererMock.resetRenderedData();
         
         islandManipulationFacade.removeBlockAt(new BlockPosition(15, 20, 3));
         testCandidate.setChangedPosition(new int[] {15, 20, 3});
         testCandidate.presentChunksForChangedPositions(testIsland);
         
-        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
-        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
-        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
-        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();
+        Float[] vertices = usedChunkRendererMock.getAllRenderedVertices();
+        Integer[] indices = usedChunkRendererMock.getAllRenderedIndices();
+        Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
+        Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
                 
         assertEquals(4, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
-        assertEquals(72, vertices.length);
-        assertEquals(36, indices.length);
-        assertEquals(72, normals.length);
-        assertEquals(48, uvCoordinates.length);
+        assertEquals(VERTEX_FLOATS_PER_FACE * 6, vertices.length);
+        assertEquals(INDEX_INTS_PER_FACE * 6, indices.length);
+        assertEquals(NORMAL_FLOATS_PER_FACE * 6, normals.length);
+        assertEquals(UV_FLOATS_PER_FACE * 6, uvCoordinates.length);  
     }
     
     @Test
@@ -413,11 +424,15 @@ public class ChunkPresenterTest {
         
         testCandidate.presentAllChunksInIsland(testIsland);
         
-        float[] vertices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getVertices();
-        int[] indices = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getIndices();
-        float[] normals = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getNormals();
-        float[] uvCoordinates = usedChunkRendererMock.getChunkDataPassedToRenderMethod().getUVCoordinates();        
+        Float[] vertices = usedChunkRendererMock.getAllRenderedVertices();
+        Integer[] indices = usedChunkRendererMock.getAllRenderedIndices();
+        Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
+        Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
         
         assertEquals(4, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
+        assertEquals(VERTEX_FLOATS_PER_FACE * 24, vertices.length);
+        assertEquals(INDEX_INTS_PER_FACE * 24, indices.length);
+        assertEquals(NORMAL_FLOATS_PER_FACE * 24, normals.length);
+        assertEquals(UV_FLOATS_PER_FACE * 24, uvCoordinates.length);  
     }
 }
