@@ -420,7 +420,7 @@ public class ChunkPresenterTest {
         islandManipulationFacade.copyBlockTo(testBlockOne, new BlockPosition(0, 0, 0));
         islandManipulationFacade.copyBlockTo(testBlockTwo, new BlockPosition(17, 255, 0));
         islandManipulationFacade.copyBlockTo(testBlockThree, new BlockPosition(0, 255, 17)); 
-        islandManipulationFacade.copyBlockTo(testBlockFour, new BlockPosition(17, 0, 17));  
+        islandManipulationFacade.copyBlockTo(testBlockFour, new BlockPosition(17, 0, 17)); 
         
         testCandidate.presentAllChunksInIsland(testIsland);
         
@@ -429,10 +429,18 @@ public class ChunkPresenterTest {
         Float[] normals = usedChunkRendererMock.getAllRenderedNormals();
         Float[] uvCoordinates = usedChunkRendererMock.getAllRenderedUVCoordinates();
         
+        float expectedVertexOneSecondBlock = 0.5f;
+        float expectedVertexTwoSecondBlock = 127.5f;
+        float expectedVertexThreeSecondBlock = 0.f;
+        
         assertEquals(4, ChunkRendererMock.getCallCounterForMethodName("renderChunk"));
         assertEquals(VERTEX_FLOATS_PER_FACE * 24, vertices.length);
         assertEquals(INDEX_INTS_PER_FACE * 24, indices.length);
         assertEquals(NORMAL_FLOATS_PER_FACE * 24, normals.length);
         assertEquals(UV_FLOATS_PER_FACE * 24, uvCoordinates.length);  
+        
+        assertEquals(expectedVertexOneSecondBlock, vertices[144], 0.001f);
+        assertEquals(expectedVertexTwoSecondBlock, vertices[145], 0.001f);
+        assertEquals(expectedVertexThreeSecondBlock, vertices[146], 0.001f);
     }
 }
