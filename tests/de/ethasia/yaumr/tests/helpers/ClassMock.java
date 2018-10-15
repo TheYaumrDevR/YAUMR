@@ -13,7 +13,7 @@ public abstract class ClassMock {
     
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
-    private static Map<String, Integer> calledMethodNamesWithCallCount = new HashMap<>();
+    protected static Map<String, Integer> calledMethodNamesWithCallCount = new HashMap<>();
     
     //</editor-fold>    
     
