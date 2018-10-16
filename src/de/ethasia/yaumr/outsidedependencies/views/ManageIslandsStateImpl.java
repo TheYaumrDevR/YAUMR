@@ -230,10 +230,11 @@ public class ManageIslandsStateImpl extends YaumrGameState implements ManageIsla
             buttonsAreBlocked = false;
         
             if (null != islandSizeTextField) {
-                IslandCreationInteractor islandCreationInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandCreationInteractor.class);
+                ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+                IslandCreationInteractor islandCreationInteractor = dependencyResolver.getImplementationInstance(IslandCreationInteractor.class);
             
                 if (islandCreationInteractor.createNewIslandWithRegisteredSingletonFacadeInstance(islandSizeTextField.getDisplayedText())) {
-                    YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(IslandEditorState.class).startDisplaying();                
+                    dependencyResolver.getImplementationInstance(IslandEditorState.class).startDisplaying(); 
                 }                
             }            
         }

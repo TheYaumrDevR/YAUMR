@@ -24,6 +24,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.screen.Screen;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateMainInteractor;
 import de.ethasia.yaumr.interactors.interfaces.IslandEditorStateSetupInteractor;
+import de.ethasia.yaumr.interactors.interfaces.LoadCurrentIslandOnScreenUseCase;
 import de.ethasia.yaumr.interactors.interfaces.SaveIslandInteractor;
 import de.ethasia.yaumr.ioadapters.datatransfer.ItemDisplayData;
 import de.ethasia.yaumr.ioadapters.interfaces.BlockInteractionIndicatorPresenter;
@@ -193,6 +194,8 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
 
     @Override
     public void onStartScreen() {
+        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
+        
         initKeys();
         hideAllVisibleGUIItems();  
         terraformingToolsSelector.setSelectedToolIndex(0);
@@ -202,7 +205,10 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
         }       
         
         initRenderers();
-        timedUpdateInteractor = YaumrGame.getInstance().getClassInstanceContainer().getImplementationInstance(TimedUpdateInteractor.class);
+        timedUpdateInteractor = dependencyResolver.getImplementationInstance(TimedUpdateInteractor.class);
+        
+        LoadCurrentIslandOnScreenUseCase showCurrentIslandUseCase = dependencyResolver.getImplementationInstance(LoadCurrentIslandOnScreenUseCase.class);
+        showCurrentIslandUseCase.loadCurrentIslandToView();
     }
 
     @Override
@@ -219,17 +225,9 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     
     @Override
     public void startDisplaying() {
-        IslandManipulationFacade islandManipulationFacade = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandManipulationFacade.class);
-        YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(IslandEditorState.class, this);
-        YaumrGame.getInstance().setGameState(this);
-        YaumrGame.getInstance().getViewPort().setBackgroundColor(new ColorRGBA(0.529f, 0.808f, 0.922f, 1.0f));
-        
-        float camXZLocation = 0.5f * (islandManipulationFacade.getIslandEdgeLengthInBlocks() / 2);
-        YaumrGame.getInstance().getCamera().setLocation(new Vector3f(camXZLocation, 0, camXZLocation));
-        
-        ClassInstanceContainer dependencyResolver = YaumrGame.getInstance().getClassInstanceContainer();
-        dependencyResolver.removeSingletonInstance(AppStateWithNotices.class);
-        dependencyResolver.registerSingletonInstance(AppStateWithNotices.class, this);
+        registerStateWithDependencyResolverIfRequired(YaumrGame.getInstance().getClassInstanceContainer());      
+        setupApplicationParameters();
+        setUpCameraLocationAndSpeed();
     }     
     
     @Override
@@ -432,6 +430,24 @@ public class RefactoredIslandEditorState extends YaumrGameState implements Islan
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    
+    private void registerStateWithDependencyResolverIfRequired(ClassInstanceContainer dependencyResolver) {
+        dependencyResolver.registerSingletonInstance(IslandEditorState.class, this);
+        dependencyResolver.removeSingletonInstance(AppStateWithNotices.class);
+        dependencyResolver.registerSingletonInstance(AppStateWithNotices.class, this);          
+    }
+    
+    private void setupApplicationParameters() {
+        YaumrGame.getInstance().setGameState(this);
+        YaumrGame.getInstance().getViewPort().setBackgroundColor(new ColorRGBA(0.529f, 0.808f, 0.922f, 1.0f));        
+    }
+    
+    private void setUpCameraLocationAndSpeed() {
+        IslandManipulationFacade islandManipulationFacade = YaumrGame.getInstance().getClassInstanceContainer().getSingletonInstance(IslandManipulationFacade.class);
+        float camXZLocation = 0.5f * (islandManipulationFacade.getIslandEdgeLengthInBlocks() / 2);
+        YaumrGame.getInstance().getCamera().setLocation(new Vector3f(camXZLocation, 0, camXZLocation));
+        YaumrGame.getInstance().getFlyByCamera().setMoveSpeed(12.5f);        
+    }
     
     private void initKeys() {
         YaumrGame.getInstance().getInputManager().addMapping(TOGGLE_MAIN_MENU_ACTION_NAME, new KeyTrigger(KeyInput.KEY_ESCAPE));
