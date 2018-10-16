@@ -109,6 +109,8 @@ public class IslandCreationInteractorImpl implements IslandCreationInteractor {
                 }            
             }            
         }
+            
+        islandManipulationFacade.performDailyUpdates();
         
         YaumrGame.getInstance().getClassInstanceContainer().removeSingletonInstance(IslandManipulationFacade.class);
         YaumrGame.getInstance().getClassInstanceContainer().registerSingletonInstance(IslandManipulationFacade.class, islandManipulationFacade);        
