@@ -17,6 +17,7 @@ public class TimedUpdateInteractorImpl implements TimedUpdateInteractor {
     
     private final IslandManipulationFacade islandManipulationFacade;
     private final ChunkPresenter chunkPresenter;
+    private float accumulatedTickTimeBelowMilliSecond;
     
     //</editor-fold>
     
@@ -33,9 +34,12 @@ public class TimedUpdateInteractorImpl implements TimedUpdateInteractor {
     
     @Override
     public void tick(float tpf) {
-        long timeSinceLastUpdateInMS = (long)(tpf * 1000);
+        accumulatedTickTimeBelowMilliSecond += tpf;
+        long timeSinceLastUpdateInMS = (long)(accumulatedTickTimeBelowMilliSecond * 1000);
         
-        if (null != islandManipulationFacade) {
+        if (null != islandManipulationFacade && timeSinceLastUpdateInMS > 0) {
+            accumulatedTickTimeBelowMilliSecond = 0;
+            
             List<BlockPosition> changedBlocks = islandManipulationFacade.tick(timeSinceLastUpdateInMS);
             requestChunkRenderingForPositionsIfNecessary(changedBlocks);
         }

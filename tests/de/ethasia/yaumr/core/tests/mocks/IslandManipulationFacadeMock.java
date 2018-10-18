@@ -116,7 +116,10 @@ public class IslandManipulationFacadeMock extends ClassMock implements IslandMan
     }
   
     @Override
-    public List<BlockPosition> tick(long timeSinceLastTickInMS) { return new LinkedList<>(); }
+    public List<BlockPosition> tick(long timeSinceLastTickInMS) { 
+        incrementMockCounterForCalledMethod("tick");
+        return new LinkedList<>(); 
+    }
     
     @Override
     public List<BlockPosition> performDailyUpdates() { return new LinkedList<>(); }
