@@ -12,7 +12,7 @@ public class CoastlineGenerator {
     //<editor-fold defaultstate="collapsed" desc="Fields">
     
     private final Island islandToGenerateCoastlineFor;
-    private final Random rng;
+    private Random rng;
     
     //</editor-fold>
     
@@ -20,14 +20,15 @@ public class CoastlineGenerator {
     
     public CoastlineGenerator(Island islandToGenerateCoastlineFor) {
         this.islandToGenerateCoastlineFor = islandToGenerateCoastlineFor;
-        rng = new Random(0);
     }
     
     //</editor-fold>
     
     //<editor-fold defaultstate="collapsed" desc="Methods">
     
-    public void generateCoastline(int height, long seed) {
+    public void generateCoastline(final int height, final long seed) {
+        rng = new Random(seed);
+        
         BlockPosition position = new BlockPosition(0, height, 0);
         int randomZeroOrOne = getRandomNumberZeroOrOne();
         

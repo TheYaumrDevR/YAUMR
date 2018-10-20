@@ -11,16 +11,15 @@ import org.junit.Test;
 public class CoastlineGeneratorTest {
     
     @Test
-    public void testGenerateCoastline_for1x1Island_someAirBlocksArePlacedOnGivenHeight() {
+    public void testGenerateCoastline_for1x1Island_amountOfAirBlocksArePlacedBasedOnSeed() {
         Island islandToGenerateFor = new Island(1);
         CoastlineGenerator testCandidate = new CoastlineGenerator(islandToGenerateFor);
         
         int height = 127;
-        long seed = 1L;
         
         int amountOfAirBlocks = 0;
-        for (int i = 0; i < 100; i++) {
-            testCandidate.generateCoastline(height, seed);  
+        for (int i = 0; i < 5000; i++) {
+            testCandidate.generateCoastline(height, i);  
             
             Block blockAtTestPosition = islandToGenerateFor.getBlockAt(new int[] {0, 127, 0});
             if (blockAtTestPosition.getBlockType() == BlockTypes.AIR) {
@@ -28,20 +27,19 @@ public class CoastlineGeneratorTest {
             }
         }
         
-        assertTrue(amountOfAirBlocks > 0);
+        assertEquals(904, amountOfAirBlocks);
     }
     
     @Test
-    public void testGenerateCoastline_for1x1Island_someRockBlocksArePlacedOnGivenHeight() {
+    public void testGenerateCoastline_for1x1Island_amountOfRockBlocksArePlacedBasedOnSeed() {
         Island islandToGenerateFor = new Island(1);
         CoastlineGenerator testCandidate = new CoastlineGenerator(islandToGenerateFor);
         
         int height = 127;
-        long seed = 1L;
         
         int amountOfRockBlocks = 0;
-        for (int i = 0; i < 100; i++) {
-            testCandidate.generateCoastline(height, seed);  
+        for (int i = 0; i < 5000; i++) {
+            testCandidate.generateCoastline(height, i);  
             
             Block blockAtTestPosition = islandToGenerateFor.getBlockAt(new int[] {0, 127, 0});
             if (blockAtTestPosition.getBlockType() == BlockTypes.ROCK) {
@@ -49,6 +47,6 @@ public class CoastlineGeneratorTest {
             }
         }
         
-        assertTrue(amountOfRockBlocks > 0);
-    }    
+        assertEquals(4096, amountOfRockBlocks);
+    }      
 }
