@@ -48,5 +48,25 @@ public class CoastlineGeneratorTest {
         }
         
         assertEquals(4096, amountOfRockBlocks);
-    }      
+    }     
+    
+    @Test
+    public void testGenerateCoastline_for2x2Island_rockBlocksArePlacedBasedOnSeed() {
+        Island islandToGenerateFor = new Island(2);
+        CoastlineGenerator testCandidate = new CoastlineGenerator(islandToGenerateFor);
+        
+        int height = 127;
+        
+        testCandidate.generateCoastline(height, 0); 
+        
+        Block topLeftBlock = islandToGenerateFor.getBlockAt(new int[] {0, 127, 0});
+        Block bottomLeftBlock = islandToGenerateFor.getBlockAt(new int[] {0, 127, 1});
+        Block bottomRightBlock = islandToGenerateFor.getBlockAt(new int[] {1, 127, 1});
+        Block topRightBlock = islandToGenerateFor.getBlockAt(new int[] {1, 127, 0});
+        
+        assertEquals(BlockTypes.ROCK, topLeftBlock.getBlockType());
+        assertEquals(BlockTypes.AIR, bottomLeftBlock.getBlockType());
+        assertEquals(BlockTypes.AIR, bottomRightBlock.getBlockType());
+        assertEquals(BlockTypes.ROCK, topRightBlock.getBlockType());
+    }
 }
